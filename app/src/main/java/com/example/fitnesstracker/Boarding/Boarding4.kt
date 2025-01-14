@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.fitnesstracker.Login_SignUp.LogIn
 import com.example.fitnesstracker.R
+
 
 class Boarding4 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +16,7 @@ class Boarding4 : AppCompatActivity() {
         setContentView(R.layout.activity_boarding4)
         val btn=findViewById<Button>(R.id.btn3)
         btn.setOnClickListener {
-            val intent = Intent(this, Log_in::class.java)
+            val intent = Intent(this, LogIn::class.java)
             startActivity(intent)
 
         }
