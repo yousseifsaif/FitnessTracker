@@ -16,7 +16,6 @@ class Boarding2 : AppCompatActivity() {
         btn.setOnClickListener {
             val intent = Intent(this, Boarding3::class.java)
             startActivity(intent)
-            finish()
         }
     }
 }

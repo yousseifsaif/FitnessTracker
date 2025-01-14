@@ -18,7 +18,6 @@ class Boarding3 : AppCompatActivity() {
 
 
             startActivity(intent)
-            finish()
         }
     }
 }
