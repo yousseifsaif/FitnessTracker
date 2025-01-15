@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Log In"
+            android:text="@string/log_in"
             android:textColor="#E2F163"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Welcome"
+        android:text="@string/welcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
         android:padding="8dp"
         android:layout_margin="12dp"
         android:textAlignment="center"
-        android:text="Fit Body is a health and fitness app that helps users reach weight loss and other health goals. They provide food-tracking tools and curated meal and exercise plans that can be customized to fit your lifestyle. The central focus of Fit Body program is the logging "
+        android:text="@string/welcomeText"
         />
 
     <View
@@ -67,10 +67,10 @@
         android:id="@+id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username or Email"
+        android:text="@string/username_or_email"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintStart_toStartOf="@+id/emailEditText"
         app:layout_constraintTop_toTopOf="@id/view1"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -78,7 +78,7 @@
         />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/emailEditText"
         android:layout_width="311dp"
         android:layout_height="45dp"
         android:textColor="@color/black"
@@ -94,20 +94,20 @@
         android:id="@+id/text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:text="@string/password"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@id/editText"
+        app:layout_constraintStart_toStartOf="@+id/emailEditText"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         />
 
     <EditText
         android:background="@drawable/edit_text"
-android:inputType="textPassword"
+        android:inputType="textPassword"
         android:textColor="@color/black"
-        android:id="@+id/editText2"
+        android:id="@+id/passwordEditText"
         android:layout_width="311dp"
         android:layout_height="45dp"
         app:layout_constraintEnd_toEndOf="@id/view1"
@@ -115,16 +115,17 @@ android:inputType="textPassword"
         android:hint="*************"
         android:textColorHint="#BE000000"
         app:layout_constraintTop_toBottomOf="@id/text2"
-      />
+
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autoLink="all"
-        android:text="Forgot Password?"
+        android:text="@string/forgot_password"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/editText2"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
         android:paddingTop="8dp"
-        app:layout_constraintEnd_toEndOf="@id/editText2"
+        app:layout_constraintEnd_toEndOf="@id/passwordEditText"
         />
     <Button
         android:id="@+id/login_button"
@@ -132,7 +133,7 @@ android:inputType="textPassword"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:text="Log In"
+        android:text="@string/log_in"
         app:layout_constraintTop_toBottomOf="@id/view1"
         app:layout_constraintEnd_toEndOf="@id/view1"
         app:layout_constraintStart_toStartOf="@id/view1"
@@ -145,7 +146,7 @@ android:inputType="textPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/login_button"
-        android:text="or sign up with"
+        android:text="@string/signUpWith"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@id/view1"
@@ -191,13 +192,14 @@ android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/text3"
         />
     <TextView
+        android:id="@+id/textLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don’t have an account? Sign Up"
+        android:text="@string/logInText"
         app:layout_constraintTop_toBottomOf="@id/img_facebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="26dp"
+        android:paddingTop="26dp"
         android:textColor="@color/white"/>
 
 

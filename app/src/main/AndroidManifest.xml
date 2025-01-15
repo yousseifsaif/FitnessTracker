@@ -12,7 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessTracker"
         tools:targetApi="31">
-
+        <activity
+            android:name=".setup_pages.Gender"
+            android:exported="false" />
+        <activity
+            android:name=".setup_pages.SetupPage"
+            android:exported="false" />
         <activity
             android:name=".Login_SignUp.LogIn"
             android:exported="false" />
@@ -22,11 +27,9 @@
         <activity
             android:name=".ForgotPassword.ForgottenPassword"
             android:exported="false" />
-
         <activity
             android:name=".Login_SignUp.SignUp"
             android:exported="false" />
-
         <activity
             android:name=".Boarding.Boarding4"
             android:exported="false" />

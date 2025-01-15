@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login_SignUp.SignUp"
-    android:background="#232323"
+    android:background="@color/backgroundColor"
     >
 
 
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="370dp"
         android:layout_marginTop="12dp"
-        android:background="#CC2C2C2C"
+        android:background="@color/editTextBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcomeText" />
@@ -166,7 +166,7 @@
         android:id="@+id/text6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="By continuing, you agree to\nTerms of Use and Privacy Policy."
+        android:text="@string/polices"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="13sp"
@@ -175,11 +175,11 @@
         app:layout_constraintTop_toBottomOf="@id/view1" />
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/signup_button"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button"
-android:layout_margin="8dp"
+        android:layout_margin="8dp"
         android:text="Sign Up"
         android:textColor="@color/white"
         android:textStyle="bold"
@@ -192,7 +192,7 @@ android:layout_margin="8dp"
         android:id="@+id/text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/login_button"
+        app:layout_constraintTop_toBottomOf="@id/signup_button"
         android:text="or sign up with"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -239,9 +239,10 @@ android:layout_margin="8dp"
         app:layout_constraintTop_toBottomOf="@id/text3"
         />
     <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account? Log in"
+        android:text="@string/already_have_account"
         app:layout_constraintTop_toBottomOf="@id/img_facebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
