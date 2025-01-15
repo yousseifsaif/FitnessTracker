@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1071009288473",
+    "project_id": "fit-body-f792c",
+    "storage_bucket": "fit-body-f792c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071009288473:android:ff7b9c5744c914117cb588",
+        "android_client_info": {
+          "package_name": "com.example.fitnesstracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnqWJnDyp7nGgVRjiab_vKTJaz4AckADE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

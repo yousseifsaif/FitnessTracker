@@ -88,6 +88,7 @@
         android:textColorHint="#BE000000"
         app:layout_constraintTop_toBottomOf="@id/text1"
         android:background="@drawable/edit_text"
+        android:inputType="textEmailAddress"
         />
     <TextView
         android:id="@+id/text2"
@@ -104,7 +105,7 @@
 
     <EditText
         android:background="@drawable/edit_text"
-        android:password="true"
+android:inputType="textPassword"
         android:textColor="@color/black"
         android:id="@+id/editText2"
         android:layout_width="311dp"
@@ -114,7 +115,7 @@
         android:hint="*************"
         android:textColorHint="#BE000000"
         app:layout_constraintTop_toBottomOf="@id/text2"
-        tools:ignore="Deprecated" />
+      />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
