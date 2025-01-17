@@ -61,7 +61,7 @@
         android:text="Full Name"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/EmailEditText"
+        app:layout_constraintStart_toStartOf="@id/usernamelEditText"
         app:layout_constraintTop_toTopOf="@id/view1"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -69,7 +69,7 @@
         />
 
     <EditText
-        android:id="@+id/EmailEditText"
+        android:id="@+id/usernamelEditText"
         android:layout_width="311dp"
         android:layout_height="45dp"
         android:textColor="@color/black"
@@ -86,25 +86,25 @@
         android:id="@+id/text4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email or Mobile Number"
+        android:text="Email"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/EmailEditText"
-        app:layout_constraintTop_toBottomOf="@id/EmailEditText"
+        app:layout_constraintStart_toStartOf="@id/usernamelEditText"
+        app:layout_constraintTop_toBottomOf="@id/usernamelEditText"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
 
         />
 
     <EditText
-        android:id="@+id/mobileEditText"
+        android:id="@+id/emailEditText"
         android:layout_width="311dp"
         android:layout_height="45dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/view1"
         app:layout_constraintStart_toStartOf="@+id/view1"
-        android:hint="+123 456 7890"
-        android:inputType="number"
+        android:hint="example@example.com"
+        android:inputType="textEmailAddress"
         android:textColorHint="#BE000000"
         app:layout_constraintTop_toBottomOf="@id/text4"
         android:background="@drawable/edit_text"
@@ -118,8 +118,8 @@
         android:text="Password"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/mobileEditText"
-        app:layout_constraintTop_toBottomOf="@id/mobileEditText"
+        app:layout_constraintStart_toStartOf="@id/emailEditText"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         />
