@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
 import com.example.fitnesstracker.R
 import com.google.firebase.auth.FirebaseAuth
 
@@ -19,11 +20,16 @@ class LogIn : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_log)
+        auth = FirebaseAuth.getInstance()
         var etEmail = findViewById<EditText>(R.id.emailEditText)
         var etPassword = findViewById<EditText>(R.id.passwordEditText)
+       var forgotPassword=findViewById<TextView>(R.id.forgetPassword)
+        forgotPassword.setOnClickListener{intent=Intent(this, ForgottenPassword::class.java)
+        startActivity(intent)
+        }
         button = findViewById(R.id.login_button)
         var textLogIn=findViewById<TextView>(R.id.textLogin)
-        auth = FirebaseAuth.getInstance()
+
         textLogIn.setOnClickListener{
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)

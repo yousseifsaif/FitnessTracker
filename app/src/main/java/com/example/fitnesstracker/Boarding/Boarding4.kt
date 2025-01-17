@@ -19,7 +19,7 @@ class Boarding4 : AppCompatActivity() {
         btn.setOnClickListener {
             val intent = Intent(this, LogIn::class.java)
             startActivity(intent)
-
+            finish()
         }
 
 

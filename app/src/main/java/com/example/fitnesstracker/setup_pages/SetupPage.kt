@@ -22,6 +22,8 @@ class SetupPage : AppCompatActivity() {
 val btn =findViewById<Button>(R.id.button)
         btn.setOnClickListener {
 val intent = Intent(this,Gender::class.java)
+            startActivity(intent)
+            finish()
 
     }
 }}
