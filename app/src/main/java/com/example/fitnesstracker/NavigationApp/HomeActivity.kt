@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
