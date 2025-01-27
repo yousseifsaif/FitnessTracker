@@ -17,14 +17,14 @@ import com.google.firebase.database.FirebaseDatabase
 
 class SignUp : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance().getReference("Users")
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("Users")
 
         setContentView(R.layout.activity_sign_up)
         val text = findViewById<TextView>(R.id.text)
@@ -39,7 +39,7 @@ class SignUp : AppCompatActivity() {
         }
 
         registerButton.setOnClickListener {
-            val userName = emailInput.text.toString().trim()
+            val userName = usernameInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
             val confirmPassword = confirmPasswordInput.text.toString().trim()
             val email = emailInput.text.toString().trim()
@@ -51,6 +51,7 @@ class SignUp : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
+                            myRef.push().setValue(userName,email)
                             val userId = auth.currentUser?.uid
                             Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT)
                                 .show()

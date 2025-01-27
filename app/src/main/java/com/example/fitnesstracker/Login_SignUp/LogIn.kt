@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
+import com.example.fitnesstracker.NavigationApp.HomeActivity
 import com.example.fitnesstracker.R
 import com.google.firebase.auth.FirebaseAuth
 
@@ -46,7 +47,8 @@ class LogIn : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
-                            // Navigate to the next activity
+                            val intent = Intent(this, HomeActivity::class.java)
+                            startActivity(intent)
                         } else {
                             Toast.makeText(this, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                         }

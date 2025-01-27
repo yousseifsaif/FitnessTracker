@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".setup_pages.GoalActivity"
+    android:background="@color/backgroundColor"
+
+    >
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="What's your goal?"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:padding="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/subtitleText"/>
+    <TextView
+        android:id="@+id/subtitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        android:textColor="#CCCCCC"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:background="@color/editTextBackground"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/subtitleText"
+        android:background="@color/editTextBackground"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:padding="8dp"
+
+        >
+
+        <RadioButton
+            android:id="@+id/lose"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="Lose Weight"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:padding="12dp"
+
+            />
+        <RadioButton
+            android:id="@+id/gain"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="Gain Weight"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:padding="12dp"
+            />
+
+
+        <RadioButton
+            android:id="@+id/massGain"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="Muscle Mass Gain"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:padding="12dp"
+
+            />
+        <RadioButton
+            android:id="@+id/shapeBody"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="Shape Body"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:padding="12dp"
+
+            />
+        <RadioButton
+            android:id="@+id/others"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="Others"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:checked="true"
+            android:padding="12dp"
+
+            />
+    </RadioGroup>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminateTint="@color/white"
+        android:indeterminate="true"
+        android:background="@color/black"
+            />
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="178dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Start"
+        android:background="@drawable/button"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

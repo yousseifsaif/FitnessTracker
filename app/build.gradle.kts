@@ -1,3 +1,5 @@
+import kotlin.script.experimental.jvm.util.KotlinJars.stdlib
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -61,5 +63,6 @@ dependencies {
     implementation ("com.google.firebase:firebase-database:21.0.0")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
-
+    implementation (libs.material.v190)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
 }

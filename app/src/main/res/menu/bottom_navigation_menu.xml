@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/running"
+        android:icon="@drawable/run"
+        android:title=""
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/people"
+        android:icon="@drawable/people"
+        android:title=""
+        android:iconTint="@color/black"
+        />
+    <item
+        android:title=""/>
+    <item
+        android:id="@+id/meals"
+        android:icon="@drawable/meals"
+        android:title=""
+        android:iconTint="@color/black"
+        />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/person"
+        android:title=""
+        android:iconTint="@color/black"
+        />
+
+</menu>
