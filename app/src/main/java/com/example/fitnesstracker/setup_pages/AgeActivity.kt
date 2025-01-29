@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.fitnesstracker.R
 
 class AgeActivity : AppCompatActivity() {
@@ -19,6 +16,7 @@ class AgeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+       val userData=UserData()
         setContentView(R.layout.activity_age)
         val ageDisplay = findViewById<TextView>(R.id.ageDisplay)
         val ageSeekBar = findViewById<SeekBar>(R.id.ageSeekBar)
