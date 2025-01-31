@@ -18,25 +18,25 @@ class HomeActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.running -> {
-                    intent = Intent(this, RunningActivity::class.java)
+                    intent = Intent(this, RuningFragment::class.java)
                     startActivity(intent)
                     true
                 }
 
                 R.id.meals -> {
-                    intent = Intent(this, MealsActivity::class.java)
+                    intent = Intent(this, MealsFragment::class.java)
                     startActivity(intent)
                     true
                 }
 
                 R.id.people -> {
-                    intent = Intent(this, CommunicationActivity::class.java)
+                    intent = Intent(this,ComunicationFragment::class.java)
                     startActivity(intent)
                     true
                 }
 
                 R.id.profile -> {
-                    intent = Intent(this, ProfileActivity::class.java)
+                    intent = Intent(this, ProfileFragment   ::class.java)
                     startActivity(intent)
                     true
                 }

@@ -26,4 +26,6 @@
     <string name="setupText">Consistency\n Is the Key To progress.\n Don\'t Give Up!</string>
     <string name="polices">By continuing, you agree to\nTerms of Use and Privacy Policy.</string>
     <string name="already_have_account">Already have an account? <font color="#E1EF63">Log in</font></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

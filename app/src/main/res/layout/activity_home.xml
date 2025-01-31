@@ -24,7 +24,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="28dp"
         android:layout_alignParentBottom="true"
-        app:backgroundTint="#B8B5B5"
-        app:srcCompat="@drawable/home" />
+        app:backgroundTint="#FFFFFF"
+        app:srcCompat="@drawable/home"
+        tint="@color/black"
+        />
 
 </RelativeLayout>

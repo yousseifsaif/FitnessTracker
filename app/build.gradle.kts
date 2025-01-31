@@ -65,4 +65,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     implementation (libs.material.v190)
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
+    implementation ("androidx.navigation:navigation-fragment:2.8.6")
+
 }
