@@ -29,15 +29,15 @@ class LogIn : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         var etEmail = findViewById<EditText>(R.id.emailEditText)
         var etPassword = findViewById<EditText>(R.id.passwordEditText)
-       var forgotPassword=findViewById<TextView>(R.id.forgetPassword)
-        binding.loginButton.setOnClickListener {
+        var forgotPassword = findViewById<TextView>(R.id.forgetPassword)
+        binding.forgetPassword.setOnClickListener {
             intent = Intent(this, ForgottenPassword::class.java)
-        startActivity(intent)
+            startActivity(intent)
         }
         button = findViewById(R.id.login_button)
         var textLogIn = findViewById<TextView>(R.id.signup_text)
 
-        textLogIn.setOnClickListener{
+        textLogIn.setOnClickListener {
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
         }
@@ -58,7 +58,11 @@ class LogIn : AppCompatActivity() {
                             saveLoginState(this, true)
                             finish()
                         } else {
-                            Toast.makeText(this, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Login Failed: ${task.exception?.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
             } else {
