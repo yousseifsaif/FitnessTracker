@@ -5,4 +5,10 @@
     <color name="ButtonTranspernt">#00FFFFFF</color>
     <color name="backgroundColor">#232323</color>
     <color name="editTextBackground">#CC2C2C2C</color>
+    <color name="yellow">#E2F163</color>
+    <color name="purple">#896cfe</color>
+    <color name="gray">#373737</color>
+
+    #373737
+
 </resources>

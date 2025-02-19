@@ -8,13 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
 import com.example.fitnesstracker.databinding.ActivityLogBinding
+import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
-import com.example.fitnesstracker.setup_pages.UserData
 import com.example.fitnesstracker.setup_pages.getNextActivity
 import com.example.fitnesstracker.setup_pages.getUserId
+import com.example.fitnesstracker.setup_pages.nav
 import com.example.fitnesstracker.setup_pages.saveLoginState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 
 class LogIn : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -60,23 +62,26 @@ class LogIn : AppCompatActivity() {
                                         .get()
                                         .addOnSuccessListener { document ->
                                             Log.d("LoginTest", "Firestore Data: ${document.data}")
-                                            val data = document.toObject(UserData::class.java) ?: UserData()
-                                            Log.d("logina12", "if1")
+                                            val data = document.toObject(SharedPrefHelper.User::class.java)
+                                                ?: SharedPrefHelper.User()
+                                            Log.d("LoginTest", data.toString())
                                             if (data != null) {
                                                 Log.d("logina12", "if2")
 
-                                                val editor = SharedPrefHelper(this).prefs.edit()
-                                                editor.putString("name", data.name)
-                                                editor.putString("password", data.password)
-
-                                                val nextActivity = getNextActivity(data, this)
+                                                SharedPrefHelper(this).saveUserToPrefs(data)
+                                                val nextActivity = getNextActivity(data)
                                                 if (nextActivity != null) {
                                                     Log.d("logina12", "if3")
 
-                                                    val intent = getNextActivity(data, this)
-                                                    editor.apply()
-                                                    intent.putExtra("id", data.id)
-                                                    startActivity(intent)
+                                                    startActivity(
+                                                        nav(
+                                                            NavData(
+                                                                getNextActivity(data),
+                                                                this,
+                                                                data.id
+                                                            )
+                                                        )
+                                                    )
 
                                                     saveLoginState(this, true)
                                                     finish()

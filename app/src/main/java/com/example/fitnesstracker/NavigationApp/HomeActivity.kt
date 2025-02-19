@@ -20,7 +20,6 @@ class HomeActivity : AppCompatActivity() {
 
         var fab = findViewById<FloatingActionButton>(R.id.fab)
 
-        saveLoginState(this, false)
 
 
         fab.setOnClickListener { intent = Intent(this, HomeActivity::class.java) }

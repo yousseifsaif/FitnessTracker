@@ -53,7 +53,7 @@ class HeightActivitySelection : AppCompatActivity() {
                 updateUserField("height",userHeight,id)
 
                 val editor = SharedPrefHelper(this).prefs.edit()
-                editor.putString("height",userHeight.toString()).apply()
+                editor.putInt("height",userHeight).apply()
             }
             startActivity(nav(NavData(WeightActivitySelection::class.java, this, id.toString())))
 

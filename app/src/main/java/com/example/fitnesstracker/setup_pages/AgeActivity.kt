@@ -47,7 +47,7 @@ class AgeActivity : AppCompatActivity() {
                 val userAge = ageDisplay.text.toString().toInt()
                 updateUserField("age", userAge, id)
                 val editor = SharedPrefHelper(this).prefs.edit()
-                editor.putString("age", userAge.toString()).apply()
+                editor.putInt("age", userAge).apply()
             }
 
             startActivity(nav(NavData(HeightActivitySelection::class.java, this, id.toString())))

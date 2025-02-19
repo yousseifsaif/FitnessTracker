@@ -13,6 +13,9 @@
         android:theme="@style/Theme.FitnessTracker"
         tools:targetApi="31">
         <activity
+            android:name=".setup_pages.ActivityLevel"
+            android:exported="false" />
+        <activity
             android:name=".NavigationApp.ProfileActivity"
             android:exported="false" />
         <activity
@@ -29,8 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".setup_pages.GoalActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
         <activity
             android:name=".setup_pages.WeightActivitySelection"
             android:exported="false" />
@@ -69,13 +71,13 @@
             android:exported="false" />
         <activity
             android:name=".Boarding.OnBoarding1"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity><!-- <intent-filter> -->
+        </activity> <!-- <intent-filter> -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

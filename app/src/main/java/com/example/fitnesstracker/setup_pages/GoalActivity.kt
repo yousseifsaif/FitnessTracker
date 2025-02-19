@@ -1,6 +1,5 @@
 package com.example.fitnesstracker.setup_pages
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -10,7 +9,6 @@ import com.example.fitnesstracker.NavigationApp.HomeActivity
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivityGoalBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.math.roundToInt
 
 class GoalActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
@@ -42,21 +40,18 @@ class GoalActivity : AppCompatActivity() {
                 if (id != null) {
                     updateUserField("selectedGoal", result, id)
 
-                    showLoading()
+                    val editor = SharedPrefHelper(this).prefs.edit()
+                    editor.putString("selectedGoal",result).apply()
+                    startActivity(
+                        nav(
+                            NavData(
+                                ActivityLevel::class.java,
+                                this,
+                                id.toString()
+                            )
+                        )
+                    )
 
-                    db.collection("users").document(id).get()
-                        .addOnSuccessListener { document ->
-                            val data = document.toObject(UserData::class.java) ?: UserData()
-
-                            updateUserField("calories", calculateCal(data).roundToInt(), id)
-
-                            startActivity(nav(NavData(HomeActivity::class.java, this, id.toString())))
-
-                            hideLoading()
-                        }
-                        .addOnFailureListener {
-                            hideLoading()
-                        }
                 }
             }
         }

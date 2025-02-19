@@ -9,22 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.NavigationApp.HomeActivity
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.firestore
 
-data class UserData(
-    val name: String = "",
-    val email: String = "",
-    val password: String = "",
-    val age: Int = 0,
-    val gender: String = "",
-    val height: Int = 0,
-    val weight: Int = 0,
-    val id: String = "",
-    val selectedGoal: String = "",
-    val weighttype: String = "",
-    val calories: Double = 0.0
 
-)
 
 
 fun checkUserExists(
@@ -141,22 +129,16 @@ fun updateUserField(key: String, value: Any, id: String) {
 }
 
 
-fun getNextActivity(data: UserData, context: Context): Intent {
-    return if (data.gender == "")
-        Intent(context, Gender::class.java)
-    else if (data.age == 0)
-        Intent(context, AgeActivity::class.java)
-    else if (data.height == 0)
-        Intent(context, HeightActivitySelection::class.java)
-    else if (data.weight == 0)
-        Intent(context, WeightActivitySelection::class.java)
-    else if (data.selectedGoal == "") {
-        Log.d("select", "123457")
-        Intent(context, GoalActivity::class.java)
-
-    } else
-        Intent(context, HomeActivity::class.java)
-
+fun getNextActivity(data: SharedPrefHelper.User): Class<out AppCompatActivity> {
+    return when {
+        data.gender.isEmpty() -> Gender::class.java
+        data.age == 0 -> AgeActivity::class.java
+        data.height == 0 -> HeightActivitySelection::class.java
+        data.weight == 0 -> WeightActivitySelection::class.java
+        data.selectedGoal.isEmpty() -> GoalActivity::class.java
+        data.ActivityLevel.isEmpty() -> ActivityLevel::class.java
+        else -> HomeActivity::class.java
+    }
 }
 
 
@@ -174,68 +156,102 @@ class SharedPrefHelper(context: Context) {
         context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
 
     data class User(
-        val name: String,
-        val age: Int,
-        val height: Int,
-        val weight: Int,
-        val gender: String,
-        val email: String,
-        val password: String,
-        val id: String,
+        val name: String = "",
+        val email: String = "",
+        val password: String = "",
+        val age: Int = 0,
+        val gender: String = "",
+        val height: Int = 0,
+        val weight: Int = 0,
+        val id: String = "",
+        val selectedGoal: String = "",
+        val weighttype: String = "",
+        val calories: Int = 0,
+        val ActivityLevel: String = "",
+        val isLoggedIn: Boolean = false
     )
-
     fun getUserFromPrefs(): User {
+        val id = prefs.getString("id", "")
+        Log.d("SharedPrefHelper", "Retrieved ID: $id")
+
+        if (id.isNullOrEmpty()) {
+            Log.e("SharedPrefHelper", "Error: No user data found!")
+            return User()
+        }
+
         return User(
             name = prefs.getString("name", "") ?: "",
-            age = prefs.getInt("age", 0),
-            height = prefs.getInt("height", 0),
-            weight = prefs.getInt("weight", 0),
-            gender = prefs.getString("gender", "") ?: "",
             email = prefs.getString("email", "") ?: "",
             password = prefs.getString("password", "") ?: "",
-            id = prefs.getString("id", "") ?: ""
+            age = prefs.getInt("age", 0),
+            gender = prefs.getString("gender", "") ?: "",
+            height = prefs.getInt("height", 0),
+            weight = prefs.getInt("weight", 0),
+            id = id,
+            selectedGoal = prefs.getString("selectedGoal", "") ?: "",
+            weighttype = prefs.getString("weighttype", "") ?: "",
+            calories = prefs.getInt("calories", 0),
+            ActivityLevel = prefs.getString("ActivityLevel", "") ?: "",
+            isLoggedIn = prefs.getBoolean("isLoggedIn", false)
         )
     }
+
 
     fun saveUserToPrefs(user: User) {
         prefs.edit().apply {
             putString("name", user.name)
+            putString("email", user.email)
+            putString("password", user.password)
             putInt("age", user.age)
+            putString("gender", user.gender)
             putInt("height", user.height)
             putInt("weight", user.weight)
-            putString("gender", user.gender)
-            putString("email", user.email)
+            putString("id", user.id)
+            putString("selectedGoal", user.selectedGoal)
+            putString("weighttype", user.weighttype)
+            putInt("calories", user.calories)
+            putString("ActivityLevel", user.ActivityLevel)
+            putBoolean("isLoggedIn", user.isLoggedIn)
             apply()
         }
     }
 }
-//For women, BMR = 655.1 + (9.563 x weight in kg) + (1.850 x height in cm) - (4.676 x age in years)
-//For men, BMR = 66.47 + (13.75 x weight in kg) + (5.003 x height in cm) - (6.755 x age in years)
 
-fun calculateCal(data: UserData): Double {
+fun calculateCal(data: SharedPrefHelper.User): Double {
     var weight: Double;
     weight = data.weight.toDouble()
     if (data.weighttype == "lb") weight = data.weight / 2.20462;
 
-    val bmr: Double
+    var bmr: Double
     if (data.gender == "women") {
         bmr = 655.1 + (9.563 * weight) + (1.850 * data.height) - (4.676 * data.age)
+        if (data.ActivityLevel == "beginner") bmr *= 1.2
+        else if (data.ActivityLevel == "intermediate") bmr *= 1.4
+        else if (data.ActivityLevel == "advance") bmr *= 1.6
+
+
         if (data.selectedGoal == "lose") return bmr - 500
         else if (data.selectedGoal == "gain") return bmr + 500
         else if (data.selectedGoal == "massGain") return bmr + 1000
         else if (data.selectedGoal == "shapeBody") return bmr + 250
-        else 0
+        else (0.0).toDouble()
 
     } else {
         bmr = 66.47 + (13.75 * weight) + (5.003 * data.height) - (6.755 * data.age)
+
+        if (data.ActivityLevel == "beginner") bmr *= 1.3
+        else if (data.ActivityLevel == "intermediate") bmr *= 1.5
+        else if (data.ActivityLevel == "advance") bmr *= 1.7
+
         if (data.selectedGoal == "lose") return bmr - 500
         else if (data.selectedGoal == "gain") return bmr + 500
         else if (data.selectedGoal == "massGain") return bmr + 1500
         else if (data.selectedGoal == "shapeBody") return bmr + 500
-        else 0.0
+        else (0.0).toDouble()
     }
     return 0.0
 }
+
 data class NavData(
     val nav: Class<out AppCompatActivity>,
     val context: Context,

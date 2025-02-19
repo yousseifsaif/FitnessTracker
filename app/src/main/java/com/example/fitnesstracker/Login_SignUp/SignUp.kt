@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.databinding.ActivitySignUpBinding
+import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.setup_pages.Show_Toast
-import com.example.fitnesstracker.setup_pages.UserData
 import com.example.fitnesstracker.setup_pages.check_Gmail
 import com.example.fitnesstracker.setup_pages.check_Password
 import com.example.fitnesstracker.setup_pages.check_Password_Error
@@ -56,7 +56,7 @@ class SignUp : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
-                        val user = UserData(userName, email, password, 0, "", 0, 0)
+                        val user = SharedPrefHelper.User(userName, email, password, 0, "", 0, 0)
 
                         db.collection("users").add(user).addOnSuccessListener {
                             it.update("id", it.id)
