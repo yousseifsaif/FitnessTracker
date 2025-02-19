@@ -1,10 +1,9 @@
 package com.example.fitnesstracker.ForgotPassword
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,7 +14,6 @@ import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivityForgottenPasswordBinding
 import com.example.fitnesstracker.setup_pages.checkUserExists
 import com.example.fitnesstracker.setup_pages.getUserId
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgottenPassword : AppCompatActivity() {
@@ -34,18 +32,27 @@ class ForgottenPassword : AppCompatActivity() {
             insets
         }
         auth = FirebaseAuth.getInstance()
+
         binding.resetPasswordBtn.setOnClickListener {
-            val emailReset = binding.editText.text.toString()
+            val emailReset = binding.editText.text.toString().trim()
+
+            if (emailReset.isEmpty()) {
+                Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             checkUserExists(emailReset, this) { result ->
                 if (result == "the email is right") {
-                    auth.sendPasswordResetEmail(emailReset)
-                    Snackbar.make(binding.root,"Reset link sent to your email",Snackbar.LENGTH_LONG)
-                        .setAction("Resend..."){
-                            auth.sendPasswordResetEmail(emailReset)
-                        }.show()
-
-
-                }
+                    getUserId(emailReset) { userId ->
+                        if (userId != null) {
+                            val intentText = Intent(this, SetPassword::class.java)
+                            intentText.putExtra("id", userId)
+                            startActivity(intentText)
+                        } else
+                            Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show()
+                    }
+                } else
+                    Toast.makeText(this, "Email not found or invalid", Toast.LENGTH_SHORT).show()
             }
         }
     }

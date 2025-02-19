@@ -66,10 +66,8 @@ class WeightActivitySelection : AppCompatActivity() {
                 val editor = SharedPrefHelper(this).prefs.edit()
                 editor.putString("weight", selectedWeight.toString()).apply()
 
-                val intent = Intent(this, GoalActivity::class.java)
-                intent.putExtra("id", id)
+                startActivity(nav(NavData(GoalActivity::class.java, this, id.toString())))
 
-                startActivity(intent)
             }
 
 

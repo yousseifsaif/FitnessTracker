@@ -23,6 +23,7 @@ class OnBoarding1 : AppCompatActivity() {
 
             // Redirect user
             if (isLoggedIn) {
+
                 startActivity(Intent(this, HomeActivity::class.java)
                 ) // Go to Home Page
             } else {

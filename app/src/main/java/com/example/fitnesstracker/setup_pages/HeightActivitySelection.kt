@@ -55,9 +55,8 @@ class HeightActivitySelection : AppCompatActivity() {
                 val editor = SharedPrefHelper(this).prefs.edit()
                 editor.putString("height",userHeight.toString()).apply()
             }
-            intent = Intent(this, WeightActivitySelection::class.java)
-            intent.putExtra("id",id)
-            startActivity(intent)
+            startActivity(nav(NavData(WeightActivitySelection::class.java, this, id.toString())))
+
         }
     }
 }

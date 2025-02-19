@@ -50,10 +50,8 @@ class GoalActivity : AppCompatActivity() {
 
                             updateUserField("calories", calculateCal(data).roundToInt(), id)
 
-                            val intent = Intent(this, HomeActivity::class.java)
-                            intent.putExtra("id", data.id)
+                            startActivity(nav(NavData(HomeActivity::class.java, this, id.toString())))
 
-                            startActivity(intent)
                             hideLoading()
                         }
                         .addOnFailureListener {

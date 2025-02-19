@@ -50,10 +50,7 @@ class AgeActivity : AppCompatActivity() {
                 editor.putString("age", userAge.toString()).apply()
             }
 
-
-            val nextIntent = Intent(this, HeightActivitySelection::class.java)
-            nextIntent.putExtra("id", id)
-            startActivity(nextIntent)
+            startActivity(nav(NavData(HeightActivitySelection::class.java, this, id.toString())))
         }
     }
 }

@@ -5,11 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.NavigationApp.HomeActivity
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 
 data class UserData(
@@ -23,12 +22,9 @@ data class UserData(
     val id: String = "",
     val selectedGoal: String = "",
     val weighttype: String = "",
-    val calories : Double = 0.0
+    val calories: Double = 0.0
 
 )
-
-
-
 
 
 fun checkUserExists(
@@ -180,8 +176,8 @@ class SharedPrefHelper(context: Context) {
     data class User(
         val name: String,
         val age: Int,
-        val height: Float,
-        val weight: Float,
+        val height: Int,
+        val weight: Int,
         val gender: String,
         val email: String,
         val password: String,
@@ -192,8 +188,8 @@ class SharedPrefHelper(context: Context) {
         return User(
             name = prefs.getString("name", "") ?: "",
             age = prefs.getInt("age", 0),
-            height = prefs.getFloat("height", 0.0f),
-            weight = prefs.getFloat("weight", 0.0f),
+            height = prefs.getInt("height", 0),
+            weight = prefs.getInt("weight", 0),
             gender = prefs.getString("gender", "") ?: "",
             email = prefs.getString("email", "") ?: "",
             password = prefs.getString("password", "") ?: "",
@@ -205,8 +201,8 @@ class SharedPrefHelper(context: Context) {
         prefs.edit().apply {
             putString("name", user.name)
             putInt("age", user.age)
-            putFloat("height", user.height)
-            putFloat("weight", user.weight)
+            putInt("height", user.height)
+            putInt("weight", user.weight)
             putString("gender", user.gender)
             putString("email", user.email)
             apply()
@@ -240,4 +236,14 @@ fun calculateCal(data: UserData): Double {
     }
     return 0.0
 }
+data class NavData(
+    val nav: Class<out AppCompatActivity>,
+    val context: Context,
+    val id: String
+)
 
+fun nav(data: NavData): Intent {
+    val nextIntent = Intent(data.context, data.nav)
+    nextIntent.putExtra("id", data.id)
+    return nextIntent
+}

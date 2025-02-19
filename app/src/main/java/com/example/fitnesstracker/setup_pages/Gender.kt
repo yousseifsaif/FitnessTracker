@@ -53,10 +53,9 @@ class Gender : AppCompatActivity() {
                     val editor = SharedPrefHelper(this).prefs.edit()
                     editor.putString("gender", selectedGender).apply()
                     updateUserField("gender", selectedGender!!, id)
+                    startActivity(nav(NavData(AgeActivity::class.java, this, id.toString())))
+
                 }
-                val Nextintent = Intent(this, AgeActivity::class.java)
-                Nextintent.putExtra("id", id)
-                startActivity(Nextintent)
             }
 
         }
