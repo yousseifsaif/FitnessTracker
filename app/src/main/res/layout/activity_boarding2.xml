@@ -72,8 +72,8 @@
         />
 <Button
     android:id="@+id/btn1"
-    android:layout_width="211dp"
-    android:layout_height="44dp"
+    android:layout_width="215dp"
+    android:layout_height="48dp"
     android:layout_margin="8dp"
     android:backgroundTint="@color/ButtonTranspernt"
     android:textColor="@color/white"

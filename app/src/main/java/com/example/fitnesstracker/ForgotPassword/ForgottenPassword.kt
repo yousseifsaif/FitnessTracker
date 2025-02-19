@@ -3,6 +3,7 @@ package com.example.fitnesstracker.ForgotPassword
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -31,15 +32,27 @@ class ForgottenPassword : AppCompatActivity() {
             insets
         }
         auth = FirebaseAuth.getInstance()
+
         binding.resetPasswordBtn.setOnClickListener {
-            val emailReset = binding.editText.text.toString()
+            val emailReset = binding.editText.text.toString().trim()
+
+            if (emailReset.isEmpty()) {
+                Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             checkUserExists(emailReset, this) { result ->
                 if (result == "the email is right") {
-                    val intenttext = Intent(this, SetPassword::class.java)
-
-                    intenttext.putExtra("email", getUserId(emailReset) { result }.toString())
-                    startActivity(intenttext)
-                }
+                    getUserId(emailReset) { userId ->
+                        if (userId != null) {
+                            val intentText = Intent(this, SetPassword::class.java)
+                            intentText.putExtra("id", userId)
+                            startActivity(intentText)
+                        } else
+                            Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show()
+                    }
+                } else
+                    Toast.makeText(this, "Email not found or invalid", Toast.LENGTH_SHORT).show()
             }
         }
     }

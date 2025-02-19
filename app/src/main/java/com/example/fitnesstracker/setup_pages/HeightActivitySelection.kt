@@ -1,6 +1,7 @@
 package com.example.fitnesstracker.setup_pages
 
 import RulerAdapterHeight
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
@@ -10,16 +11,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnesstracker.R
+import com.example.fitnesstracker.databinding.ActivityHeightSelectionBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class HeightActivitySelection : AppCompatActivity() {
+    private val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_height_selection)
+        val binding = ActivityHeightSelectionBinding.inflate(layoutInflater)
 
-        val heightDisplay = findViewById<TextView>(R.id.heightDisplay)
-        val rulerRecyclerView = findViewById<RecyclerView>(R.id.rulerRecyclerView)
-        val continueButton = findViewById<TextView>(R.id.continueButton)
+        setContentView(binding.root)
+
+        val heightDisplay = binding.heightDisplay
+        val rulerRecyclerView = binding.rulerRecyclerView
+        val continueButton = binding.continueButton
 
         // Set up the RecyclerView for the ruler
         val heights = (140..200).toList() // Range of heights (140-200 cm)
@@ -32,19 +39,25 @@ class HeightActivitySelection : AppCompatActivity() {
         rulerRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val position = (layoutManager.findFirstVisibleItemPosition() + layoutManager.findLastVisibleItemPosition()) / 2
+                val position =
+                    (layoutManager.findFirstVisibleItemPosition() + layoutManager.findLastVisibleItemPosition()) / 2
                 heightDisplay.text = heights[position].toString()
             }
         })
 
         // Handle continue button click
         continueButton.setOnClickListener {
+            val id = intent.getStringExtra("id")
+            if (id != null) {
+                val userHeight = heightDisplay.text.toString().toInt()
+                updateUserField("height",userHeight,id)
 
-            val selectedHeight = heightDisplay.text.toString()
-            Toast.makeText(this, "Selected Height: $selectedHeight cm", Toast.LENGTH_SHORT).show()
-            // Navigate to the next page or save height
-            intent=Intent(this,WeightActivitySelection::class.java)
-startActivity(intent)
+                val editor = SharedPrefHelper(this).prefs.edit()
+                editor.putString("height",userHeight.toString()).apply()
+            }
+            intent = Intent(this, WeightActivitySelection::class.java)
+            intent.putExtra("id",id)
+            startActivity(intent)
         }
     }
 }
