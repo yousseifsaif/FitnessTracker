@@ -69,7 +69,7 @@ class SignUp : AppCompatActivity() {
                         ).show()
 
                         Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show()
-
+                        sendVerificationEmail()
                         startActivity(Intent(this, LogIn::class.java))
                     } else {
                         Toast.makeText(this, "Registration Failed!", Toast.LENGTH_SHORT).show()
@@ -92,9 +92,21 @@ class SignUp : AppCompatActivity() {
 
                     else -> Show_Toast(this, "The email must be @gmail.com")
                 }
-            }
-        }
-    }
 
+                    }
+                }
 
+         }
+    fun sendVerificationEmail() {
+        val user = auth.currentUser
+        user?.sendEmailVerification()?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Verification email sent! Please check your email.", Toast.LENGTH_LONG).show()
+
+                // Redirect to login screen after sign-up
+                startActivity(Intent(this, LogIn::class.java))
+                finish()
+            } else {
+                Toast.makeText(this, "Failed to send verification email: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+            }}}
 }

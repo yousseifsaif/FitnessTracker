@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
+import com.example.fitnesstracker.NavigationApp.HomeActivity
 import com.example.fitnesstracker.databinding.ActivityLogBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.setup_pages.UserData
@@ -48,8 +49,8 @@ class LogIn : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
-                            Log.d("logina12", "if-2")
+                            checkEmailVerification()
+
 
                             getUserId(email) { doc ->
                                 if (doc.isNotEmpty()) {
@@ -110,4 +111,23 @@ class LogIn : AppCompatActivity() {
             }
         }
     }
+    private fun checkEmailVerification() {
+        val user = auth.currentUser
+        if (user != null && user.isEmailVerified) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        } else {
+            // Email not verified, show snackbar with option to resend
+            Toast.makeText(this, "Please verify your email before logging in", Toast.LENGTH_LONG).show()
+
+            user?.sendEmailVerification()?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Verification email re-sent!", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "Failed to resend verification email: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
 }
