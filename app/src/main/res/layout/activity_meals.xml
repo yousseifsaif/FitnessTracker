@@ -5,6 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavigationApp.MealsActivity">
+    >
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Meals"
+        android:textAlignment="center"
+        android:textSize="50sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

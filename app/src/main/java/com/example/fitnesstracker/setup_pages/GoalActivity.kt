@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fitnesstracker.NavigationApp.HomeActivity
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivityGoalBinding
 import com.google.firebase.firestore.FirebaseFirestore

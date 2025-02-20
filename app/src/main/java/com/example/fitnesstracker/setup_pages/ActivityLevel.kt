@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fitnesstracker.NavigationApp.HomeActivity
+import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.databinding.ActivityLevelBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.math.roundToInt
@@ -69,7 +69,7 @@ class ActivityLevel : AppCompatActivity() {
                         startActivity(
                             nav(
                                 NavData(
-                                    HomeActivity::class.java,
+                                    MainActivity::class.java,
                                     this,
                                     id
                                 )

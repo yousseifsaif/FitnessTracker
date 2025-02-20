@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fitnesstracker.NavigationApp.HomeActivity
+import com.example.fitnesstracker.MainActivity
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
@@ -137,7 +137,7 @@ fun getNextActivity(data: SharedPrefHelper.User): Class<out AppCompatActivity> {
         data.weight == 0 -> WeightActivitySelection::class.java
         data.selectedGoal.isEmpty() -> GoalActivity::class.java
         data.ActivityLevel.isEmpty() -> ActivityLevel::class.java
-        else -> HomeActivity::class.java
+        else -> MainActivity::class.java
     }
 }
 

@@ -66,5 +66,6 @@ dependencies {
     implementation (libs.material.v190)
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
     implementation ("androidx.navigation:navigation-fragment:2.8.6")
+    implementation ("com.google.code.gson:gson:2.8.9")
 
 }

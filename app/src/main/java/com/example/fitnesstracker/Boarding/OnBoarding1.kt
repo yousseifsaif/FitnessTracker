@@ -7,7 +7,6 @@ import android.os.Handler
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fitnesstracker.NavigationApp.HomeActivity
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
