@@ -1,52 +1,51 @@
 package com.example.fitnesstracker.NavigationApp
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.core.animation.doOnEnd
+import android.widget.*
 import androidx.fragment.app.Fragment
+import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.FragmentHomeBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var sharedPreferences: SharedPreferences
-    private val gson = Gson()
-    private val workoutDays = mutableMapOf<String, LinearLayout>()
-    private val favoriteExercises = listOf("Push-up", "Squat", "Deadlift", "Bench Press", "Pull-up")
+    private val workoutDays = mutableMapOf<String, MutableList<String>>()
+    private val gymExercises = listOf(
+        "None", "Bench Press", "Incline Bench Press", "Dumbbell Fly", "Cable Crossover", "Push-ups", "Dips",
+        "Shoulder Press", "Arnold Press", "Lateral Raises", "Front Raises", "Face Pulls", "Shrugs",
+        "Pull-ups", "Lat Pulldown", "Bent-over Rows", "Deadlift", "Seated Cable Row", "T-Bar Row",
+        "Bicep Curls", "Hammer Curls", "Triceps Dips", "Triceps Pushdown", "Skull Crushers", "Concentration Curl",
+        "Squat", "Leg Press", "Lunges", "Bulgarian Split Squat", "Romanian Deadlift", "Calf Raises",
+        "Hip Thrust", "Glute Bridges", "Cable Kickbacks", "Sumo Deadlift", "Plank", "Russian Twists",
+        "Bicycle Crunches", "Ab Rollouts", "Sit-ups", "Chest Fly Machine", "Leg Extension", "Leg Curl",
+        "Reverse Crunches", "Hanging Leg Raises", "Battle Ropes", "Kettlebell Swings"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        sharedPreferences = requireContext().getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE)
-        loadWorkoutDays()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadWorkoutDays()
+        updateUI()
 
         binding.btnAddDay.setOnClickListener {
             val dayName = binding.etDayName.text.toString().trim()
             if (dayName.isNotEmpty()) {
                 addWorkoutDay(dayName)
                 binding.etDayName.text.clear()
-                saveWorkoutDays()
             }
         }
 
@@ -56,140 +55,113 @@ class HomeFragment : Fragment() {
     }
 
     private fun addWorkoutDay(dayName: String) {
-        val dayLayout = LinearLayout(requireContext()).apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            setPadding(10, 10, 10, 10)
+        if (!workoutDays.containsKey(dayName)) {
+            workoutDays[dayName] = mutableListOf()
+            saveWorkoutDays()
         }
-
-        val dayButton = Button(requireContext()).apply {
-            text = dayName
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            setOnLongClickListener {
-                animateDelete(dayLayout) { deleteWorkoutDay(dayName) }
-                true
-            }
-        }
-
-        val exerciseList = LinearLayout(requireContext()).apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-        }
-
-        dayLayout.addView(dayButton)
-        dayLayout.addView(exerciseList)
-        binding.layoutWorkoutDays.addView(dayLayout)
-
-        workoutDays[dayName] = exerciseList
+        updateUI()
     }
 
     private fun showSelectDayDialog() {
-        if (workoutDays.isEmpty()) {
-            AlertDialog.Builder(requireContext())
-                .setTitle("No Workout Days")
-                .setMessage("Please add a workout Name first.")
-                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-                .show()
+        val dayNames = workoutDays.keys.toTypedArray()
+        if (dayNames.isEmpty()) {
+            Toast.makeText(requireContext(), "No workout days added!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val days = workoutDays.keys.toTypedArray()
         AlertDialog.Builder(requireContext())
-            .setTitle("Select Workout Day")
-            .setItems(days) { _, which ->
-                showExerciseSelectionDialog(days[which])
-            }
+            .setTitle("Select a Day")
+            .setItems(dayNames) { _, which -> showAddExerciseDialog(dayNames[which]) }
+            .setNegativeButton("Cancel", null)
             .show()
     }
 
-    private fun showExerciseSelectionDialog(dayName: String) {
-        val selectedExercises = mutableListOf<String>()
-        val exercisesArray = favoriteExercises.toTypedArray()
-        val checkedItems = BooleanArray(exercisesArray.size)
+    private fun showAddExerciseDialog(dayName: String) {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_exercise, null)
+        val searchView = dialogView.findViewById<SearchView>(R.id.searchView)
+        val spinner = dialogView.findViewById<Spinner>(R.id.spinnerExercises)
+
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, gymExercises)
+        spinner.adapter = adapter
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val filteredList = gymExercises.filter { it.contains(newText.orEmpty(), ignoreCase = true) }
+                (spinner.adapter as ArrayAdapter<String>).apply {
+                    clear()
+                    addAll(filteredList)
+                    notifyDataSetChanged()
+                }
+                return true
+            }
+        })
 
         AlertDialog.Builder(requireContext())
-            .setTitle("Select Exercises")
-            .setMultiChoiceItems(exercisesArray, checkedItems) { _, which, isChecked ->
-                if (isChecked) {
-                    selectedExercises.add(exercisesArray[which])
-                } else {
-                    selectedExercises.remove(exercisesArray[which])
+            .setTitle("Add Exercise to $dayName")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val exercise = spinner.selectedItem.toString()
+                if (exercise != "None") {
+                    workoutDays[dayName]?.add(exercise)
+                    saveWorkoutDays()
+                    updateUI()
                 }
             }
-            .setPositiveButton("Add") { _, _ ->
-                addExercisesToDay(dayName, selectedExercises)
-                saveWorkoutDays()
-            }
-            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            .setNegativeButton("Cancel", null)
             .show()
     }
 
-    private fun addExercisesToDay(dayName: String, exercises: List<String>) {
-        val exerciseList = workoutDays[dayName] ?: return
-        exercises.forEach { exercise ->
-            val exerciseText = TextView(requireContext()).apply {
-                text = "• $exercise"
-                textSize = 16f
+    private fun updateUI() {
+        binding.layoutWorkoutDays.removeAllViews()
+        for ((dayName, exercises) in workoutDays) {
+            val dayLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
-                setPadding(20, 5, 0, 5)
-                setOnLongClickListener {
-                    animateDelete(this) { exerciseList.removeView(this); saveWorkoutDays() }
-                    true
-                }
+                setPadding(10, 10, 10, 10)
             }
-            exerciseList.addView(exerciseText)
+
+            val dayButton = Button(requireContext()).apply {
+                text = dayName
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            }
+
+            val exerciseList = TextView(requireContext()).apply {
+                text = exercises.joinToString("\n")
+                setPadding(5, 5, 5, 5)
+            }
+
+            dayLayout.addView(dayButton)
+            dayLayout.addView(exerciseList)
+            binding.layoutWorkoutDays.addView(dayLayout)
         }
     }
 
     private fun saveWorkoutDays() {
+        val sharedPreferences = requireContext().getSharedPreferences("WorkoutData", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        val daysMap = workoutDays.mapValues { (_, layout) ->
-            (0 until layout.childCount).map { (layout.getChildAt(it) as? TextView)?.text.toString() }
-        }
-        editor.putString("workoutDays", gson.toJson(daysMap))
+        editor.putStringSet("workoutDays", workoutDays.mapValues { it.value.toSet() }.map { "${it.key}:${it.value.joinToString(",")}" }.toSet())
         editor.apply()
     }
 
     private fun loadWorkoutDays() {
-        val json = sharedPreferences.getString("workoutDays", "")
-        if (!json.isNullOrEmpty()) {
-            val type = object : TypeToken<Map<String, List<String>>>() {}.type
-            val daysMap: Map<String, List<String>> = gson.fromJson(json, type)
-            daysMap.forEach { (day, exercises) ->
-                addWorkoutDay(day)
-                addExercisesToDay(day, exercises)
+        val sharedPreferences = requireContext().getSharedPreferences("WorkoutData", Context.MODE_PRIVATE)
+        val savedData = sharedPreferences.getStringSet("workoutDays", emptySet())
+        workoutDays.clear()
+        savedData?.forEach {
+            val parts = it.split(":")
+            if (parts.size == 2) {
+                val day = parts[0]
+                val exercises = parts[1].split(",").toMutableList()
+                workoutDays[day] = exercises
             }
         }
-    }
-
-    private fun deleteWorkoutDay(dayName: String) {
-        workoutDays.remove(dayName)
-        binding.layoutWorkoutDays.removeAllViews()
-        workoutDays.keys.forEach { addWorkoutDay(it) }
-        saveWorkoutDays()
-    }
-
-    private fun animateDelete(view: View, onAnimationEnd: () -> Unit) {
-        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 0f)
-        val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 0f)
-        val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f)
-        val animator = ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY, alpha)
-        animator.duration = 300
-        animator.interpolator = AccelerateInterpolator()
-        animator.start()
-        animator.doOnEnd { onAnimationEnd() }
     }
 
     override fun onDestroyView() {
@@ -197,3 +169,4 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 }
+
