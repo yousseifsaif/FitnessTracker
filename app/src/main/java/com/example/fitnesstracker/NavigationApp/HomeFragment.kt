@@ -16,7 +16,7 @@ import com.example.fitnesstracker.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
+//
     private val workoutDays = mutableMapOf<String, MutableList<String>>()
     private val gymExercises = listOf(
         "None", "Bench Press", "Incline Bench Press", "Dumbbell Fly", "Cable Crossover", "Push-ups", "Dips",
