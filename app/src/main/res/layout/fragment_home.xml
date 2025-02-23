@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavigationApp.HomeFragment"
     android:background="@color/backgroundColor"
-    >
+    tools:context=".NavigationApp.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/nameUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ahmed"
+            android:textSize="50dp"
+            />
+
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/nameUser"
+            app:layout_constraintTop_toTopOf="@id/nameUser"
+            app:layout_constraintBottom_toBottomOf="@+id/nameUser"
+            android:layout_margin="32dp"
+           app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/btn1"
+            app:layout_constraintTop_toTopOf="@id/nameUser"
+            app:layout_constraintBottom_toBottomOf="@+id/nameUser"
+            android:layout_margin="32dp"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,6 +48,7 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -24,32 +58,31 @@
                 android:id="@+id/etDayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/edit_text"
+                android:backgroundTint="@color/white"
                 android:hint="Enter Workout Name"
                 android:padding="10dp"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/edit_text"
-                android:textSize="16sp"
-                android:textColorHint="@color/black"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                />
+                android:textColorHint="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnAddDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Workout Name"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/button"
+                android:text="Add Workout Name"
 
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white" />
 
             <LinearLayout
                 android:id="@+id/layoutWorkoutDays"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:orientation="vertical" />
         </LinearLayout>
 
     </ScrollView>
@@ -58,10 +91,10 @@
         android:id="@+id/fabAddExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_add"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/black"
-        app:tint="@android:color/white"/>
+        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

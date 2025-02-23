@@ -26,7 +26,7 @@ class ActivityLevel : AppCompatActivity() {
         val advanceBtn = binding.AdvanceBtn
 
         val buttons = listOf(beginnerBtn, intermediateBtn, advanceBtn)
-        var ActivityLevel = ""
+        var ActivityLevel = "beginner"
 
         beginnerBtn.setOnClickListener {
             updateButtons(buttons, beginnerBtn)
