@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitnesstracker.R
@@ -149,7 +150,9 @@ class HomeFragment : Fragment() {
         daysList.addAll(Gson().fromJson(daysJson, typeDays))
         exercisesMap.putAll(Gson().fromJson(exercisesJson, typeExercises))
     }
-
+    override fun onResume() {
+        super.onResume()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

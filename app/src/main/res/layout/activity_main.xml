@@ -1,23 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity"
     android:background="@color/backgroundColor"
-    >
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/tvGreeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hi, "
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/purple"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"/>
 
+    <!-- النص الإضافي -->
+    <TextView
+        android:id="@+id/tvSubtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="It's time to challenge your limits."
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGreeting"
+        android:layout_marginStart="16dp"
+        />
+
+    <!-- أيقونة البحث -->
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/search"
+        android:padding="8dp"
+        app:tint="@color/purple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivNotifications"
+
+        app:layout_constraintTop_toTopOf="@id/tvGreeting"
+        android:layout_marginEnd="16dp"/>
+
+    <!-- أيقونة الإشعارات -->
+    <ImageView
+        android:id="@+id/ivNotifications"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/notification"
+        android:padding="8dp"
+        app:tint="@color/purple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvGreeting"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- منطقة عرض الـ Fragments -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        app:layout_constraintTop_toBottomOf="@id/tvSubtext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        android:layout_marginTop="16dp"/>
 
-
-    </FrameLayout>
-
+    <!-- شريط التنقل السفلي -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
@@ -25,8 +78,6 @@
         app:menu="@menu/bottom_navigation_menu"
         android:layout_margin="15dp"
         android:background="@drawable/bottom_appbar"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        />
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,12 +13,17 @@
         android:theme="@style/Theme.FitnessTracker"
         tools:targetApi="31">
         <activity
+            android:name=".ToolBarIcons.Search"
+            android:exported="false" />
+        <activity
+            android:name=".ToolBarIcons.Notifications"
+            android:exported="false" />
+        <activity
             android:name=".profile.pof"
             android:exported="false" />
         <activity
             android:name=".profile.Profile"
             android:exported="false" />
-
         <activity
             android:name=".setup_pages.ActivityLevel"
             android:exported="false" />
@@ -30,7 +35,6 @@
             android:name=".NavigationApp.HomeFragment"
             android:exported="false"
             tools:ignore="Instantiatable,MissingClass" />
-
         <activity
             android:name=".NavigationApp.MealsFragment"
             android:exported="false"
