@@ -26,7 +26,14 @@ class HomeFragment : Fragment() {
     private val exercisesMap = mutableMapOf<String, MutableList<String>>()
 
     private val allExercises = listOf(
-        "Push-Up", "Squat", "Bench Press", "Deadlift", "Pull-Up", "Lunges", "Plank", "Burpees"
+        "Push-Up", "Squat", "Bench Press", "Deadlift", "Pull-Up", "Lunges", "Plank", "Burpees",
+        "Mountain Climbers", "Jumping Jacks", "Russian Twists", "Bicycle Crunches", "Dips", "Leg Raises",
+        "Side Plank", "Superman", "Kettlebell Swings", "Hip Thrusts", "Box Jumps", "Wall Sit", "Farmer’s Walk",
+        "Jump Rope", "Medicine Ball Slams", "Sled Push", "Cable Rows", "Tricep Extensions", "Bicep Curls",
+        "Face Pulls", "Hamstring Curls", "Glute Bridges", "Single-Leg Deadlift", "Arnold Press", "Chest Fly",
+        "Hack Squat", "Overhead Squat", "Hanging Leg Raises", "Turkish Get-Up", "Calf Raises", "Tire Flips",
+        "Battle Ropes", "Reverse Lunges", "Good Mornings", "Step-Ups", "Incline Dumbbell Press", "Seated Shoulder Press",
+        "Snatch", "Clean and Jerk", "Zercher Squat"
     )
 
     override fun onCreateView(
@@ -46,7 +53,12 @@ class HomeFragment : Fragment() {
         adapter = WorkoutAdapter(daysList, exercisesMap, ::onDeleteDay, ::onDeleteExercise)
         binding.recyclerViewWorkouts.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewWorkouts.adapter = adapter
-
+        binding.suggestionWorkout.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, WorkoutPlansFragment())
+                .addToBackStack(null)
+                .commit()
+        }
         binding.btnAddDay.setOnClickListener { addWorkoutDay() }
         binding.fabAddWorkout.setOnClickListener { showWorkoutDialog() }
         binding.suggestionWorkout.setOnClickListener {
