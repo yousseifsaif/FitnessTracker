@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tvDayName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Day Name"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvExercises"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"/>
+
+    <Button
+        android:id="@+id/btnDeleteDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Day"
+        android:layout_gravity="end" />
+
+</LinearLayout>

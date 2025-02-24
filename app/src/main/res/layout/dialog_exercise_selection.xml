@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Exercise"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="10dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerExercises"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnCloseDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:layout_marginTop="10dp" />
+</LinearLayout>

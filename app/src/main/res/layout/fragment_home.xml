@@ -1,67 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavigationApp.HomeFragment"
-    android:background="@color/backgroundColor"
-    >
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <ScrollView
+    <EditText
+        android:id="@+id/etWorkoutDay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:hint="Enter Workout Day" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/etDayName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter Workout Name"
-                android:padding="10dp"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/edit_text"
-                android:textSize="16sp"
-                android:textColorHint="@color/black"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                />
+    <Button
+        android:id="@+id/btnAddDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Day"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
 
-            <Button
-                android:id="@+id/btnAddDay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Workout Name"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/button"
+    <Button
+        android:id="@+id/suggestion_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="suggestion_workout"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewWorkouts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-                android:textColor="@android:color/white"/>
-
-            <LinearLayout
-                android:id="@+id/layoutWorkoutDays"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="16dp"/>
-        </LinearLayout>
-
-    </ScrollView>
-
+    <!-- زر إضافة تمرين -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddExercise"
+        android:id="@+id/fabAddWorkout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_input_add"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        app:backgroundTint="@color/black"
-        app:tint="@android:color/white"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"/>
+</LinearLayout>
