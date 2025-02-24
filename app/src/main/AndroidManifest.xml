@@ -18,28 +18,23 @@
         <activity
             android:name=".profile.Profile"
             android:exported="false" />
-        <activity
-            android:name=".pof"
-            android:exported="false" />
+
         <activity
             android:name=".setup_pages.ActivityLevel"
             android:exported="false" />
         <activity
-            android:name=".NavigationApp.ProfileActivity"
+            android:name=".NavigationApp.ProfileFragment"
             android:exported="false"
-            tools:ignore="MissingClass" />
+            tools:ignore="Instantiatable,MissingClass" />
         <activity
-            android:name=".NavigationApp.MealsActivity"
+            android:name=".NavigationApp.HomeFragment"
             android:exported="false"
-            tools:ignore="MissingClass" />
+            tools:ignore="Instantiatable,MissingClass" />
+
         <activity
-            android:name=".NavigationApp.RunningActivity"
+            android:name=".NavigationApp.MealsFragment"
             android:exported="false"
-            tools:ignore="MissingClass" />
-        <activity
-            android:name=".NavigationApp.HomeActivity"
-            android:exported="false"
-            tools:ignore="MissingClass" />
+            tools:ignore="Instantiatable,MissingClass" />
         <activity
             android:name=".setup_pages.GoalActivity"
             android:exported="true" />
