@@ -8,7 +8,6 @@
     android:background="@color/backgroundColor"
     tools:context=".NavigationApp.HomeFragment">
 
-    <!-- ScrollView لضمان التمرير -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +18,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-<!--            &lt;!&ndash; اسم المستخدم &ndash;&gt;-->
+<!--            &lt;!&ndash;  &ndash;&gt;-->
 <!--            <TextView-->
 <!--                android:id="@+id/nameUser"-->
 <!--                android:layout_width="wrap_content"-->
@@ -31,7 +30,6 @@
 <!--                app:layout_constraintTop_toTopOf="parent"-->
 <!--                app:layout_constraintStart_toStartOf="parent" />-->
 
-            <!-- إدخال اسم التمرين -->
             <EditText
                 android:id="@+id/etWorkoutDay"
                 android:layout_width="0dp"
@@ -48,7 +46,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="MissingConstraints" />
 
-            <!-- أزرار الإضافة والاقتراح -->
             <Button
                 android:id="@+id/btnAddDay"
                 android:layout_width="wrap_content"
@@ -67,7 +64,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
 />
 
-            <!-- قائمة التمارين -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewWorkouts"
                 android:layout_width="0dp"
@@ -77,7 +73,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
            />
 
-            <!-- زر الإضافة العائم -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabAddWorkout"
                 android:layout_width="wrap_content"

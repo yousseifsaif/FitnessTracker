@@ -20,7 +20,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"/>
 
-    <!-- النص الإضافي -->
     <TextView
         android:id="@+id/tvSubtext"
         android:layout_width="wrap_content"
@@ -33,7 +32,6 @@
         android:layout_marginStart="16dp"
         />
 
-    <!-- أيقونة البحث -->
     <ImageView
         android:id="@+id/ivSearch"
         android:layout_width="40dp"
@@ -47,7 +45,6 @@
         app:layout_constraintTop_toTopOf="@id/tvGreeting"
         android:layout_marginEnd="16dp"/>
 
-    <!-- أيقونة الإشعارات -->
     <ImageView
         android:id="@+id/ivNotifications"
         android:layout_width="40dp"
@@ -59,7 +56,6 @@
         app:layout_constraintTop_toTopOf="@id/tvGreeting"
         android:layout_marginEnd="8dp"/>
 
-    <!-- منطقة عرض الـ Fragments -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
@@ -70,7 +66,6 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         android:layout_marginTop="16dp"/>
 
-    <!-- شريط التنقل السفلي -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
