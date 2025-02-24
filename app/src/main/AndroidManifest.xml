@@ -13,26 +13,33 @@
         android:theme="@style/Theme.FitnessTracker"
         tools:targetApi="31">
         <activity
-            android:name=".NavigationApp.ExerciseActivity"
+            android:name=".profile.pof"
+            android:exported="false" />
+        <activity
+            android:name=".profile.Profile"
+            android:exported="false" />
+        <activity
+            android:name=".pof"
             android:exported="false" />
         <activity
             android:name=".setup_pages.ActivityLevel"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".NavigationApp.ProfileActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".NavigationApp.CommunicationActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".NavigationApp.MealsActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".NavigationApp.RunningActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".NavigationApp.HomeActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".NavigationApp.ProfileActivity"
+            android:exported="false"
+            tools:ignore="MissingClass" />
+        <activity
+            android:name=".NavigationApp.MealsActivity"
+            android:exported="false"
+            tools:ignore="MissingClass" />
+        <activity
+            android:name=".NavigationApp.RunningActivity"
+            android:exported="false"
+            tools:ignore="MissingClass" />
+        <activity
+            android:name=".NavigationApp.HomeActivity"
+            android:exported="false"
+            tools:ignore="MissingClass" />
         <activity
             android:name=".setup_pages.GoalActivity"
             android:exported="true" />
