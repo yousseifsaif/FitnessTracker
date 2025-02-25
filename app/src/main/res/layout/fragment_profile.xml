@@ -22,7 +22,6 @@
                 android:layout_height="260dp"
                 android:background="#232323"
                 tools:ignore="MissingConstraints"
-
                 >
 
 
