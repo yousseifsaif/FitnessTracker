@@ -1,5 +1,7 @@
 package com.example.fitnesstracker.NavigationApp
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +30,8 @@ class ExerciseAdapter(
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         val exercise = exercises[position]
         holder.tvExerciseName.text = exercise
-
+        holder.tvExerciseName.setTextColor(Color.WHITE)
+        holder.tvExerciseName.textSize = 12f
         holder.btnDeleteExercise.setOnClickListener {
             onDeleteExercise(day, exercise)
             notifyItemRemoved(position)

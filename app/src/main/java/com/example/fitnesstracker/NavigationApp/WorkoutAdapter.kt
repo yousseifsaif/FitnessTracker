@@ -1,9 +1,12 @@
 package com.example.fitnesstracker.NavigationApp
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +22,7 @@ class WorkoutAdapter(
 
     inner class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvDayName: TextView = view.findViewById(R.id.tvDayName)
-        val btnDeleteDay: Button = view.findViewById(R.id.btnDeleteDay)
+        val btnDeleteDay: ImageView = view.findViewById(R.id.btnDeleteDay)
         val rvExercises: RecyclerView = view.findViewById(R.id.rvExercises)
     }
 
@@ -31,7 +34,9 @@ class WorkoutAdapter(
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         val day = days[position]
         holder.tvDayName.text = day
-
+        holder.tvDayName.setTextColor(Color.WHITE)
+        holder.tvDayName.setTypeface(null, Typeface.BOLD)
+        holder.tvDayName.textSize = 22f
         holder.rvExercises.apply {
             layoutManager = LinearLayoutManager(holder.itemView.context)
             adapter = ExerciseAdapter(exercisesMap[day] ?: mutableListOf(), day, onDeleteExercise)

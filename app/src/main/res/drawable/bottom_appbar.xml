@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#FFFFFF" />
-    <corners android:radius="20dp" />
-    <padding android:left="0dp" android:right="0dp" android:bottom="0dp" />
-
-<!--    <path-->
-<!--        android:fillColor="@color/ButtonTranspernt"-->
-<!--        android:pathData="M 0,100 C 50,70 150,70 200,100 L 200,200 L 0,200 Z" />-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="12dp"/>
+    <solid android:color="#FFFFFF"/>
+    <padding android:left="5dp" android:right="5dp" android:top="5dp"/>
+    <size android:height="70dp" android:width="70dp"/>
 </shape>
