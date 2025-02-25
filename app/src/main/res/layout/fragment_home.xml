@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,17 +17,17 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-<!--            &lt;!&ndash;  &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/nameUser"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="ahmed"-->
-<!--                android:textSize="50sp"-->
-<!--                android:padding="12dp"-->
-<!--                android:textColor="@color/white"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent" />-->
+            <!--            &lt;!&ndash;  &ndash;&gt;-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/nameUser"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="ahmed"-->
+            <!--                android:textSize="50sp"-->
+            <!--                android:padding="12dp"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent" />-->
 
             <EditText
                 android:id="@+id/etWorkoutDay"
@@ -42,54 +41,51 @@
                 android:textColorHint="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints" />
 
             <Button
                 android:id="@+id/btnAddDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Workout Name"
-                android:background="@drawable/button"
-                app:layout_constraintTop_toBottomOf="@id/etWorkoutDay"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp"
+                android:background="@drawable/button"
+                android:text="Add Workout Name"
                 android:textColor="@color/white"
-             />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etWorkoutDay" />
 
             <Button
                 android:id="@+id/suggestion_workout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="suggestion workout"
-                android:background="@drawable/button"
                 android:layout_marginTop="8dp"
+                android:background="@drawable/button"
+                android:text="suggestion workout"
                 android:textColor="@color/white"
 
-                app:layout_constraintTop_toBottomOf="@id/etWorkoutDay"
                 app:layout_constraintEnd_toEndOf="parent"
-/>
+                app:layout_constraintTop_toBottomOf="@id/etWorkoutDay" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewWorkouts"
                 android:layout_width="0dp"
-                android:textAlignment="center"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/btnAddDay"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
-           />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAddDay" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabAddWorkout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:src="@drawable/plus"
                 android:background="@color/purple"
+                android:src="@drawable/plus"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

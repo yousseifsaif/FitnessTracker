@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.fitnesstracker.NavigationApp.HomeFragment
 import com.example.fitnesstracker.NavigationApp.MealsFragment
-import com.example.fitnesstracker.NavigationApp.ProfileFragment
 import com.example.fitnesstracker.NavigationApp.WorkoutsFragment
 import com.example.fitnesstracker.ToolBarIcons.NotificationFragment
 import com.example.fitnesstracker.ToolBarIcons.SearchFragment

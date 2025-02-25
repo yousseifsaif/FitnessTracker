@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Circular Background -->
+    <path
+        android:fillColor="#8A2BE2"
+        android:pathData="M12,4a8,8 0 1,1 0,16a8,8 0 0,1 0,-16z" />
+
+    <!-- Gear Icon -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M12,9a3,3 0 1,1 0,6a3,3 0 0,1 0,-6M12,2l1,2.5a7,7 0 0,1 2.5,1l2.5,-1l1,2l-2.5,2a7,7 0 0,1 0,3l2.5,2l-1,2l-2.5,-1a7,7 0 0,1 -2.5,1l-1,2.5h-2l-1,-2.5a7,7 0 0,1 -2.5,-1l-2.5,1l-1,-2l2.5,-2a7,7 0 0,1 0,-3l-2.5,-2l1,-2l2.5,1a7,7 0 0,1 2.5,-1l1,-2.5h2z" />
+
+</vector>
