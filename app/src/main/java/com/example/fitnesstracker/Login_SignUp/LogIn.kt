@@ -14,6 +14,7 @@ import com.example.fitnesstracker.setup_pages.getNextActivity
 import com.example.fitnesstracker.setup_pages.getUserId
 import com.example.fitnesstracker.setup_pages.nav
 import com.example.fitnesstracker.setup_pages.saveLoginState
+import com.example.fitnesstracker.setup_pages.updateUserField
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -61,6 +62,8 @@ class LogIn : AppCompatActivity() {
                                         .get()
                                         .addOnSuccessListener { document ->
                                             Log.d("LoginTest", "Firestore Data: ${document.data}")
+                                          updateUserField("loggedIn" , true , document.toString())
+
                                             val data =
                                                 document.toObject(SharedPrefHelper.User::class.java)
                                                     ?: SharedPrefHelper.User()

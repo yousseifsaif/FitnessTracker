@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.fitnesstracker.NavigationApp.FragmentProfile
 import com.example.fitnesstracker.NavigationApp.HomeFragment
 import com.example.fitnesstracker.NavigationApp.MealsFragment
 import com.example.fitnesstracker.NavigationApp.WorkoutsFragment
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.workouts -> replaceFragment(WorkoutsFragment())
                 R.id.meals -> replaceFragment(MealsFragment())
 
-                R.id.profile -> replaceFragment(ProfileFragment())
+                R.id.profile -> replaceFragment(FragmentProfile())
                 else -> false
             }
             true

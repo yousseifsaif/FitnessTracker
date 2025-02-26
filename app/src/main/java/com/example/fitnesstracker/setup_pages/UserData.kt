@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.MainActivity
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.firestore
 
 
@@ -151,7 +150,9 @@ fun saveLoginState(context: Context, isLoggedIn: Boolean) {
 }
 
 
+
 class SharedPrefHelper(context: Context) {
+
     val prefs: SharedPreferences =
         context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
 
@@ -170,8 +171,10 @@ class SharedPrefHelper(context: Context) {
         val ActivityLevel: String = "",
         val isLoggedIn: Boolean = false
     )
+
     fun getUserFromPrefs(): User {
         val id = prefs.getString("id", "")
+
         Log.d("SharedPrefHelper", "Retrieved ID: $id")
 
         if (id.isNullOrEmpty()) {
@@ -196,7 +199,6 @@ class SharedPrefHelper(context: Context) {
         )
     }
 
-
     fun saveUserToPrefs(user: User) {
         prefs.edit().apply {
             putString("name", user.name)
@@ -216,6 +218,7 @@ class SharedPrefHelper(context: Context) {
         }
     }
 }
+
 
 fun calculateCal(data: SharedPrefHelper.User): Double {
     var weight: Double;
