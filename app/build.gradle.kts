@@ -72,5 +72,6 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation (libs.material.v1100)
 
 }

@@ -2,8 +2,7 @@ package com.example.fitnesstracker
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.fitnesstracker.NavigationApp.FragmentProfile
@@ -14,27 +13,27 @@ import com.example.fitnesstracker.ToolBarIcons.NotificationFragment
 import com.example.fitnesstracker.ToolBarIcons.SearchFragment
 import com.example.fitnesstracker.databinding.ActivityMainBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
-import com.example.fitnesstracker.setup_pages.saveLoginState
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var database: DatabaseReference
-    private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         getUserName()
+
         if (savedInstanceState == null) {
             replaceFragment(HomeFragment())
         }
+
         binding.ivSearch.setOnClickListener {
             replaceFragment(SearchFragment())
         }
@@ -42,14 +41,11 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(NotificationFragment())
         }
 
-
-
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> replaceFragment(HomeFragment())
                 R.id.workouts -> replaceFragment(WorkoutsFragment())
                 R.id.meals -> replaceFragment(MealsFragment())
-
                 R.id.profile -> replaceFragment(FragmentProfile())
                 else -> false
             }
@@ -62,8 +58,20 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
-    }
 
+        if (fragment is FragmentProfile) {
+            binding.tvGreeting.visibility = View.GONE
+            binding.ivSearch.visibility = View.GONE
+            binding.ivNotifications.visibility = View.GONE
+            binding.tvSubtext.visibility=View.GONE
+        } else {
+            binding.tvGreeting.visibility = View.VISIBLE
+            binding.ivSearch.visibility = View.VISIBLE
+            binding.ivNotifications.visibility = View.VISIBLE
+            binding.tvSubtext.visibility=View.VISIBLE
+
+        }
+    }
 
     private fun getUserName() {
         val sharedPrefHelper = SharedPrefHelper(this)
@@ -78,9 +86,6 @@ class MainActivity : AppCompatActivity() {
                 binding.tvGreeting.text = "Hi, ${localUser.name}"
             } else {
                 Log.e("MainActivity", "not found")
-                binding.tvGreeting.text = "Hi, User!"  //
-            }
-        }
+                binding.tvGreeting.text = "Hi, User!"
     }
-    }
-
+}}}

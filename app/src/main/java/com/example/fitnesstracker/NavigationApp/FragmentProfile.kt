@@ -1,16 +1,25 @@
 package com.example.fitnesstracker.NavigationApp
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.fitnesstracker.Login_SignUp.LogIn
+import com.example.fitnesstracker.R
+import com.example.fitnesstracker.databinding.DialogLogoutBinding
 import com.example.fitnesstracker.databinding.FragmentProfileBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.viewmodel.UserViewModel  // ✅ FIXED IMPORT
+import com.google.firebase.auth.FirebaseAuth
 
 class FragmentProfile : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -25,6 +34,7 @@ class FragmentProfile : Fragment() {
 
         val sharedPref = SharedPrefHelper(requireContext())
         val userData = sharedPref.getUserFromPrefs()
+
 
         if (userData == null) {
             Log.e("FragmentProfile", "User data is null!")
@@ -41,9 +51,12 @@ class FragmentProfile : Fragment() {
             binding.tvHeight.text = updatedUser.height?.toString() ?: "N/A"
             binding.tvWeight.text = updatedUser.weight?.toString() ?: "N/A"
         }
+binding.btnLogout.setOnClickListener {
+showCustomDialog()
 
+}
         // Button Click Listener
-        binding.btnPrfoile.setOnClickListener {
+        binding.btnProfile.setOnClickListener {
             val intent = Intent(requireContext(), EditProfile::class.java)
             startActivity(intent)
         }
@@ -51,8 +64,40 @@ class FragmentProfile : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null  // ✅ Prevent memory leaks
+    fun showCustomDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_logout, null)
+        val dialogBinding = DialogLogoutBinding.bind(dialogView) // ✅ استخدم الـ Binding الصحيح
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false) // Prevent dismiss on outside touch
+            .create()
+        dialog.setContentView(dialogView)
+        dialogBinding.btnYes.setOnClickListener {
+            logoutUser(requireContext())
+            Toast.makeText(requireContext(), "User Logged out!", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 🔥 إزالة الخلفية الافتراضية
+        dialog.show()
     }
+
+    private fun logoutUser(context: Context) {
+        val sharedPref = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        sharedPref.edit().clear().commit() // 🔥 حذف جميع البيانات فورًا
+
+        FirebaseAuth.getInstance().signOut()
+
+        val intent = Intent(context, LogIn::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
+
+        android.os.Process.killProcess(android.os.Process.myPid())
+    }
+
 }

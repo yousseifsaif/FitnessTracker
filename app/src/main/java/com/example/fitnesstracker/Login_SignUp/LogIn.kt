@@ -1,5 +1,6 @@
 package com.example.fitnesstracker.Login_SignUp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
+import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.databinding.ActivityLogBinding
 import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
@@ -28,6 +30,19 @@ class LogIn : AppCompatActivity() {
         val binding = ActivityLogBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val isLoggedIn = sharedPref.getBoolean("isLoggedIn", false)
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        Log.d("LoginCheck", "Firebase currentUser: $currentUser, isLoggedIn: $isLoggedIn")
+
+        if (isLoggedIn && currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            FirebaseAuth.getInstance().signOut()
+            saveLoginState(false)
+        }
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
@@ -49,6 +64,7 @@ class LogIn : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
+                        saveLoginState(this, true)
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
                             Log.d("logina12", "if-2")
@@ -74,7 +90,6 @@ class LogIn : AppCompatActivity() {
                                                 SharedPrefHelper(this).saveUserToPrefs(data)
                                                 val nextActivity = getNextActivity(data)
                                                 if (nextActivity != null) {
-                                                    Log.d("logina12", "if3")
 
                                                     startActivity(
                                                         nav(
@@ -118,4 +133,12 @@ class LogIn : AppCompatActivity() {
             }
         }
     }
+
+
+    private fun saveLoginState(isLoggedIn: Boolean) {
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        sharedPref.edit().putBoolean("isLoggedIn", isLoggedIn).commit() // 🔥 تحديث فوري
+    }
+
+
 }
