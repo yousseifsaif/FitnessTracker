@@ -343,9 +343,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Update Profile"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
-                android:backgroundTint="@color/yellow"
+android:background="@drawable/btn_profile"
 
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
