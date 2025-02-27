@@ -1,14 +1,24 @@
 package com.example.fitnesstracker
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.SystemClock
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.fitnesstracker.NavigationApp.FragmentProfile
 import com.example.fitnesstracker.NavigationApp.HomeFragment
 import com.example.fitnesstracker.NavigationApp.MealsFragment
 import com.example.fitnesstracker.NavigationApp.WorkoutsFragment
+import com.example.fitnesstracker.ToolBarIcons.BreakTimerDialog
 import com.example.fitnesstracker.ToolBarIcons.NotificationFragment
 import com.example.fitnesstracker.ToolBarIcons.SearchFragment
 import com.example.fitnesstracker.databinding.ActivityMainBinding
@@ -16,15 +26,19 @@ import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var sharedPreferences: SharedPreferences
+    private var countDownTimer: CountDownTimer? = null
+    private var remainingTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedPreferences = getSharedPreferences("TimerPrefs", Context.MODE_PRIVATE)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -32,6 +46,17 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             replaceFragment(HomeFragment())
+        }
+
+        val endTime = sharedPreferences.getLong("TIMER_END_TIME", 0)
+        if (endTime > SystemClock.elapsedRealtime()) {
+            remainingTime = endTime - SystemClock.elapsedRealtime()
+            startBreakTimer(remainingTime)
+        }
+
+        binding.ivTimer.setOnClickListener {
+            val dialog = BreakTimerDialog(this)
+            dialog.show(supportFragmentManager, "BreakTimerDialog")
         }
 
         binding.ivSearch.setOnClickListener {
@@ -59,33 +84,62 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
 
-        if (fragment is FragmentProfile) {
-            binding.tvGreeting.visibility = View.GONE
-            binding.ivSearch.visibility = View.GONE
-            binding.ivNotifications.visibility = View.GONE
-            binding.tvSubtext.visibility=View.GONE
-        } else {
-            binding.tvGreeting.visibility = View.VISIBLE
-            binding.ivSearch.visibility = View.VISIBLE
-            binding.ivNotifications.visibility = View.VISIBLE
-            binding.tvSubtext.visibility=View.VISIBLE
-
+        val isProfileFragment = fragment is FragmentProfile
+        binding.apply {
+            tvGreeting.visibility = if (isProfileFragment) View.GONE else View.VISIBLE
+            ivSearch.visibility = if (isProfileFragment) View.GONE else View.VISIBLE
+            ivNotifications.visibility = if (isProfileFragment) View.GONE else View.VISIBLE
+            tvSubtext.visibility = if (isProfileFragment) View.GONE else View.VISIBLE
+            ivTimer.visibility = if (isProfileFragment) View.GONE else View.VISIBLE
+            tvTimerMain.visibility = if (isProfileFragment) View.GONE else View.VISIBLE
         }
     }
 
     private fun getUserName() {
         val sharedPrefHelper = SharedPrefHelper(this)
         val user = sharedPrefHelper.getUserFromPrefs()
-        if (user.name.isNotEmpty()) {
-            binding.tvGreeting.text = user.name
-            binding.tvGreeting.text = "Hi, ${user.name}"
+        binding.tvGreeting.text = if (user.name.isNotEmpty()) {
+            "Hi, ${user.name}"
         } else {
-            val sharedPrefHelper = SharedPrefHelper(this)
-            val localUser = sharedPrefHelper.getUserFromPrefs()
-            if (localUser.name.isNotEmpty()) {
-                binding.tvGreeting.text = "Hi, ${localUser.name}"
-            } else {
-                Log.e("MainActivity", "not found")
-                binding.tvGreeting.text = "Hi, User!"
+            Log.e("MainActivity", "not found")
+            "Hi, User!"
+        }
     }
-}}}
+
+    override fun onStartTimer(totalTime: Long) {
+        startBreakTimer(totalTime)
+    }
+
+    private fun startBreakTimer(totalTime: Long) {
+        binding.tvTimerMain.visibility = View.VISIBLE
+        val endTime = SystemClock.elapsedRealtime() + totalTime
+        sharedPreferences.edit().putLong("TIMER_END_TIME", endTime).apply()
+        countDownTimer?.cancel()
+
+        countDownTimer = object : CountDownTimer(totalTime, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val minutes = (millisUntilFinished / 1000) / 60
+                val seconds = (millisUntilFinished / 1000) % 60
+                binding.tvTimerMain.text = String.format("%02d:%02d", minutes, seconds)
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onFinish() {
+                binding.tvTimerMain.text = "00:00"
+                binding.tvTimerMain.visibility = View.GONE
+
+                val vibrator = getSystemService(Vibrator::class.java)
+                vibrator?.vibrate(
+                    VibrationEffect.createOneShot(
+                        500,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
+
+                val mediaPlayer = MediaPlayer.create(this@MainActivity, R.raw.alamsound)
+                mediaPlayer.start()
+                sharedPreferences.edit().remove("TIMER_END_TIME").apply()
+            }
+        }.start()
+    }
+}

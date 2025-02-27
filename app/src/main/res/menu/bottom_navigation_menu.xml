@@ -21,7 +21,7 @@
         />
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/person_svg"
+        android:icon="@drawable/user"
         android:title=""
         android:iconTint="@color/black"
         />
