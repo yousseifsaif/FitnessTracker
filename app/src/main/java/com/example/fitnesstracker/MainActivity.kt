@@ -136,6 +136,7 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
                     )
                 )
 
+
                 val mediaPlayer = MediaPlayer.create(this@MainActivity, R.raw.alamsound)
                 mediaPlayer.start()
                 sharedPreferences.edit().remove("TIMER_END_TIME").apply()
