@@ -1,4 +1,3 @@
-import kotlin.script.experimental.jvm.util.KotlinJars.stdlib
 
 plugins {
     alias(libs.plugins.android.application)
@@ -73,5 +72,6 @@ dependencies {
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation (libs.material.v1100)
+    implementation ("com.facebook.android:facebook-login:latest.release")
 
 }

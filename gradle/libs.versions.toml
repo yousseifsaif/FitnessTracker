@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.0"
+facebookLogin = "latest_version"
 googleMaterial = "1.10.0"
 kotlin = "1.9.24"
 coreKtx = "1.15.0"
@@ -20,9 +21,11 @@ firebaseAuthKtx = "23.1.0"
 firebaseFirestoreKtx = "25.1.1"
 firebaseAuth = "23.1.0"
 media3CommonKtx = "1.5.1"
+biometricKtx = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -41,6 +44,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 material-v1100 = { module = "com.google.android.material:material", version.ref = "googleMaterial" }
 material-v190 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
+androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometricKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

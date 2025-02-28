@@ -28,4 +28,8 @@
     <string name="already_have_account">Already have an account? <font color="#E1EF63">Log in</font></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string>
+    <string name="facebook_app_id">1320151189071003</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">5baa267d0422becd636b33c4cefa4071</string>
 </resources>

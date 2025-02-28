@@ -19,7 +19,10 @@ import com.example.fitnesstracker.databinding.DialogLogoutBinding
 import com.example.fitnesstracker.databinding.FragmentProfileBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.viewmodel.UserViewModel  // ✅ FIXED IMPORT
+import com.google.common.reflect.TypeToken
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 
 class FragmentProfile : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -31,7 +34,6 @@ class FragmentProfile : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-
         val sharedPref = SharedPrefHelper(requireContext())
         val userData = sharedPref.getUserFromPrefs()
 
@@ -89,15 +91,13 @@ showCustomDialog()
 
     private fun logoutUser(context: Context) {
         val sharedPref = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        sharedPref.edit().clear().commit() // 🔥 حذف جميع البيانات فورًا
+        sharedPref.edit().clear().apply()  // 🔥 استخدم `apply()` بدلاً من `commit()` لتحسين الأداء
 
         FirebaseAuth.getInstance().signOut()
 
         val intent = Intent(context, LogIn::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
-
-        android.os.Process.killProcess(android.os.Process.myPid())
     }
 
 }
