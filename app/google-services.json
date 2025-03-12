@@ -1,18 +1,24 @@
 {
   "project_info": {
     "project_number": "1071009288473",
+    "firebase_url": "https://fit-body-f792c-default-rtdb.firebaseio.com",
     "project_id": "fit-body-f792c",
     "storage_bucket": "fit-body-f792c.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1071009288473:android:ff7b9c5744c914117cb588",
+        "mobilesdk_app_id": "1:1071009288473:android:fce8a60a3ef305bf7cb588",
         "android_client_info": {
-          "package_name": "com.example.fitnesstracker"
+          "package_name": "com.example.add"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1071009288473-jav3rsuur5foc0akimcotmagbfk6qpv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDnqWJnDyp7nGgVRjiab_vKTJaz4AckADE"
@@ -20,7 +26,70 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071009288473-jav3rsuur5foc0akimcotmagbfk6qpv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071009288473:android:26b8e53e826fe3227cb588",
+        "android_client_info": {
+          "package_name": "com.example.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071009288473-jav3rsuur5foc0akimcotmagbfk6qpv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnqWJnDyp7nGgVRjiab_vKTJaz4AckADE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071009288473-jav3rsuur5foc0akimcotmagbfk6qpv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071009288473:android:ff7b9c5744c914117cb588",
+        "android_client_info": {
+          "package_name": "com.example.fitnesstracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071009288473-jav3rsuur5foc0akimcotmagbfk6qpv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnqWJnDyp7nGgVRjiab_vKTJaz4AckADE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071009288473-jav3rsuur5foc0akimcotmagbfk6qpv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

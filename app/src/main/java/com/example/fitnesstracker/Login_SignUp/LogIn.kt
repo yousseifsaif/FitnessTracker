@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
 import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.R
-import com.example.fitnesstracker.databinding.ActivityLogBinding
+
 import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.setup_pages.getNextActivity
@@ -29,6 +29,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.example.fitnesstracker.databinding.LoginBinding
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.facebook.CallbackManager
@@ -49,7 +50,7 @@ class LogIn : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val binding = ActivityLogBinding.inflate(layoutInflater)
+        val binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)

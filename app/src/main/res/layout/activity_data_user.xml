@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/backgroundColor">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Personal Information"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:paddingBottom="12dp" />
+
+    <!-- Gender & Age Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tv_gender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Gender"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/custom_spinner_background"
+            android:gravity="center"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Age"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/custom_spinner_background"
+            android:gravity="center"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <!-- Height -->
+    <TextView
+        android:id="@+id/tv_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Height"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_spinner_background"
+        android:gravity="center"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Weight -->
+    <TextView
+        android:id="@+id/tv_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Weight"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_spinner_background"
+        android:gravity="center"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Activity Level -->
+    <TextView
+        android:id="@+id/tv_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Activity Level"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_spinner_background"
+        android:gravity="center"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Goal -->
+    <TextView
+        android:id="@+id/tv_goal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Goal"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/custom_spinner_background"
+        android:gravity="center"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Confirm Button -->
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:textSize="16sp"
+        android:background="@drawable/button"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:gravity="center" />
+</LinearLayout>
