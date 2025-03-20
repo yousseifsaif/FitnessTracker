@@ -45,7 +45,7 @@ class LogIn : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
             Log.d("LoginTest", "Email: $email")
-
+//hdhdughiud
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
