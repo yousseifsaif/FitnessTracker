@@ -64,14 +64,12 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     implementation (libs.material.v190)
-    implementation(libs.kotlin.stdlib)
     implementation ("androidx.navigation:navigation-fragment:2.8.8")
     implementation ("com.google.code.gson:gson:2.12.1")
     implementation ("com.google.android.material:material:1.12.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.google.android.gms:play-services-auth:21.3.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-    implementation (libs.material.v1100)
     implementation ("com.facebook.android:facebook-login:18.0.2")
 
 }
