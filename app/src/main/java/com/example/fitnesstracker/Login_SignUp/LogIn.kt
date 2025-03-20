@@ -30,11 +30,11 @@ class LogIn : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-//
-//        binding.loginButton.setOnClickListener {
-//            val intent = Intent(this, ForgottenPassword::class.java)
-//            startActivity(intent)
-//        }
+
+        binding.forgetPassword.setOnClickListener {
+            val intent = Intent(this, ForgottenPassword::class.java)
+            startActivity(intent)
+        }
 
         binding.forgetPassword.setOnClickListener {
             val intent = Intent(this, SignUp::class.java)
