@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
-import com.example.fitnesstracker.databinding.ActivityLogBinding
+import com.example.fitnesstracker.databinding.LoginBinding
 import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.setup_pages.getNextActivity
@@ -25,7 +25,7 @@ class LogIn : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val binding = ActivityLogBinding.inflate(layoutInflater)
+        val binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
