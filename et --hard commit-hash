@@ -1,0 +1,28 @@
+[33ma958b8d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAbdoBranch[m[33m, [m[1;31morigin/AbdoBranch[m[33m)[m HEAD@{0}: reset: moving to ORIG_HEAD
+[33mbf1e035[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{1}: checkout: moving from master to AbdoBranch
+[33mbf1e035[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{2}: checkout: moving from AbdoBranch to master
+[33mbf1e035[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{3}: rebase (finish): returning to refs/heads/AbdoBranch
+[33mbf1e035[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{4}: rebase (start): checkout refs/heads/master
+[33ma958b8d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAbdoBranch[m[33m, [m[1;31morigin/AbdoBranch[m[33m)[m HEAD@{5}: checkout: moving from master to AbdoBranch
+[33mbf1e035[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{6}: checkout: moving from AbdoBranch to master
+[33ma958b8d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAbdoBranch[m[33m, [m[1;31morigin/AbdoBranch[m[33m)[m HEAD@{7}: checkout: moving from master to AbdoBranch
+[33mbf1e035[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{8}: commit: .
+[33m04af562[m HEAD@{9}: commit: .
+[33mfb2b126[m HEAD@{10}: merge AbdoBranch: Merge made by the 'ort' strategy.
+[33mba9062e[m HEAD@{11}: checkout: moving from AbdoBranch to master
+[33ma958b8d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAbdoBranch[m[33m, [m[1;31morigin/AbdoBranch[m[33m)[m HEAD@{12}: checkout: moving from master to AbdoBranch
+[33mba9062e[m HEAD@{13}: checkout: moving from AbdoBranch to master
+[33ma958b8d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAbdoBranch[m[33m, [m[1;31morigin/AbdoBranch[m[33m)[m HEAD@{14}: commit: .
+[33m8375753[m HEAD@{15}: checkout: moving from master to AbdoBranch
+[33mba9062e[m HEAD@{16}: checkout: moving from AbdoBranch to master
+[33m8375753[m HEAD@{17}: checkout: moving from master to AbdoBranch
+[33mba9062e[m HEAD@{18}: commit (merge): Merge branch 'AbdoBranch'
+[33mde45336[m HEAD@{19}: checkout: moving from AbdoBranch to master
+[33m8375753[m HEAD@{20}: commit: .
+[33md808e6e[m HEAD@{21}: checkout: moving from yousseif_branch to AbdoBranch
+[33mde45336[m HEAD@{22}: checkout: moving from master to yousseif_branch
+[33mde45336[m HEAD@{23}: merge origin/Y: Merge made by the 'ort' strategy.
+[33m16fca40[m HEAD@{24}: checkout: moving from yousseifBranch to master
+[33m16fca40[m HEAD@{25}: checkout: moving from master to yousseifBranch
+[33m16fca40[m HEAD@{26}: commit: .
+[33m84c44e0[m HEAD@{27}: clone: from https://github.com/yousseifsaif/FitnessTracker.git
