@@ -52,6 +52,7 @@ class LogIn : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
                             Log.d("logina12", "if-2")
+                            Log.d("logina12", "if-2")
 
                             getUserId(email) { doc ->
                                 if (doc.isNotEmpty()) {
