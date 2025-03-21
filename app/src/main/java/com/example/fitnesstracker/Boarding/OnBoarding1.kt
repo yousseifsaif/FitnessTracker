@@ -4,9 +4,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fitnesstracker.Login_SignUp.LogIn
+import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
@@ -19,6 +22,14 @@ class OnBoarding1 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_on_boarding_1)
+
+
+
+
+
+
+
+
         Handler().postDelayed({
 
             val sharedPreferences: SharedPreferences =

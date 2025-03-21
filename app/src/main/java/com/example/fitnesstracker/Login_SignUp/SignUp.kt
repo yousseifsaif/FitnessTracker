@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlin.jvm.java
 
 class SignUp : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -33,8 +34,8 @@ class SignUp : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Users")
 
-        binding.signupButton.setOnClickListener {
-            val intenttext = Intent(this, SignUp::class.java)
+        binding.text.setOnClickListener {
+            val intenttext = Intent(this, LogIn::class.java)
             startActivity(intenttext)
         }
 
@@ -93,20 +94,26 @@ class SignUp : AppCompatActivity() {
                     else -> Show_Toast(this, "The email must be @gmail.com")
                 }
 
-                    }
-                }
+            }
+        }
 
-         }
+    }
+
     fun sendVerificationEmail() {
-        val user = auth.currentUser
-        user?.sendEmailVerification()?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(this, "Verification email sent! Please check your email.", Toast.LENGTH_LONG).show()
+        var user = auth.currentUser
 
-                // Redirect to login screen after sign-up
-                startActivity(Intent(this, LogIn::class.java))
-                finish()
-            } else {
-                Toast.makeText(this, "Failed to send verification email: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-            }}}
+        user!!.sendEmailVerification()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        this,
+                        "Verification link has been sent to your email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    startActivity(Intent(this, LogIn::class.java))
+
+                }
+            }
+    }
 }

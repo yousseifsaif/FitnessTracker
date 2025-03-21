@@ -2,6 +2,7 @@ package com.example.fitnesstracker.NavigationApp
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -90,14 +91,17 @@ showCustomDialog()
     }
 
     private fun logoutUser(context: Context) {
-        val sharedPref = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val sharedPref = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         sharedPref.edit().clear().apply()  // 🔥 استخدم `apply()` بدلاً من `commit()` لتحسين الأداء
 
-        FirebaseAuth.getInstance().signOut()
+//        FirebaseAuth.getInstance().signOut()
 
-        val intent = Intent(context, LogIn::class.java)
+        val intent = Intent(requireActivity(), LogIn::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        context.startActivity(intent)
+    startActivity(intent)
+        requireActivity().finish()
     }
+
+
 
 }

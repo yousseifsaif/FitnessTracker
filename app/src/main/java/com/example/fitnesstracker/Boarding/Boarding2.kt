@@ -15,6 +15,8 @@ class Boarding2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+
+
         binding = ActivityBoarding2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 

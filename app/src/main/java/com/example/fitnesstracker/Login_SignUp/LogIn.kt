@@ -7,116 +7,118 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
+import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.databinding.LoginBinding
-import com.example.fitnesstracker.setup_pages.NavData
-import com.example.fitnesstracker.setup_pages.SharedPrefHelper
-import com.example.fitnesstracker.setup_pages.getNextActivity
-import com.example.fitnesstracker.setup_pages.getUserId
-import com.example.fitnesstracker.setup_pages.nav
-import com.example.fitnesstracker.setup_pages.saveLoginState
-import com.example.fitnesstracker.setup_pages.updateUserField
+import com.example.fitnesstracker.setup_pages.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LogIn : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var binding: LoginBinding  // استخدام نفس المتغير في كل مكان
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val binding = LoginBinding.inflate(layoutInflater)
+        binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
+        // زر نسيان كلمة المرور
         binding.forgetPassword.setOnClickListener {
-            val intent = Intent(this, ForgottenPassword::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ForgottenPassword::class.java))
         }
 
-        binding.forgetPassword.setOnClickListener {
-            val intent = Intent(this, SignUp::class.java)
-            startActivity(intent)
+        // زر الانتقال إلى شاشة التسجيل
+        binding.signupText.setOnClickListener {
+            startActivity(Intent(this, SignUp::class.java))
         }
 
+        // زر تسجيل الدخول
         binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
-            Log.d("LoginTest", "Email: $email")
-//hdhdughiud
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
-                            Log.d("logina12", "if-2")
-                            Log.d("logina12", "if-2")
+            validationLogin()
+        }
+    }
 
-                            getUserId(email) { doc ->
-                                if (doc.isNotEmpty()) {
-                                    Log.d("logina12", "if-1")
+    private fun validationLogin() {
+        val email = binding.emailEditText.text.toString().trim()
+        val password = binding.passwordEditText.text.toString().trim()
 
-                                    Log.d("LoginTest", "User ID: $doc")
-                                    db.collection("users").document(doc)
-                                        .get()
-                                        .addOnSuccessListener { document ->
-                                            Log.d("LoginTest", "Firestore Data: ${document.data}")
-                                          updateUserField("loggedIn" , true , document.toString())
+        if (email.isEmpty()) {
+            binding.emailEditText.error = "Please enter your email"
+        }
 
-                                            val data =
-                                                document.toObject(SharedPrefHelper.User::class.java)
-                                                    ?: SharedPrefHelper.User()
-                                            Log.d("LoginTest", data.toString())
-                                            if (data != null) {
-                                                Log.d("logina12", "if2")
+        if (password.isEmpty()) {
+            binding.passwordEditText.error = "Please enter your password"
+        }
 
-                                                SharedPrefHelper(this).saveUserToPrefs(data)
-                                                val nextActivity = getNextActivity(data)
-                                                if (nextActivity != null) {
-                                                    Log.d("logina12", "if3")
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            login(email, password)
+        }
+    }
 
-                                                    startActivity(
-                                                        nav(
-                                                            NavData(
-                                                                getNextActivity(data),
-                                                                this,
-                                                                data.id
-                                                            )
-                                                        )
+    private fun login(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    if (user != null && user.isEmailVerified) {
+                        getUserId(email) { doc ->
+                            if (doc.isNotEmpty()) {
+                                db.collection("users").document(doc)
+                                    .get()
+                                    .addOnSuccessListener { document ->
+                                        val userData = document.toObject(SharedPrefHelper.User::class.java) ?: SharedPrefHelper.User()
+                                        Log.d("LoginTest", userData.toString())
+
+                                        SharedPrefHelper(this).saveUserToPrefs(userData)
+
+                                        val nextActivity = getNextActivity(userData)
+                                        if (nextActivity != null) {
+                                            startActivity(
+                                                nav(
+                                                    NavData(
+                                                        nextActivity,
+                                                        this,
+                                                        userData.id
                                                     )
-
-                                                    saveLoginState(this, true)
-                                                    finish()
-                                                } else {
-                                                    Log.e(
-                                                        "LoginTest",
-                                                        "Error: Next activity is null!"
-                                                    )
-                                                }
+                                                )
+                                            )
+                                            saveLoginState(this, true)
+                                            finish()
+                                        } else {
+                                            Log.e("LoginTest", "Error: Next activity is null!")
+                                            runOnUiThread {
+                                                Toast.makeText(this, "Error: Could not determine next screen", Toast.LENGTH_SHORT).show()
                                             }
                                         }
-                                        .addOnFailureListener { e ->
-                                            Log.e("fireStore", "Error fetching user data", e)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.e("fireStore", "Error fetching user data", e)
+                                        runOnUiThread {
+                                            Toast.makeText(this, "Error fetching user data", Toast.LENGTH_SHORT).show()
                                         }
-                                } else {
-                                    Log.e("fireStore", "Error: User ID is empty!")
+                                    }
+                            } else {
+                                Log.e("fireStore", "Error: User ID is empty!")
+                                runOnUiThread {
+                                    Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show()
                                 }
                             }
-                        } else {
-                            Log.d("logina12", "if6")
-
-                            Toast.makeText(
-                                this,
-                                "Login Failed: ${task.exception?.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        }
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
                         }
                     }
-            } else {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(this, "Invalid email or password!", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
-        }
     }
 }
