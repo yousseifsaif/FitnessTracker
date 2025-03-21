@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class LogIn : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var binding: LoginBinding  // استخدام نفس المتغير في كل مكان
+    private lateinit var binding: LoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +27,14 @@ class LogIn : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        // زر نسيان كلمة المرور
         binding.forgetPassword.setOnClickListener {
             startActivity(Intent(this, ForgottenPassword::class.java))
         }
 
-        // زر الانتقال إلى شاشة التسجيل
         binding.signupText.setOnClickListener {
             startActivity(Intent(this, SignUp::class.java))
         }
 
-        // زر تسجيل الدخول
         binding.loginButton.setOnClickListener {
             validationLogin()
         }
