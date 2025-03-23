@@ -17,6 +17,9 @@
         android:theme="@style/Theme.FitnessTracker"
         tools:targetApi="31">
         <activity
+            android:name=".NavigationApp.ProfileFields.PrivacyPolicy"
+            android:exported="false" />
+        <activity
             android:name=".setup_pages.DataUser"
             android:exported="false" />
 
@@ -85,7 +88,7 @@
             android:name=".Boarding.Boarding2"
             android:exported="false" />
         <activity
-            android:name=".NavigationApp.EditProfile"
+            android:name=".NavigationApp.ProfileFields.EditProfile"
             android:exported="false"
             tools:ignore="MissingClass" />
         <activity
