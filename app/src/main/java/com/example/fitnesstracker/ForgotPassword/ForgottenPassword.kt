@@ -39,8 +39,8 @@ class ForgottenPassword : AppCompatActivity() {
 
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Link Send Success!", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, LogIn::class.java))
-                        finish()
+//                    startActivity(Intent(this, LogIn::class.java))
+//                        finish()
 
 
                 } else {

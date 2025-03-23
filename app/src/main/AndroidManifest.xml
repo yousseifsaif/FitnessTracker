@@ -17,6 +17,12 @@
         android:theme="@style/Theme.FitnessTracker"
         tools:targetApi="31">
         <activity
+            android:name=".NavigationApp.ProfileFields.HelpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NavigationApp.ProfileFields.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".NavigationApp.ProfileFields.PrivacyPolicy"
             android:exported="false" />
         <activity

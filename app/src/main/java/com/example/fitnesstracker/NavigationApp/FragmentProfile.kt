@@ -16,7 +16,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.fitnesstracker.Login_SignUp.LogIn
 import com.example.fitnesstracker.NavigationApp.ProfileFields.EditProfile
+import com.example.fitnesstracker.NavigationApp.ProfileFields.HelpActivity
 import com.example.fitnesstracker.NavigationApp.ProfileFields.PrivacyPolicy
+import com.example.fitnesstracker.NavigationApp.ProfileFields.SettingsActivity
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.DialogLogoutBinding
 import com.example.fitnesstracker.databinding.FragmentProfileBinding
@@ -71,6 +73,14 @@ showCustomDialog()
             val intent = Intent(requireContext(), PrivacyPolicy::class.java)
             startActivity(intent)
 
+        }
+        binding.btnSettings.setOnClickListener {
+            val intent = Intent(requireContext(), SettingsActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnHelp.setOnClickListener {
+            val intent = Intent(requireContext(), HelpActivity::class.java)
+            startActivity(intent)
         }
 
         return binding.root
