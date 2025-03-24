@@ -24,7 +24,7 @@ class CategoryAdapter(
             categoryName.text = category.name.uppercase()
             categoryImage.setImageResource(category.imageUrl)
             itemView.setOnClickListener {
-                onCategoryClick(category.name) // ✅ استدعاء الدالة عند الضغط
+                onCategoryClick(category.name)
             }
         }
     }

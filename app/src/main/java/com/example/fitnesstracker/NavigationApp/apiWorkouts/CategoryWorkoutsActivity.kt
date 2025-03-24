@@ -19,12 +19,12 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryWorkoutsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val bodyPart = intent.getStringExtra("BODY_PART") // ✅ استقبال الفئة من Intent
-        Log.d("CATEGORY_INTENT", "Received bodyPart: $bodyPart") // ✅ طباعة القيمة للتحقق
+        val bodyPart = intent.getStringExtra("BODY_PART")
+        Log.d("CATEGORY_INTENT", "Received bodyPart: $bodyPart")
         if (bodyPart.isNullOrEmpty()) {
             Log.e("CATEGORY_INTENT", "No bodyPart received! Using default value.")
             Toast.makeText(this, "No category received!", Toast.LENGTH_SHORT).show()
-            return // 🔴 الخروج لمنع حدوث خطأ عند استدعاء API
+            return
         }
 
         exerciseAdapter = ExerciseApiAdapter(ArrayList())
@@ -41,7 +41,7 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
             .build()
 
         val api = retrofit.create(ApiCallable::class.java)
-        Log.d("API_REQUEST", "Fetching exercises for bodyPart: $bodyPart") // ✅ تحقق من القيم قبل الطلب
+        Log.d("API_REQUEST", "Fetching exercises for bodyPart: $bodyPart")
 
         api.getExercises(bodyPart).enqueue(object : Callback<List<Exercise>> {
             override fun onResponse(call: Call<List<Exercise>>, response: Response<List<Exercise>>) {

@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface ApiCallable {
     @Headers(
-        "X-RapidAPI-Key: 5747619d4fmsha962e3fb43f4c2bp1f7a0djsn36bbdd3ba9c9",  // تأكد من وضع مفتاح API الصحيح هنا
+        "X-RapidAPI-Key: 5747619d4fmsha962e3fb43f4c2bp1f7a0djsn36bbdd3ba9c9",
         "X-RapidAPI-Host: exercisedb.p.rapidapi.com"
     )
     @GET("exercises/bodyPart/{bodyPart}?limit=100&offset=20")

@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#3C25A8"/>  <!-- اللون عند التحديد -->
+    <corners android:radius="20dp"/>
+    <stroke android:color="@color/black" android:width="2dp" android:dashGap="2dp"/>
+</shape>
