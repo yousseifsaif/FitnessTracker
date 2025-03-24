@@ -7,20 +7,11 @@
     android:background="@color/backgroundColor"
     android:padding="12dp"
 >
-    <Spinner
-        android:id="@+id/spinner"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/muscle_array"
-        android:layout_margin="8dp"
+        android:orientation="horizontal"/>
 
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_exercise"
-        android:layout_margin="8dp"
-        />
 
 </LinearLayout>
