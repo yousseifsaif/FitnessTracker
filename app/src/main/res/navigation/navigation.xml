@@ -36,7 +36,7 @@
         android:id="@+id/runingFragment2"
         android:name="com.example.fitnesstracker.NavigationApp.RuningFragment"
         android:label="fragment_runing"
-        tools:layout="@layout/fragment_runing" >
+        tools:layout="@layout/fragment_workout" >
         <action
             android:id="@+id/action_runingFragment2_to_comunicationFragment"
             app:destination="@id/comunicationFragment" />

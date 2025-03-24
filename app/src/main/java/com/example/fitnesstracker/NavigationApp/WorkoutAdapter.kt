@@ -39,7 +39,7 @@ class WorkoutAdapter(
         holder.tvDayName.textSize = 22f
         holder.rvExercises.apply {
             layoutManager = LinearLayoutManager(holder.itemView.context)
-            adapter = ExerciseAdapter(exercisesMap[day] ?: mutableListOf(), day, onDeleteExercise)
+//            adapter = ExerciseAdapter(exercisesMap[day] ?: mutableListOf(), day, onDeleteExercise)
         }
 
         holder.btnDeleteDay.setOnClickListener {

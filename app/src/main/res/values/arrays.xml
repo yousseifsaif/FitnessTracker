@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="muscle_array">
+        <item>All</item>
+        <item>Chest</item>
+        <item>Back</item>
+        <item>Legs</item>
+        <item>Arms</item>
+        <item>Shoulders</item>
+        <item>Abs</item>
+    </string-array>
+</resources>

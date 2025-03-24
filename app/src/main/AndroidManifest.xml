@@ -17,6 +17,9 @@
         android:theme="@style/Theme.FitnessTracker"
         tools:targetApi="31">
         <activity
+            android:name=".NavigationApp.apiWorkouts.ExerciseDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".NavigationApp.ProfileFields.HelpActivity"
             android:exported="false" />
         <activity
