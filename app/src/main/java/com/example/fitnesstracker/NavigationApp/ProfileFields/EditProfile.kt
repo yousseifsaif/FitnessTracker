@@ -1,8 +1,6 @@
-package com.example.fitnesstracker.NavigationApp
+package com.example.fitnesstracker.NavigationApp.ProfileFields
 
 import android.content.Intent
-import com.example.fitnesstracker.viewmodel.UserViewModel
-
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.databinding.ActivityEditProfileBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
+import com.example.fitnesstracker.viewmodel.UserViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 

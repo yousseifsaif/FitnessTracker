@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/backgroundColor"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/exerciseImage"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:gravity="center"
+            android:background="@drawable/btn_profile"
+            android:text="Exercise Name"
+            android:id="@+id/exerciseName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_margin="8dp" />
+
+        <TextView
+            android:text="Exercise Name"
+            android:background="@drawable/btn_profile"
+            android:id="@+id/body_part"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="8dp"
+            android:padding="12dp" />
+
+        <TextView
+            android:text="Exercise Name"
+            android:background="@drawable/btn_profile"
+            android:id="@+id/secondry_muscles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="8dp"
+            android:padding="12dp" />
+
+        <TextView
+            android:text="Exercise Name"
+            android:id="@+id/exerciseTarget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:background="@drawable/btn_profile"
+            android:layout_margin="8dp"
+            android:padding="12dp" />
+
+        <TextView
+            android:text="Exercise Name"
+            android:background="@drawable/btn_profile"
+            android:id="@+id/exerciseInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="8dp"
+            android:padding="12dp" />
+
+    </LinearLayout>
+</ScrollView>
