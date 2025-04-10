@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"> <!-- Added elevation for better visibility -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Image of the Recipe -->
+        <ImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop" /> <!-- Ensures the image scales well -->
+
+        <!-- Recipe Name -->
+        <TextView
+            android:id="@+id/recipeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recipe Name"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            />
+
+        <!-- Calories Text -->
+        <TextView
+            android:id="@+id/recipeCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calories: "
+            android:textSize="14sp"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
