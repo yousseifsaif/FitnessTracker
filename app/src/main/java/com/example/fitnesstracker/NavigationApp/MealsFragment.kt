@@ -31,7 +31,9 @@ class MealsFragment : Fragment() {
         "Drinks",
         "Healthy",
         "Gluten-Free",
-        "Low-Carb"
+        "Low-Carb",
+
+
     )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
