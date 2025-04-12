@@ -84,7 +84,20 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
+        val fab = binding.fabAddWorkout
+        val nestedScroll = binding.nestedScrollView
+
+        nestedScroll.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                fab.hide()
+            } else if (scrollY < oldScrollY) {
+                fab.show()
+            }
+        }
     }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

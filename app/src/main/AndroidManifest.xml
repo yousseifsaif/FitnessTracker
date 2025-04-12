@@ -58,6 +58,7 @@
         <activity
             android:name=".NavigationApp.HomeFragment"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             tools:ignore="Instantiatable,MissingClass" />
         <activity
             android:name=".NavigationApp.MealsFragment"
