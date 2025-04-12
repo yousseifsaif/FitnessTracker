@@ -13,10 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.DialogAddWorkoutBinding
 import com.example.fitnesstracker.databinding.FragmentHomeBinding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class HomeFragment : Fragment() {
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -24,7 +27,7 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: WorkoutAdapter
     private val daysList = mutableListOf<String>()
     private val exercisesMap = mutableMapOf<String, MutableList<String>>()
-
+    private lateinit var db: FirebaseFirestore  // إنشاء متغير FirebaseFirestore
     private val allExercises = listOf(
         "Push-Up", "Wide Push-Up", "Diamond Push-Up", "Archer Push-Up", "Pike Push-Up",
         "One-Arm Push-Up", "Bench Press", "Incline Bench Press", "Decline Bench Press",
@@ -74,6 +77,7 @@ class HomeFragment : Fragment() {
         "Silver Dollar Deadlift", "Fingal’s Fingers"
     )
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -85,27 +89,27 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferences =
-            requireContext().getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE)
+        db = FirebaseFirestore.getInstance() // تهيئة Firestore
+
+        sharedPreferences = requireContext().getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE)
         loadSavedData()
 
         adapter = WorkoutAdapter(daysList, exercisesMap, ::onDeleteDay, ::onDeleteExercise)
         binding.recyclerViewWorkouts.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewWorkouts.adapter = adapter
+
         binding.suggestionWorkout.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, WorkoutPlansFragment())
                 .addToBackStack(null)
                 .commit()
         }
+
         binding.btnAddDay.setOnClickListener { addWorkoutDay() }
         binding.fabAddWorkout.setOnClickListener { showWorkoutDialog() }
-        binding.suggestionWorkout.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, WorkoutPlansFragment())
-                .addToBackStack(null)
-                .commit()
-        }
+
+        // استرجاع البيانات من Firestore
+        fetchDataFromFirestore()
     }
 
     private fun addWorkoutDay() {
@@ -116,6 +120,7 @@ class HomeFragment : Fragment() {
             adapter.notifyDataSetChanged()
             saveData()
             binding.etWorkoutDay.text.clear()
+            saveDataToFirestore() // حفظ البيانات إلى Firestore
         } else {
             Toast.makeText(requireContext(), "Enter a valid day name", Toast.LENGTH_SHORT).show()
         }
@@ -154,12 +159,9 @@ class HomeFragment : Fragment() {
             exercisesMap[selectedDay]?.add(selectedExercise)
             adapter.notifyDataSetChanged()
             saveData()
+            saveDataToFirestore() // حفظ البيانات في Firestore
         } else {
-            Toast.makeText(
-                requireContext(),
-                "Please select a valid day and exercise",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), "Please select a valid day and exercise", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -168,12 +170,14 @@ class HomeFragment : Fragment() {
         exercisesMap.remove(day)
         adapter.notifyDataSetChanged()
         saveData()
+        saveDataToFirestore() // حفظ البيانات في Firestore
     }
 
     private fun onDeleteExercise(day: String, exercise: String) {
         exercisesMap[day]?.remove(exercise)
         adapter.notifyDataSetChanged()
         saveData()
+        saveDataToFirestore() // حفظ البيانات في Firestore
     }
 
     private fun saveData() {
@@ -197,6 +201,61 @@ class HomeFragment : Fragment() {
         exercisesMap.putAll(Gson().fromJson(exercisesJson, typeExercises))
     }
 
+    private fun saveDataToFirestore() {
+        // تحويل MutableList إلى List لتخزينها في Firestore
+        val exercisesMapForFirestore = exercisesMap.mapValues { it.value.toList() }
+
+        val workoutData = mapOf(
+            "daysList" to daysList,
+            "exercisesMap" to exercisesMapForFirestore // حفظ البيانات كمصفوفات غير قابلة للتغيير
+        )
+
+        db.collection("workouts")
+            .document("user_workout_data")
+            .set(workoutData)
+            .addOnSuccessListener {
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to save", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+    private fun fetchDataFromFirestore() {
+        db.collection("workouts")
+            .document("user_workout_data")
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val data = document.data
+                    if (data != null) {
+                        val daysListFirestore = data["daysList"] as? List<*>
+                        val exercisesMapFirestore = data["exercisesMap"] as? Map<*, *>
+
+                        if (daysListFirestore != null) {
+                            daysList.clear()
+                            exercisesMap.clear()
+
+                            // تحقق من أن الأيام هي List<String>
+                            daysList.addAll(daysListFirestore.filterIsInstance<String>())
+
+                            // تحقق من أن exercisesMap هو Map<String, List<String>>
+                            exercisesMapFirestore?.forEach { (day, exercises) ->
+                                if (day is String && exercises is List<*>) {
+                                    exercisesMap[day] = exercises.filterIsInstance<String>().toMutableList()
+                                }
+                            }
+
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     override fun onResume() {
         super.onResume()
     }
@@ -206,4 +265,3 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 }
-
