@@ -199,6 +199,8 @@ class SharedPrefHelper(context: Context) {
         )
     }
 
+
+
     fun saveUserToPrefs(user: User) {
         prefs.edit().apply {
             putString("name", user.name)
@@ -216,6 +218,18 @@ class SharedPrefHelper(context: Context) {
             putBoolean("isLoggedIn", user.isLoggedIn)
             apply()
         }
+    }
+    fun updateUserFieldPref(key: String, value: Any) {
+        val editor = prefs.edit()
+        when (value) {
+            is String -> editor.putString(key, value)
+            is Int -> editor.putInt(key, value)
+            is Boolean -> editor.putBoolean(key, value)
+            is Float -> editor.putFloat(key, value)
+            is Long -> editor.putLong(key, value)
+            else -> throw IllegalArgumentException("Unsupported value type: ${value::class.java}")
+        }
+        editor.apply()
     }
 }
 

@@ -25,9 +25,7 @@
                 android:background="#B3A0FF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-
-                >
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <ImageView
@@ -43,7 +41,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- Edit Icon -->
                 <ImageView
                     android:id="@+id/editIcon"
                     android:layout_width="30dp"
@@ -105,7 +102,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:text="Full name"
-                    android:textColor="@color/profileColor"
+                    android:textColor="@color/purple"
                     android:textSize="18sp"
                     app:layout_constraintStart_toEndOf="@id/information234"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -126,7 +123,7 @@
                     android:textStyle="normal"
                     app:layout_constraintStart_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/nameText"
-                    tools:text="dfsdfsdfsdf" />
+                />
 
                 <TextView
                     android:id="@+id/EmaiText"
@@ -134,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="Email"
-                    android:textColor="@color/profileColor"
+                    android:textColor="@color/purple"
                     android:textSize="18sp"
                     app:layout_constraintStart_toEndOf="@+id/information234"
                     app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
@@ -163,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="Weight"
-                    android:textColor="@color/profileColor"
+                    android:textColor="@color/purple"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/information234"
                     app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
@@ -192,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="Height"
-                    android:textColor="@color/profileColor"
+                    android:textColor="@color/purple"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/information234"
                     app:layout_constraintTop_toBottomOf="@+id/WeightEditText" />
@@ -220,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="Age"
-                    android:textColor="@color/profileColor"
+                    android:textColor="@color/purple"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/information234"
                     app:layout_constraintTop_toBottomOf="@+id/HeightEditText" />

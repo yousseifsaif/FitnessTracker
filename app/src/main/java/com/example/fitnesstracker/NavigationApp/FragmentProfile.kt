@@ -2,7 +2,6 @@ package com.example.fitnesstracker.NavigationApp
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -22,12 +21,10 @@ import com.example.fitnesstracker.NavigationApp.ProfileFields.SettingsActivity
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.DialogLogoutBinding
 import com.example.fitnesstracker.databinding.FragmentProfileBinding
+import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
-import com.example.fitnesstracker.viewmodel.UserViewModel  // ✅ FIXED IMPORT
-import com.google.common.reflect.TypeToken
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
+import com.example.fitnesstracker.setup_pages.nav
+import com.example.fitnesstracker.viewmodel.UserViewModel
 
 class FragmentProfile : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -35,8 +32,7 @@ class FragmentProfile : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()  // ✅ Correct ViewModel usage
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val sharedPref = SharedPrefHelper(requireContext())
@@ -52,36 +48,41 @@ class FragmentProfile : Fragment() {
 
         // Observe LiveData
         userViewModel.user.observe(viewLifecycleOwner) { updatedUser ->
-            binding.tvUserName.text = updatedUser.name ?: "N/A"
-            binding.tvAge.text = updatedUser.age?.toString() ?: "N/A"
-            binding.tvUserEmail.text = updatedUser.email ?: "N/A"
-            binding.tvHeight.text = updatedUser.height?.toString() ?: "N/A"
-            binding.tvWeight.text = updatedUser.weight?.toString() ?: "N/A"
+            binding.tvUserName.text = updatedUser.name
+            binding.tvAge.text = updatedUser.age.toString()
+            binding.tvUserEmail.text = updatedUser.email
+            binding.tvHeight.text = updatedUser.height.toString()
+            binding.tvWeight.text = updatedUser.weight.toString()
         }
-binding.btnLogout.setOnClickListener {
-showCustomDialog()
+        binding.btnLogout.setOnClickListener {
+            showCustomDialog()
 
-}
+        }
         // Button Click Listener
         binding.btnProfile.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfile::class.java)
+
+            val intent = nav(NavData(EditProfile::class.java, requireContext(), id.toString()))
+            intent.putExtra("id", id)
             startActivity(intent)
         }
 
 
         binding.btnPolicy.setOnClickListener {
-            val intent = Intent(requireContext(), PrivacyPolicy::class.java)
+            val intent = nav(NavData(PrivacyPolicy::class.java, requireContext(), id.toString()))
             startActivity(intent)
 
         }
         binding.btnSettings.setOnClickListener {
-            val intent = Intent(requireContext(), SettingsActivity::class.java)
+            val intent = nav(NavData(SettingsActivity::class.java, requireContext(), id.toString()))
             startActivity(intent)
         }
         binding.btnHelp.setOnClickListener {
-            val intent = Intent(requireContext(), HelpActivity::class.java)
+            val intent = nav(NavData(HelpActivity::class.java, requireContext(), id.toString()))
+
+
             startActivity(intent)
         }
+
 
         return binding.root
     }
@@ -90,8 +91,7 @@ showCustomDialog()
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_logout, null)
         val dialogBinding = DialogLogoutBinding.bind(dialogView) // ✅ استخدم الـ Binding الصحيح
 
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
+        val dialog = AlertDialog.Builder(requireContext()).setView(dialogView)
             .setCancelable(false) // Prevent dismiss on outside touch
             .create()
         dialog.setContentView(dialogView)
@@ -117,10 +117,9 @@ showCustomDialog()
 
         val intent = Intent(requireActivity(), LogIn::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-    startActivity(intent)
+        startActivity(intent)
         requireActivity().finish()
     }
-
 
 
 }

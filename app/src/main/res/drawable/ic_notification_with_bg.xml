@@ -1,0 +1,13 @@
+<!-- res/drawable/ic_notification_with_bg.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Circle background -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/purple" /> <!-- Your desired circle color -->
+            <size android:width="32dp" android:height="32dp" />
+        </shape>
+    </item>
+    <!-- Notification icon (centered inside the circle) -->
+    <item android:drawable="@drawable/round_notifications_24"
+        android:gravity="center" />
+</layer-list>
