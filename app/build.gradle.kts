@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id ("com.google.devtools.ksp")
 
 }
 
@@ -65,7 +66,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     implementation (libs.material.v190)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
     implementation ("androidx.navigation:navigation-fragment:2.8.6")
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("com.google.android.material:material:1.9.0")
@@ -75,6 +75,11 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.11.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.room:room-runtime:2.7.0")
+    implementation("androidx.room:room-ktx:2.7.0")
+    ksp("androidx.room:room-compiler:2.7.0")
+
+
 
 
 

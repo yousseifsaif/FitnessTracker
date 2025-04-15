@@ -27,6 +27,7 @@ class WorkoutsFragment : Fragment() {
 
     private lateinit var exerciseAdapter: ExerciseApiAdapter
     private lateinit var binding: FragmentWorkoutBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
