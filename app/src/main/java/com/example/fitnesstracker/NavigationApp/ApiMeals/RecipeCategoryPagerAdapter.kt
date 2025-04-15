@@ -9,7 +9,6 @@ class RecipeCategoryPagerAdapter(fragment: Fragment, private val categories: Lis
     override fun getItemCount(): Int = categories.size
 
     override fun createFragment(position: Int): Fragment {
-        // تمرير اسم التصنيف إلى الـ Fragment المناسب
         return RecipeCategoryFragment.newInstance(categories[position])
     }
 }

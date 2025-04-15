@@ -19,7 +19,6 @@ class RecipeAdapter(private val recipes: List<Hit>) : RecyclerView.Adapter<Recip
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipes[position]
 
-        // تعيين البيانات من API
         holder.binding.recipeName.text = recipe.recipe.label
         holder.binding.recipeCalories.text = "Calories: ${recipe.recipe.calories.toInt()}"
 
@@ -27,7 +26,6 @@ class RecipeAdapter(private val recipes: List<Hit>) : RecyclerView.Adapter<Recip
             .load(recipe.recipe.image)
             .into(holder.binding.recipeImage)
 
-        // التعامل مع الضغط على العنصر لفتح تفاصيل الوصفة
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, DetailActivity::class.java).apply {
@@ -35,6 +33,7 @@ class RecipeAdapter(private val recipes: List<Hit>) : RecyclerView.Adapter<Recip
                 putExtra("RECIPE_CALORIES", recipe.recipe.calories.toInt())
                 putExtra("RECIPE_IMAGE", recipe.recipe.image)
                 putExtra("RECIPE_DESCRIPTION", recipe.recipe.description ?: "No description available")
+                putExtra("RECIPE_URL", recipe.recipe.url)
             }
             context.startActivity(intent)
         }
