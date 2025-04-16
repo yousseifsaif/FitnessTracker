@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
+            <!-- Workout Day Input -->
             <EditText
                 android:id="@+id/etWorkoutDay"
                 android:layout_width="0dp"
@@ -36,6 +37,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- Add Workout Button -->
             <Button
                 android:id="@+id/btnAddDay"
                 android:layout_width="150dp"
@@ -47,22 +49,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etWorkoutDay" />
 
+            <!-- Suggestion Workout Button -->
             <Button
                 android:id="@+id/suggestion_workout"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_profile"
-                android:text="suggestion workout"
+                android:text="Suggestion Workout"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etWorkoutDay" />
 
+            <!-- RecyclerView for Workouts -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewWorkouts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 app:layout_constraintTop_toBottomOf="@id/btnAddDay"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -70,18 +73,47 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <!-- Main Floating Action Button (bottom-right) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddWorkout"
+        android:id="@+id/fabMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Add Workout"
-        android:src="@drawable/plus"
-        android:layout_alignParentBottom="true"
+        android:src="@drawable/add"
+        app:maxImageSize="30dp"
 
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        app:backgroundTint="@color/mainColor" />
+        android:tint="@color/white"
+        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
 
+    <!-- Sub Floating Action Button: Add Workout (bottom-right) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addWorkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_workout"
+        android:tint="@color/white"
+        android:visibility="invisible"
+        app:maxImageSize="40dp"
+
+        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="80dp" />
+
+    <!-- Sub Floating Action Button: Search (bottom-right) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ai"
+        app:maxImageSize="50dp"
+        android:tint="@color/white"
+        android:visibility="invisible"
+        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="140dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

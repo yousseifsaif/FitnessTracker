@@ -7,10 +7,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitnesstracker.R
+import com.example.fitnesstracker.databinding.ActivityMainBinding
 import com.example.fitnesstracker.databinding.DialogAddWorkoutBinding
 import com.example.fitnesstracker.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,7 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: WorkoutAdapter
     private val daysList = mutableListOf<String>()
     private val exercisesMap = mutableMapOf<String, MutableList<String>>()
-    private lateinit var db: FirebaseFirestore  // إنشاء متغير FirebaseFirestore
+    private lateinit var db: FirebaseFirestore
     private val allExercises = listOf(
         "Push-Up", "Wide Push-Up", "Diamond Push-Up", "Archer Push-Up", "Pike Push-Up",
         "One-Arm Push-Up", "Bench Press", "Incline Bench Press", "Decline Bench Press",
@@ -76,6 +79,7 @@ class HomeFragment : Fragment() {
         "Circus Dumbbell Press", "Car Deadlift", "Stone to Shoulder", "Viking Press",
         "Silver Dollar Deadlift", "Fingal’s Fingers"
     )
+    private var isFabOpen = false
 
 
     override fun onCreateView(
@@ -84,16 +88,7 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-        val fab = binding.fabAddWorkout
-        val nestedScroll = binding.nestedScrollView
 
-        nestedScroll.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if (scrollY > oldScrollY) {
-                fab.hide()
-            } else if (scrollY < oldScrollY) {
-                fab.show()
-            }
-        }
     }
 
 
@@ -110,7 +105,23 @@ class HomeFragment : Fragment() {
         adapter = WorkoutAdapter(daysList, exercisesMap, ::onDeleteDay, ::onDeleteExercise)
         binding.recyclerViewWorkouts.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewWorkouts.adapter = adapter
+        setupFab()
+        binding.btnAddDay.setOnClickListener { addWorkoutDay() }
+        binding.addWorkout.setOnClickListener {
+            showWorkoutDialog()
+        }
+binding.fabMain.setOnClickListener {
+    if (!isFabOpen) {
+        showFab()
+    } else {
+        hideFab()
+    }
+}
 
+
+        binding.addWorkout.setOnClickListener {
+showWorkoutDialog()
+        }
         binding.suggestionWorkout.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, WorkoutPlansFragment())
@@ -118,8 +129,7 @@ class HomeFragment : Fragment() {
                 .commit()
         }
 
-        binding.btnAddDay.setOnClickListener { addWorkoutDay() }
-        binding.fabAddWorkout.setOnClickListener { showWorkoutDialog() }
+//        binding.fabAddWorkout.setOnClickListener { showWorkoutDialog() }
 
         // استرجاع البيانات من Firestore
         fetchDataFromFirestore()
@@ -277,4 +287,57 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    private fun setupFab() {
+        val fab = binding.fabMain
+        val nestedScroll = binding.nestedScrollView
+
+        nestedScroll.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY) fab.hide()
+            else if (scrollY < oldScrollY) fab.show()
+        }
+
+        fab.setOnClickListener {
+            if (!isFabOpen) showFab()
+            else hideFab()
+        }
+    }
+
+    private fun showFab() {
+        isFabOpen = true
+        binding.fabMain.setImageResource(R.drawable.close)
+
+        binding.fabSearch.visibility = View.VISIBLE
+        binding.addWorkout.visibility = View.VISIBLE
+
+        binding.fabSearch.alpha = 0f
+        binding.addWorkout.alpha = 0f
+
+        binding.fabSearch.animate().alpha(1f)
+            .setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .start()
+
+        binding.addWorkout.animate().alpha(1f)
+            .setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .start()
+    }
+
+    private fun hideFab() {
+        isFabOpen = false
+        binding.fabMain.setImageResource(R.drawable.add)
+
+        binding.fabSearch.animate().alpha(0f)
+            .setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .withEndAction { binding.fabSearch.visibility = View.INVISIBLE }
+            .start()
+
+        binding.addWorkout.animate().alpha(0f)
+            .setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .withEndAction { binding.addWorkout.visibility = View.INVISIBLE }
+            .start()
+    }
+
 }
