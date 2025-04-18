@@ -219,4 +219,5 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun showErrorMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
+
 }
