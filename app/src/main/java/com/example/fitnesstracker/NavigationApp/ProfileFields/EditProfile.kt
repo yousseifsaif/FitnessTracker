@@ -33,6 +33,8 @@ class EditProfile : AppCompatActivity() {
             binding.tvUserName.setText(updatedUser.name)
             binding.tvAge.setText(updatedUser.age.toString())
             binding.tvUserEmail.setText(updatedUser.email)
+            binding.tvKcal.setText("${updatedUser.calories} ")
+            binding.tvKcal.text = "${updatedUser.calories} "
             binding.tvHeight.setText("${updatedUser.height} ")
             binding.tvWeight.setText("${updatedUser.weight} ")
             binding.nameEditText.setText(updatedUser.name)
@@ -46,6 +48,7 @@ class EditProfile : AppCompatActivity() {
         val heightEt = binding.HeightEditText
         val weightEt = binding.WeightEditText
         val ageEt = binding.AgeEditText
+        val calories = binding.Kcal
 
         binding.updateEditProfile.setOnClickListener {
             if (nameEt.text.isNullOrEmpty() || emailEt.text.isNullOrEmpty()) {
@@ -64,9 +67,10 @@ class EditProfile : AppCompatActivity() {
                 id = userData.id,
                 selectedGoal = userData.selectedGoal,
                 weighttype = userData.weighttype,
-                calories = userData.calories,
                 ActivityLevel = userData.ActivityLevel,
-                isLoggedIn = userData.isLoggedIn
+                isLoggedIn = userData.isLoggedIn,
+                calories = calories.text.toString().toIntOrNull() ?: userData.calories
+
             )
 
             sharedPref.saveUserToPrefs(updatedUser)
@@ -78,7 +82,7 @@ class EditProfile : AppCompatActivity() {
             }
 
             userViewModel.updateUser(updatedUser)
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, EditProfile::class.java)
             startActivity(intent)
             finishAffinity()
 

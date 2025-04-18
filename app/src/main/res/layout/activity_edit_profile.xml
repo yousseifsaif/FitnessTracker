@@ -22,7 +22,7 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
-                android:background="#B3A0FF"
+                android:background="#383A3C"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -248,26 +248,26 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/information234"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_margin="70dp"
-
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:layout_margin="50dp"
                 android:background="@drawable/weight_box"
                 android:backgroundTint="#896CFE"
                 app:layout_constraintBottom_toBottomOf="@+id/header"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header"
-                tools:ignore="MissingConstraints">
+                app:layout_constraintTop_toBottomOf="@+id/header">
 
+                <!-- Weight Section -->
                 <TextView
                     android:id="@+id/tvWeight"
-                    android:layout_width="86dp"
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:paddingTop="12dp"
                     android:text="75 Kg"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@id/Weight"
                     app:layout_constraintEnd_toStartOf="@id/tvAge"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -280,19 +280,30 @@
                     android:text="Weight"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@id/tvAge"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/Age"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
-
+                    app:layout_constraintTop_toBottomOf="@id/tvWeight" />
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:alpha="0.5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tvAge"
+                    app:layout_constraintStart_toEndOf="@id/tvWeight"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <!-- Age Section -->
                 <TextView
                     android:id="@+id/tvAge"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:paddingTop="12dp"
                     android:text="28"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@id/Age"
                     app:layout_constraintEnd_toStartOf="@id/tvHeight"
                     app:layout_constraintStart_toEndOf="@id/tvWeight"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -302,24 +313,35 @@
                     android:layout_width="0dp"
                     android:layout_height="24dp"
                     android:gravity="center"
-                    android:text="Years Old"
+                    android:text="Years"
                     android:textColor="@color/white"
                     android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/Height"
+                    app:layout_constraintStart_toEndOf="@id/Weight"
+                    app:layout_constraintTop_toBottomOf="@id/tvAge" />
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:alpha="0.5"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tvHeight"
-                    app:layout_constraintStart_toEndOf="@id/tvWeight"
-                    app:layout_constraintTop_toBottomOf="@+id/tvAge" />
+                    app:layout_constraintStart_toEndOf="@id/tvAge"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <!-- Height Section -->
                 <TextView
                     android:id="@+id/tvHeight"
-
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:paddingTop="12dp"
                     android:text="1.65 CM"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/Height"
+                    app:layout_constraintEnd_toStartOf="@id/tvKcal"
                     app:layout_constraintStart_toEndOf="@id/tvAge"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -331,13 +353,49 @@
                     android:text="Height"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tvAge"
-                    app:layout_constraintTop_toBottomOf="@+id/tvHeight" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/Kcal"
+                    app:layout_constraintStart_toEndOf="@id/Age"
+                    app:layout_constraintTop_toBottomOf="@id/tvHeight" />
 
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:alpha="0.5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tvKcal"
+                    app:layout_constraintStart_toEndOf="@id/tvHeight"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <!-- Kcal Section -->
+                <TextView
+                    android:id="@+id/tvKcal"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="2000"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@id/Kcal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvHeight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/Kcal"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:gravity="center"
+                    android:text="Kcal"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/Height"
+                    app:layout_constraintTop_toBottomOf="@id/tvKcal" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <Button
                 android:id="@+id/updateEditProfile"
                 android:layout_width="wrap_content"
