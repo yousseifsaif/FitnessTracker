@@ -2,6 +2,7 @@ package com.example.fitnesstracker.NavigationApp
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fitnesstracker.NavigationApp.chatAi.ChatActivity
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivityMainBinding
 import com.example.fitnesstracker.databinding.DialogAddWorkoutBinding
@@ -121,6 +123,10 @@ binding.fabMain.setOnClickListener {
 
         binding.addWorkout.setOnClickListener {
 showWorkoutDialog()
+        }
+        binding.fabSearch.setOnClickListener {
+            val intent = Intent(requireContext(), ChatActivity::class.java)
+            startActivity(intent)
         }
         binding.suggestionWorkout.setOnClickListener {
             parentFragmentManager.beginTransaction()

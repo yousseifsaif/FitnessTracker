@@ -25,6 +25,8 @@ import com.example.fitnesstracker.NavigationApp.FragmentProfile
 import com.example.fitnesstracker.NavigationApp.HomeFragment
 import com.example.fitnesstracker.NavigationApp.MealsFragment
 import com.example.fitnesstracker.NavigationApp.WorkoutsFragment
+import com.example.fitnesstracker.NavigationApp.apiWorkouts.ExerciseEntity
+import com.example.fitnesstracker.ToolBarIcons.AppDatabase
 import com.example.fitnesstracker.ToolBarIcons.BreakTimerDialog
 import com.example.fitnesstracker.ToolBarIcons.NotificationFragment
 import com.example.fitnesstracker.ToolBarIcons.SearchFragment
@@ -33,6 +35,9 @@ import com.example.fitnesstracker.databinding.DialogAddWorkoutBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
     private lateinit var binding: ActivityMainBinding
@@ -48,7 +53,7 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sharedPreferences = getSharedPreferences("TimerPrefs", Context.MODE_PRIVATE)
-
+        initializeDatabase(this)
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         getUserName()
@@ -156,4 +161,35 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
             }
         }.start()
     }
+
+    fun initializeDatabase(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getInstance(context)
+            if (db.searchDao().getExerciseCount() == 0) {
+                val sampleExercises = listOf(
+                    ExerciseEntity(
+                        name = "Push Up",
+                        bodyPart = "Chest",
+                        equipment = "Body Weight",
+                        target = "Pectorals",
+                        gifUrl = "",
+                        secondaryMuscles = "Triceps,Shoulders",
+                        instructions = "1. Place hands...\n2. Lower body..."
+                    ),
+                    ExerciseEntity(
+                        name = "Squat",
+                        bodyPart = "Legs",
+                        equipment = "Body Weight",
+                        target = "Quadriceps",
+                        gifUrl = "",
+                        secondaryMuscles = "Hamstrings,Glutes",
+                        instructions = "1. Stand straight...\n2. Bend knees..."
+                    )
+                )
+                // أضف دالة الإدراج في DAO
+                db.searchDao().insertAllExercises(sampleExercises)
+            }
+        }
+    }
 }
+

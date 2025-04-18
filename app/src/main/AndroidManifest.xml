@@ -17,6 +17,9 @@
         android:theme="@style/Theme.FitnessTracker"
         tools:targetApi="31">
         <activity
+            android:name=".NavigationApp.chatAi.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".NavigationApp.ApiMeals.DetailActivity"
             android:exported="false" />
         <activity
@@ -24,6 +27,7 @@
             android:exported="false" />
         <activity
             android:name=".NavigationApp.apiWorkouts.ExerciseDetailsActivity"
+            android:label="Exercise Details"
             android:exported="false" />
         <activity
             android:name=".NavigationApp.ProfileFields.HelpActivity"
