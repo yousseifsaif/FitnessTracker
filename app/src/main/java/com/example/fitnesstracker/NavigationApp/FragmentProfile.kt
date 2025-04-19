@@ -57,6 +57,8 @@ class FragmentProfile : Fragment() {
             binding.tvUserEmail.text = updatedUser.email ?: "N/A"
             binding.tvHeight.text = updatedUser.height?.toString() ?: "N/A"
             binding.tvWeight.text = updatedUser.weight?.toString() ?: "N/A"
+            binding.tvKcal.text = updatedUser.age?.toString() ?: "N/A"
+
         }
 binding.btnLogout.setOnClickListener {
 showCustomDialog()

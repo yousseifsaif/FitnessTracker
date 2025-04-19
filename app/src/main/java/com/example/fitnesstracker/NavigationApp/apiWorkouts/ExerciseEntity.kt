@@ -12,5 +12,5 @@ data class ExerciseEntity(
     val target: String,
     val gifUrl: String,
     val secondaryMuscles: String, // convert to comma-separated string
-    val instructions: String // convert to joined string
+    val instructions: String ,// convert to joined string
 )
