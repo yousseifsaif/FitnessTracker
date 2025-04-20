@@ -33,7 +33,7 @@ import com.google.gson.Gson
 class FragmentProfile : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val userViewModel: UserViewModel by activityViewModels()  // ✅ Correct ViewModel usage
+    private val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,23 +49,29 @@ class FragmentProfile : Fragment() {
         } else {
             Log.d("FragmentProfile", "User data retrieved: $userData")
             userViewModel.updateUser(userData)
+            binding.tvUserName.text = userData.name ?: "N/A"
+            binding.tvAge.text = userData.age?.toString() ?: "N/A"
+            binding.tvUserEmail.text = userData.email ?: "N/A"
+            binding.tvHeight.text = userData.height?.toString() ?: "N/A"
+            binding.tvWeight.text = userData.weight?.toString() ?: "N/A"
+            binding.tvKcal.text = userData.calories?.toString() ?: "N/A"
+
         }
 
-        // Observe LiveData
         userViewModel.user.observe(viewLifecycleOwner) { updatedUser ->
             binding.tvUserName.text = updatedUser.name ?: "N/A"
             binding.tvAge.text = updatedUser.age?.toString() ?: "N/A"
             binding.tvUserEmail.text = updatedUser.email ?: "N/A"
             binding.tvHeight.text = updatedUser.height?.toString() ?: "N/A"
             binding.tvWeight.text = updatedUser.weight?.toString() ?: "N/A"
-            binding.tvKcal.text = updatedUser.age?.toString() ?: "N/A"
+            binding.tvKcal.text = updatedUser.calories?.toString() ?: "N/A"
+
 
         }
 binding.btnLogout.setOnClickListener {
 showCustomDialog()
 
 }
-        // Button Click Listener
         binding.btnProfile.setOnClickListener {
             val intent = Intent(requireContext(), EditProfile::class.java)
             startActivity(intent)
@@ -94,11 +100,11 @@ binding.btnFav.setOnClickListener {
 
     fun showCustomDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_logout, null)
-        val dialogBinding = DialogLogoutBinding.bind(dialogView) // ✅ استخدم الـ Binding الصحيح
+        val dialogBinding = DialogLogoutBinding.bind(dialogView)
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
-            .setCancelable(false) // Prevent dismiss on outside touch
+            .setCancelable(false)
             .create()
         dialog.setContentView(dialogView)
         dialogBinding.btnYes.setOnClickListener {
@@ -111,7 +117,7 @@ binding.btnFav.setOnClickListener {
             dialog.dismiss()
         }
 
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 🔥 إزالة الخلفية الافتراضية
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
 

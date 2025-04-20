@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.MainActivity
+import com.example.fitnesstracker.NavigationApp.FragmentProfile
 import com.example.fitnesstracker.databinding.ActivityEditProfileBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.viewmodel.UserViewModel
@@ -82,9 +83,8 @@ class EditProfile : AppCompatActivity() {
             }
 
             userViewModel.updateUser(updatedUser)
-            val intent = Intent(this, EditProfile::class.java)
-            startActivity(intent)
-            finishAffinity()
+
+
 
 
         }

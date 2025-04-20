@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,11 +5,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/backgroundColor">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,41 +17,27 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:background="#383A3C"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="240dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/border_profile"
                 app:layout_constraintTop_toTopOf="parent"
-
-                >
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" >
 
                 <ImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginBottom="32dp"
                     android:background="@drawable/circle_border"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/person"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/avatar_svgrepo_com"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!-- Edit Icon -->
-                <ImageView
-                    android:id="@+id/editIcon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/circle_background2"
-                    android:padding="6dp"
-                    android:src="@drawable/baseline_edit_24"
-                    android:scaleType="centerInside"
-                    app:layout_constraintBottom_toBottomOf="@id/imgProfile"
-                    app:layout_constraintEnd_toEndOf="@id/imgProfile"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginEnd="5dp"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvUserName"
+                    android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:id="@+id/tvUserName"
@@ -71,34 +46,36 @@
                     android:layout_marginTop="8dp"
                     android:text="User"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="23sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imgProfile"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imgProfile" />
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     android:id="@+id/tvUserEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:padding="6dp"
                     android:text="user@example.com"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvUserName"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvUserName" />
+                    app:layout_constraintEnd_toEndOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/buttons"
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
-                android:layout_margin="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="20dp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/header"
@@ -411,7 +388,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:background="@drawable/btn_profile"
-
+                android:layout_margin="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -419,7 +396,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>
