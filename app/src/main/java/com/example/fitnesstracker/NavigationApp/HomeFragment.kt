@@ -13,6 +13,7 @@ import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fitnesstracker.NavigationApp.ProfileFields.FavoritesActivity
 import com.example.fitnesstracker.NavigationApp.chatAi.ChatActivity
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivityMainBinding
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlin.jvm.java
 
 class HomeFragment : Fragment() {
 
@@ -99,7 +101,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        db = FirebaseFirestore.getInstance() // تهيئة Firestore
+        db = FirebaseFirestore.getInstance()
 
         sharedPreferences = requireContext().getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE)
         loadSavedData()
@@ -112,6 +114,11 @@ class HomeFragment : Fragment() {
         binding.addWorkout.setOnClickListener {
             showWorkoutDialog()
         }
+        binding.fabFav.setOnClickListener {
+            val intent = Intent(requireContext(), FavoritesActivity::class.java)
+            startActivity(intent)
+        }
+
 binding.fabMain.setOnClickListener {
     if (!isFabOpen) {
         showFab()
@@ -135,9 +142,7 @@ showWorkoutDialog()
                 .commit()
         }
 
-//        binding.fabAddWorkout.setOnClickListener { showWorkoutDialog() }
 
-        // استرجاع البيانات من Firestore
         fetchDataFromFirestore()
     }
 
@@ -149,7 +154,7 @@ showWorkoutDialog()
             adapter.notifyDataSetChanged()
             saveData()
             binding.etWorkoutDay.text.clear()
-            saveDataToFirestore() // حفظ البيانات إلى Firestore
+            saveDataToFirestore()
         } else {
             Toast.makeText(requireContext(), "Enter a valid day name", Toast.LENGTH_SHORT).show()
         }
@@ -188,7 +193,7 @@ showWorkoutDialog()
             exercisesMap[selectedDay]?.add(selectedExercise)
             adapter.notifyDataSetChanged()
             saveData()
-            saveDataToFirestore() // حفظ البيانات في Firestore
+            saveDataToFirestore()
         } else {
             Toast.makeText(requireContext(), "Please select a valid day and exercise", Toast.LENGTH_SHORT).show()
         }
@@ -199,14 +204,14 @@ showWorkoutDialog()
         exercisesMap.remove(day)
         adapter.notifyDataSetChanged()
         saveData()
-        saveDataToFirestore() // حفظ البيانات في Firestore
+        saveDataToFirestore()
     }
 
     private fun onDeleteExercise(day: String, exercise: String) {
         exercisesMap[day]?.remove(exercise)
         adapter.notifyDataSetChanged()
         saveData()
-        saveDataToFirestore() // حفظ البيانات في Firestore
+        saveDataToFirestore()
     }
 
     private fun saveData() {
@@ -231,12 +236,11 @@ showWorkoutDialog()
     }
 
     private fun saveDataToFirestore() {
-        // تحويل MutableList إلى List لتخزينها في Firestore
         val exercisesMapForFirestore = exercisesMap.mapValues { it.value.toList() }
 
         val workoutData = mapOf(
             "daysList" to daysList,
-            "exercisesMap" to exercisesMapForFirestore // حفظ البيانات كمصفوفات غير قابلة للتغيير
+            "exercisesMap" to exercisesMapForFirestore
         )
 
         db.collection("workouts")
@@ -265,10 +269,8 @@ showWorkoutDialog()
                             daysList.clear()
                             exercisesMap.clear()
 
-                            // تحقق من أن الأيام هي List<String>
                             daysList.addAll(daysListFirestore.filterIsInstance<String>())
 
-                            // تحقق من أن exercisesMap هو Map<String, List<String>>
                             exercisesMapFirestore?.forEach { (day, exercises) ->
                                 if (day is String && exercises is List<*>) {
                                     exercisesMap[day] = exercises.filterIsInstance<String>().toMutableList()
@@ -310,13 +312,16 @@ showWorkoutDialog()
 
     private fun showFab() {
         isFabOpen = true
-        binding.fabMain.setImageResource(R.drawable.close)
+        binding.fabMain.setImageResource(R.drawable.cancel)
+
 
         binding.fabSearch.visibility = View.VISIBLE
         binding.addWorkout.visibility = View.VISIBLE
+        binding.fabFav.visibility = View.VISIBLE
 
         binding.fabSearch.alpha = 0f
         binding.addWorkout.alpha = 0f
+        binding.fabFav.alpha = 0f
 
         binding.fabSearch.animate().alpha(1f)
             .setDuration(200)
@@ -324,6 +329,10 @@ showWorkoutDialog()
             .start()
 
         binding.addWorkout.animate().alpha(1f)
+            .setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .start()
+        binding.fabFav.animate().alpha(1f)
             .setDuration(200)
             .setInterpolator(AccelerateDecelerateInterpolator())
             .start()
@@ -343,6 +352,11 @@ showWorkoutDialog()
             .setDuration(200)
             .setInterpolator(AccelerateDecelerateInterpolator())
             .withEndAction { binding.addWorkout.visibility = View.INVISIBLE }
+            .start()
+        binding.fabFav.animate().alpha(0f)
+            .setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .withEndAction { binding.fabFav.visibility = View.INVISIBLE }
             .start()
     }
 
