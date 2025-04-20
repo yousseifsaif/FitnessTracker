@@ -1,5 +1,6 @@
 package com.example.fitnesstracker.NavigationApp.apiWorkouts
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -7,7 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import com.example.fitnesstracker.NavigationApp.apiWorkouts.AppDatabase.Companion.migration_1_2
 import com.example.fitnesstracker.databinding.ActivityCategoryWorkoutsBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,6 +29,19 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryWorkoutsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        exerciseAdapter = ExerciseApiAdapter(
+            exercises = ArrayList(),
+            onFavoriteClick = { exercise ->
+                toggleFavorite(exercise)
+            },
+            onItemClick = { exercise ->
+                openExerciseDetails(exercise)
+            },
+        )
+
+        binding.recyclerViewExercises.adapter = exerciseAdapter
+
+
 
         val bodyPart = intent.getStringExtra("BODY_PART")
         if (bodyPart.isNullOrEmpty()) {
@@ -32,10 +50,9 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
         }
 
         db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "exercise_db")
-            .fallbackToDestructiveMigration()
+            .addMigrations(migration_1_2)  // إضافة الترحيل
             .build()
 
-        exerciseAdapter = ExerciseApiAdapter(ArrayList())
         binding.recyclerViewExercises.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewExercises.adapter = exerciseAdapter
 
@@ -104,7 +121,9 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
                     target = it.target,
                     gifUrl = it.gifUrl,
                     secondaryMuscles = it.secondaryMuscles.split(", "),
-                    instructions = it.instructions.split(" | ")
+                    instructions = it.instructions.split(" | "),
+                    isFavorite = it.isFavorite,
+                    id = it.id.toString()
                 )
             }
             withContext(Dispatchers.Main) {
@@ -112,4 +131,30 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
             }
         }
     }
+    private fun openExerciseDetails(exercise: Exercise) {
+        val intent = Intent(this, ExerciseDetailsActivity::class.java).apply {
+            putExtra("name", exercise.name)
+            putExtra("target", exercise.target)
+            putExtra("gifUrl", exercise.gifUrl)
+            putExtra("secondaryMuscles", exercise.secondaryMuscles.joinToString(", "))
+            putExtra("bodyPart", exercise.bodyPart)
+            putStringArrayListExtra("instructions", ArrayList(exercise.instructions))
+        }
+        startActivity(intent)
+
+    }
+    private fun toggleFavorite(exercise: Exercise) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val favoritesRef = Firebase.firestore
+            .collection("users")
+            .document(userId)
+            .collection("favorites")
+
+        if (exercise.isFavorite) {
+            favoritesRef.document(exercise.name).delete()
+        } else {
+            favoritesRef.document(exercise.name).set(exercise)
+        }
+    }
 }
+

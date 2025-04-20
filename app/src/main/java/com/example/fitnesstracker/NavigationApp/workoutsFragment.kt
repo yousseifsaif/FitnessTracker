@@ -32,7 +32,16 @@ class WorkoutsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        exerciseAdapter = ExerciseApiAdapter(ArrayList())
+        exerciseAdapter = ExerciseApiAdapter(
+            exercises = ArrayList(),
+            onFavoriteClick = { exercise ->
+                Log.d("Favorite", "Clicked on favorite for: ${exercise.name}")
+            },
+            onItemClick = { exercise ->
+                Log.d("ItemClick", "Clicked on: ${exercise.name}")
+            },
+
+        )
         binding = FragmentWorkoutBinding.inflate(inflater, container, false)
 val ListOfExercises = listOf<CategoryData>(
     CategoryData("chest", com.example.fitnesstracker.R.drawable.chestworkouts),

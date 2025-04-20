@@ -33,6 +33,7 @@ import com.example.fitnesstracker.ToolBarIcons.SearchFragment
 import com.example.fitnesstracker.databinding.ActivityMainBinding
 import com.example.fitnesstracker.databinding.DialogAddWorkoutBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sharedPreferences = getSharedPreferences("TimerPrefs", Context.MODE_PRIVATE)
@@ -186,7 +189,6 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
                         instructions = "1. Stand straight...\n2. Bend knees..."
                     )
                 )
-                // أضف دالة الإدراج في DAO
                 db.searchDao().insertAllExercises(sampleExercises)
             }
         }

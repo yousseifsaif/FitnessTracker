@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.fitnesstracker.Login_SignUp.LogIn
 import com.example.fitnesstracker.NavigationApp.ProfileFields.EditProfile
+import com.example.fitnesstracker.NavigationApp.ProfileFields.FavoritesActivity
 import com.example.fitnesstracker.NavigationApp.ProfileFields.HelpActivity
 import com.example.fitnesstracker.NavigationApp.ProfileFields.PrivacyPolicy
 import com.example.fitnesstracker.NavigationApp.ProfileFields.SettingsActivity
@@ -47,7 +48,7 @@ class FragmentProfile : Fragment() {
             Log.e("FragmentProfile", "User data is null!")
         } else {
             Log.d("FragmentProfile", "User data retrieved: $userData")
-            userViewModel.updateUser(userData)  // ✅ Updating ViewModel only if userData exists
+            userViewModel.updateUser(userData)
         }
 
         // Observe LiveData
@@ -70,7 +71,10 @@ showCustomDialog()
             startActivity(intent)
         }
 
-
+binding.btnFav.setOnClickListener {
+    val intent = Intent(requireContext(), FavoritesActivity::class.java)
+    startActivity(intent)
+}
         binding.btnPolicy.setOnClickListener {
             val intent = Intent(requireContext(), PrivacyPolicy::class.java)
             startActivity(intent)
@@ -113,7 +117,7 @@ showCustomDialog()
 
     private fun logoutUser(context: Context) {
         val sharedPref = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        sharedPref.edit().clear().apply()  // 🔥 استخدم `apply()` بدلاً من `commit()` لتحسين الأداء
+        sharedPref.edit().clear().apply()
 
 //        FirebaseAuth.getInstance().signOut()
 

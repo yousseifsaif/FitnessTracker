@@ -21,13 +21,11 @@ class ExerciseDetailsActivity : AppCompatActivity() {
 //        if (exercise != null) {
 //            bindExerciseData(exercise)
 //        } else {
-//            // الطريقة البديلة: استخدام البيانات المفردة إذا فشل الحصول على الكائن
 //            bindIndividualData()
 //        }
 //
 //
 //        exercise?.let {
-//            // استخدم بيانات التمرين لعرض التفاصيل
 //            bindExerciseData(it)
 //        } ?: run {
 //            Toast.makeText(this, "Exercise data not found", Toast.LENGTH_SHORT).show()
@@ -60,11 +58,9 @@ class ExerciseDetailsActivity : AppCompatActivity() {
             secondryMuscles.text = "Secondary Muscles: ${exercise.secondaryMuscles}"
             bodyPart.text = "Body Part: ${exercise.bodyPart}"
 
-            // معالجة التعليمات إذا كانت تحتوي على فواصل
             val instructionsList = exercise.instructions.split("\n")
             exerciseInstructions.text = instructionsList.joinToString("\n") { "• $it" }
 
-            // تحميل الصورة باستخدام Glide
             Glide.with(this@ExerciseDetailsActivity)
                 .load(exercise.gifUrl)
                 .placeholder(R.drawable.help)
