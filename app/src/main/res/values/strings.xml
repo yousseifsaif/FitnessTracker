@@ -39,4 +39,5 @@
     <string name="cancel">cancel</string>
     <string name="empty_database_message">empty</string>
     <string name="no_results_found">no results</string>
+    <string name="title_activity_suggest_workouts">suggestWorkouts</string>
 </resources>
