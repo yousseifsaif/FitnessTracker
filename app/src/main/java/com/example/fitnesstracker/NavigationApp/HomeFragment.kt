@@ -14,22 +14,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.*
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnesstracker.NavigationApp.ProfileFields.FavoritesActivity
+import com.example.fitnesstracker.NavigationApp.apiWorkouts.Exercise
 import com.example.fitnesstracker.NavigationApp.chatAi.ChatActivity
 import com.example.fitnesstracker.R
-import com.example.fitnesstracker.databinding.ActivityMainBinding
 import com.example.fitnesstracker.databinding.DialogAddWorkoutBinding
 import com.example.fitnesstracker.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlin.jvm.java
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import android.widget.Toast
+import com.example.fitnesstracker.NavigationApp.apiWorkouts.ApiCallable
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import android.os.Handler
+import android.os.Looper
+import androidx.lifecycle.lifecycleScope
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercisesAdapter
+import com.example.fitnesstracker.NavigationApp.home.WorkoutAdapter
+import com.example.fitnesstracker.NavigationApp.home.WorkoutPlansFragment
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -243,11 +255,17 @@ class HomeFragment : Fragment() {
         "Fingal’s Fingers"
     )
     private var isFabOpen = false
-
+    private lateinit var recommendedAdapter: RecommendedExercisesAdapter
+    private lateinit var rvRecommendedExercises: RecyclerView
+    private lateinit var api: ApiCallable
+    private val scrollHandler = Handler(Looper.getMainLooper())
+    private var isUserTouching = false
+    private var currentPosition = 0
+    private var isAutoScrolling = true
+    private val scrollDelay = 2500L
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -258,6 +276,19 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        if (NetworkUtils.isInternetAvailable(requireContext())) {
+//            getRecommendedExercisesFromApi()
+//        } else {
+//            loadExercisesFromRoom()
+//        }
+
+        api = Retrofit.Builder().baseUrl("https://exercisedb.p.rapidapi.com/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+            .create(ApiCallable::class.java)
+        setupRecommendedExercises()
+
+
+
 
         db = FirebaseFirestore.getInstance()
 
@@ -296,8 +327,7 @@ class HomeFragment : Fragment() {
         }
         binding.suggestionWorkout.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, WorkoutPlansFragment())
-                .addToBackStack(null)
+                .replace(R.id.fragment_container, WorkoutPlansFragment()).addToBackStack(null)
                 .commit()
         }
 
@@ -321,8 +351,7 @@ class HomeFragment : Fragment() {
 
     private fun showWorkoutDialog() {
         val dialogBinding = DialogAddWorkoutBinding.inflate(LayoutInflater.from(requireContext()))
-        val builder = AlertDialog.Builder(requireContext())
-            .setTitle("Add Workout")
+        val builder = AlertDialog.Builder(requireContext()).setTitle("Add Workout")
             .setView(dialogBinding.root)
             .setPositiveButton("Add") { _, _ -> addWorkout(dialogBinding) }
             .setNegativeButton("Cancel", null)
@@ -333,9 +362,7 @@ class HomeFragment : Fragment() {
         dialogBinding.etSearchExercise.apply {
             setAdapter(
                 ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_dropdown_item_1line,
-                    allExercises
+                    requireContext(), android.R.layout.simple_dropdown_item_1line, allExercises
                 )
             )
             threshold = 1
@@ -355,9 +382,7 @@ class HomeFragment : Fragment() {
             saveDataToFirestore()
         } else {
             Toast.makeText(
-                requireContext(),
-                "Please select a valid day and exercise",
-                Toast.LENGTH_SHORT
+                requireContext(), "Please select a valid day and exercise", Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -378,10 +403,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun saveData() {
-        sharedPreferences.edit()
-            .putString("daysList", Gson().toJson(daysList))
-            .putString("exercisesMap", Gson().toJson(exercisesMap))
-            .apply()
+        sharedPreferences.edit().putString("daysList", Gson().toJson(daysList))
+            .putString("exercisesMap", Gson().toJson(exercisesMap)).apply()
     }
 
     private fun loadSavedData() {
@@ -402,25 +425,18 @@ class HomeFragment : Fragment() {
         val exercisesMapForFirestore = exercisesMap.mapValues { it.value.toList() }
 
         val workoutData = mapOf(
-            "daysList" to daysList,
-            "exercisesMap" to exercisesMapForFirestore
+            "daysList" to daysList, "exercisesMap" to exercisesMapForFirestore
         )
 
-        db.collection("workouts")
-            .document("user_workout_data")
-            .set(workoutData)
-            .addOnSuccessListener {
-            }
-            .addOnFailureListener {
+        db.collection("workouts").document("user_workout_data").set(workoutData)
+            .addOnSuccessListener {}.addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed to save", Toast.LENGTH_SHORT).show()
             }
     }
 
 
     private fun fetchDataFromFirestore() {
-        db.collection("workouts")
-            .document("user_workout_data")
-            .get()
+        db.collection("workouts").document("user_workout_data").get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val data = document.data
@@ -445,18 +461,28 @@ class HomeFragment : Fragment() {
                         }
                     }
                 }
-            }
-            .addOnFailureListener {
+            }.addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show()
             }
     }
 
     override fun onResume() {
         super.onResume()
+        isAutoScrolling = true
+        if (::recommendedAdapter.isInitialized) {
+            startAutoScroll()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isAutoScrolling = false
+        scrollHandler.removeCallbacksAndMessages(null)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        scrollHandler.removeCallbacksAndMessages(null)
         _binding = null
     }
 
@@ -488,41 +514,29 @@ class HomeFragment : Fragment() {
         binding.addWorkout.alpha = 0f
         binding.fabFav.alpha = 0f
 
-        binding.fabSearch.animate().alpha(1f)
-            .setDuration(200)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .start()
+        binding.fabSearch.animate().alpha(1f).setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator()).start()
 
-        binding.addWorkout.animate().alpha(1f)
-            .setDuration(200)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .start()
-        binding.fabFav.animate().alpha(1f)
-            .setDuration(200)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .start()
+        binding.addWorkout.animate().alpha(1f).setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator()).start()
+        binding.fabFav.animate().alpha(1f).setDuration(200)
+            .setInterpolator(AccelerateDecelerateInterpolator()).start()
     }
 
     private fun hideFab() {
         isFabOpen = false
         binding.fabMain.setImageResource(R.drawable.add)
 
-        binding.fabSearch.animate().alpha(0f)
-            .setDuration(200)
+        binding.fabSearch.animate().alpha(0f).setDuration(200)
             .setInterpolator(AccelerateDecelerateInterpolator())
-            .withEndAction { binding.fabSearch.visibility = View.INVISIBLE }
-            .start()
+            .withEndAction { binding.fabSearch.visibility = View.INVISIBLE }.start()
 
-        binding.addWorkout.animate().alpha(0f)
-            .setDuration(200)
+        binding.addWorkout.animate().alpha(0f).setDuration(200)
             .setInterpolator(AccelerateDecelerateInterpolator())
-            .withEndAction { binding.addWorkout.visibility = View.INVISIBLE }
-            .start()
-        binding.fabFav.animate().alpha(0f)
-            .setDuration(200)
+            .withEndAction { binding.addWorkout.visibility = View.INVISIBLE }.start()
+        binding.fabFav.animate().alpha(0f).setDuration(200)
             .setInterpolator(AccelerateDecelerateInterpolator())
-            .withEndAction { binding.fabFav.visibility = View.INVISIBLE }
-            .start()
+            .withEndAction { binding.fabFav.visibility = View.INVISIBLE }.start()
     }
 
     private fun showAddDayDialog() {
@@ -532,15 +546,12 @@ class HomeFragment : Fragment() {
             background = ContextCompat.getDrawable(context, R.drawable.edittext_background)
         }
 
-        val dialog = AlertDialog.Builder(requireContext())
-            .setTitle("Add Workout Day")
+        val dialog = AlertDialog.Builder(requireContext()).setTitle("Add Workout Day")
             .setMessage("Enter a unique name for your workout day.")
 
             .setView(input)
 //            .setIcon(R.drawable.ic_calendar_add)
-            .setPositiveButton("Add", null)
-            .setNegativeButton("Cancel", null)
-            .create()
+            .setPositiveButton("Add", null).setNegativeButton("Cancel", null).create()
 
         dialog.setOnShowListener {
             val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
@@ -579,6 +590,80 @@ class HomeFragment : Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.rgb(35, 35, 35)))
 
     }
+
+    private fun setupRecommendedExercises() {
+        rvRecommendedExercises = binding.rvRecommendedExercises
+        rvRecommendedExercises.layoutManager = LinearLayoutManager(
+            requireContext(), LinearLayoutManager.HORIZONTAL, false
+        ).apply {
+            // تحسين تجربة التمرير
+            stackFromEnd = true
+        }
+
+        // إضافة مستمع للتمرير اليدوي
+        rvRecommendedExercises.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when (newState) {
+                    RecyclerView.SCROLL_STATE_DRAGGING -> {
+                        isAutoScrolling = false
+                        scrollHandler.removeCallbacksAndMessages(null)
+                    }
+
+                    RecyclerView.SCROLL_STATE_IDLE -> {
+                        if (!isAutoScrolling) {
+                            isAutoScrolling = true
+                            startAutoScroll()
+                        }
+                    }
+                }
+            }
+        })
+
+        getRecommendedExercisesFromApi()
+    }
+
+    private fun getRecommendedExercisesFromApi() {
+        val bodyPart = "chest"
+        api.getExercises(bodyPart).enqueue(object : Callback<List<Exercise>> {
+            override fun onResponse(
+                call: Call<List<Exercise>>, response: Response<List<Exercise>>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    val list = response.body()!!.take(10)
+
+                    recommendedAdapter = RecommendedExercisesAdapter(list)
+                    rvRecommendedExercises.adapter = recommendedAdapter
+
+                    // بدء التمرير التلقائي بعد تحميل البيانات
+                    startAutoScroll()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
+                Toast.makeText(requireContext(), "Failed to load exercises", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
+    }
+
+    private fun startAutoScroll() {
+        scrollHandler.postDelayed(object : Runnable {
+            override fun run() {
+                if (isAutoScrolling && ::recommendedAdapter.isInitialized) {
+                    val itemCount = recommendedAdapter.itemCount
+                    if (itemCount > 0) {
+                        currentPosition = (currentPosition + 1) % itemCount
+
+                        // التمرير مع أنيميشن سلس
+                        rvRecommendedExercises.smoothScrollToPosition(currentPosition)
+                    }
+                    scrollHandler.postDelayed(this, scrollDelay)
+                }
+            }
+        }, scrollDelay)
+    }
+
 
     private fun saveAllData() {
         saveData()

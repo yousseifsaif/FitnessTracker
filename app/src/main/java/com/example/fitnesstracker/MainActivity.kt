@@ -1,6 +1,5 @@
 package com.example.fitnesstracker
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.media.MediaPlayer
@@ -11,15 +10,9 @@ import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import com.example.fitnesstracker.NavigationApp.FragmentProfile
 import com.example.fitnesstracker.NavigationApp.HomeFragment
@@ -31,7 +24,6 @@ import com.example.fitnesstracker.ToolBarIcons.BreakTimerDialog
 import com.example.fitnesstracker.ToolBarIcons.NotificationFragment
 import com.example.fitnesstracker.ToolBarIcons.SearchFragment
 import com.example.fitnesstracker.databinding.ActivityMainBinding
-import com.example.fitnesstracker.databinding.DialogAddWorkoutBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth

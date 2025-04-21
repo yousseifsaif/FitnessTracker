@@ -51,6 +51,7 @@ class ExerciseDetailsActivity : AppCompatActivity() {
             .placeholder(com.example.fitnesstracker.R.drawable.help)
             .into(binding.exerciseImage)
     }
+
     private fun bindExerciseData(exercise: ExerciseEntity) {
         binding.apply {
             exerciseName.text = exercise.name
@@ -67,13 +68,16 @@ class ExerciseDetailsActivity : AppCompatActivity() {
                 .into(exerciseImage)
         }
     }
+
     private fun bindIndividualData() {
         binding.apply {
             exerciseName.text = intent.getStringExtra("name") ?: "No Name Available"
             exerciseTarget.text = "Target: ${intent.getStringExtra("target") ?: "Not specified"}"
-            secondryMuscles.text = "Secondary Muscles: ${intent.getStringExtra("secondaryMuscles") ?: "Not specified"}"
+            secondryMuscles.text =
+                "Secondary Muscles: ${intent.getStringExtra("secondaryMuscles") ?: "Not specified"}"
             bodyPart.text = "Body Part: ${intent.getStringExtra("bodyPart") ?: "Not specified"}"
-            exerciseInstructions.text = "Instructions: ${intent.getStringExtra("instructions") ?: "Not specified"}"
+            exerciseInstructions.text =
+                "Instructions: ${intent.getStringExtra("instructions") ?: "Not specified"}"
 
 
             val instructions = intent.getStringArrayListExtra("instructions") ?: listOf()
