@@ -11,7 +11,7 @@ import com.example.fitnesstracker.NavigationApp.apiWorkouts.Exercise
 import com.example.fitnesstracker.R
 
 class RecommendedExercisesAdapter(
-    private val exercises: List<Exercise>
+    private val exercises: List<RecommendedExercise>
 ) : RecyclerView.Adapter<RecommendedExercisesAdapter.ExerciseViewHolder>() {
 
     inner class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

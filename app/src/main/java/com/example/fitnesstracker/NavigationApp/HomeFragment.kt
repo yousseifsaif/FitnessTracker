@@ -41,13 +41,16 @@ import androidx.lifecycle.lifecycleScope
 import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercisesAdapter
 import com.example.fitnesstracker.NavigationApp.home.WorkoutAdapter
 import com.example.fitnesstracker.NavigationApp.home.WorkoutPlansFragment
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.AppDatabase
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercise
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExerciseEntity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var adapter: WorkoutAdapter
     private val daysList = mutableListOf<String>()
@@ -259,7 +262,7 @@ class HomeFragment : Fragment() {
     private lateinit var rvRecommendedExercises: RecyclerView
     private lateinit var api: ApiCallable
     private val scrollHandler = Handler(Looper.getMainLooper())
-    private var isUserTouching = false
+    private var isInternetAvailable = true
     private var currentPosition = 0
     private var isAutoScrolling = true
     private val scrollDelay = 2500L
@@ -299,7 +302,14 @@ class HomeFragment : Fragment() {
         adapter = WorkoutAdapter(daysList, exercisesMap, ::onDeleteDay, ::onDeleteExercise)
         binding.recyclerViewWorkouts.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewWorkouts.adapter = adapter
+        binding.recyclerViewWorkouts.setHasFixedSize(true)
+
+        adapter.notifyDataSetChanged()
+
+        checkIfListIsEmpty()
+
         setupFab()
+
         binding.btnAddDay.setOnClickListener { showAddDayDialog() }
         binding.addWorkout.setOnClickListener {
             showWorkoutDialog()
@@ -422,21 +432,26 @@ class HomeFragment : Fragment() {
     }
 
     private fun saveDataToFirestore() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
         val exercisesMapForFirestore = exercisesMap.mapValues { it.value.toList() }
 
         val workoutData = mapOf(
             "daysList" to daysList, "exercisesMap" to exercisesMapForFirestore
         )
 
-        db.collection("workouts").document("user_workout_data").set(workoutData)
-            .addOnSuccessListener {}.addOnFailureListener {
+        db.collection("workouts").document(uid).set(workoutData)
+            .addOnSuccessListener {
+
+            }.addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed to save", Toast.LENGTH_SHORT).show()
             }
     }
 
 
     private fun fetchDataFromFirestore() {
-        db.collection("workouts").document("user_workout_data").get()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        db.collection("workouts").document(uid).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val data = document.data
@@ -468,6 +483,10 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        loadSavedData()
+        fetchDataFromFirestore()
+        adapter.notifyDataSetChanged()
+        checkIfListIsEmpty()
         isAutoScrolling = true
         if (::recommendedAdapter.isInitialized) {
             startAutoScroll()
@@ -596,11 +615,9 @@ class HomeFragment : Fragment() {
         rvRecommendedExercises.layoutManager = LinearLayoutManager(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {
-            // تحسين تجربة التمرير
             stackFromEnd = true
         }
 
-        // إضافة مستمع للتمرير اليدوي
         rvRecommendedExercises.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -624,27 +641,40 @@ class HomeFragment : Fragment() {
     }
 
     private fun getRecommendedExercisesFromApi() {
-        val bodyPart = "chest"
-        api.getExercises(bodyPart).enqueue(object : Callback<List<Exercise>> {
-            override fun onResponse(
-                call: Call<List<Exercise>>, response: Response<List<Exercise>>
-            ) {
-                if (response.isSuccessful && response.body() != null) {
-                    val list = response.body()!!.take(10)
+        if (isInternetAvailable()) {
+            val bodyPart = "chest"
+            api.getExercises(bodyPart).enqueue(object : Callback<List<Exercise>> {
+                override fun onResponse(
+                    call: Call<List<Exercise>>, response: Response<List<Exercise>>
+                ) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val exercises = response.body()!!.take(10)
 
-                    recommendedAdapter = RecommendedExercisesAdapter(list)
-                    rvRecommendedExercises.adapter = recommendedAdapter
+                        saveRecommendedToRoom(exercises)
 
-                    // بدء التمرير التلقائي بعد تحميل البيانات
-                    startAutoScroll()
+                        val recommendedList = exercises.map {
+                            RecommendedExercise(
+                                id = it.id,
+                                name = it.name,
+                                gifUrl = it.gifUrl
+                            )
+                        }
+                        recommendedAdapter = RecommendedExercisesAdapter(recommendedList)
+                        rvRecommendedExercises.adapter = recommendedAdapter
+
+                        startAutoScroll()
+                    } else {
+                        loadFromRoom()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
-                Toast.makeText(requireContext(), "Failed to load exercises", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        })
+                override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
+                    loadFromRoom()
+                }
+            })
+        } else {
+            loadFromRoom()
+        }
     }
 
     private fun startAutoScroll() {
@@ -664,9 +694,61 @@ class HomeFragment : Fragment() {
         }, scrollDelay)
     }
 
-
-    private fun saveAllData() {
-        saveData()
-        saveDataToFirestore()
+    private fun checkIfListIsEmpty() {
+        if (adapter.itemCount > 0) {
+            binding.emptyMessage.visibility = View.GONE
+            binding.recyclerViewWorkouts.visibility = View.VISIBLE
+            binding.recyclerViewWorkouts.setBackgroundResource(R.drawable.border)
+        } else {
+            binding.emptyMessage.visibility = View.VISIBLE
+            binding.recyclerViewWorkouts.visibility = View.GONE
+        }
     }
-}
+
+    private fun saveRecommendedToRoom(exercises: List<Exercise>) {
+        val entities = exercises.map {
+            RecommendedExerciseEntity(
+                id = it.id,
+                name = it.name,
+                gifUrl = it.gifUrl
+            )
+        }
+
+        lifecycleScope.launch {
+            val dao = AppDatabase.getDatabase(requireContext()).recommendedExerciseDao()
+            dao.clearAll()
+            dao.insertAll(entities)
+        }
+
+    }
+
+    private fun loadFromRoom() {
+        lifecycleScope.launch {
+            val dao = AppDatabase.getDatabase(requireContext()).recommendedExerciseDao()
+            val localExercises = dao.getTopExercises()
+
+            val exercises = localExercises.map {
+                RecommendedExercise(
+                    id = it.id,
+                    name = it.name,
+                    gifUrl = it.gifUrl,
+
+                )
+            }
+
+            recommendedAdapter = RecommendedExercisesAdapter(exercises)
+            rvRecommendedExercises.adapter = recommendedAdapter
+
+            startAutoScroll()
+        }
+    }
+
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager =
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+        return activeNetwork.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }}

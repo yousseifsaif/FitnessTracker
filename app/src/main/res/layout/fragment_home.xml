@@ -94,10 +94,29 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/btnAddDay"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/border"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                />
+
+            <TextView
+                android:id="@+id/emptyMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="No workouts added yet"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp"
+                android:layout_marginTop="90dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tag"
+                tools:layout_editor_absoluteX="16dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
 
     <!-- Main Floating Action Button (bottom-right) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

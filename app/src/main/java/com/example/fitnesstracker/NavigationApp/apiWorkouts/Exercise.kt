@@ -16,5 +16,7 @@ data class Exercise(
 
 )
 {
-    constructor() : this("", "", "", "", "", "", listOf(), listOf(), false)
+    constructor(id: String, name: String, gifUrl: String) : this(
+        id, name, "", "", "", gifUrl, emptyList(), emptyList(), false
+    )
 }
