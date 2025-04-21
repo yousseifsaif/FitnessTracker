@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="@drawable/border_profile"
+    android:background="@drawable/border"
     android:elevation="4dp"
     android:layout_margin="4dp">
 

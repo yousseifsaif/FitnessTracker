@@ -297,17 +297,18 @@ class HomeFragment : Fragment() {
 
         sharedPreferences =
             requireContext().getSharedPreferences("WorkoutPrefs", Context.MODE_PRIVATE)
-        loadSavedData()
 
         adapter = WorkoutAdapter(daysList, exercisesMap, ::onDeleteDay, ::onDeleteExercise)
         binding.recyclerViewWorkouts.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewWorkouts.adapter = adapter
         binding.recyclerViewWorkouts.setHasFixedSize(true)
 
+
+
+        loadSavedData()
+        fetchDataFromFirestore()
         adapter.notifyDataSetChanged()
-
         checkIfListIsEmpty()
-
         setupFab()
 
         binding.btnAddDay.setOnClickListener { showAddDayDialog() }
