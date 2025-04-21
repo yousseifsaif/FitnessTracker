@@ -41,7 +41,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercisesAdapter
 import com.example.fitnesstracker.NavigationApp.home.WorkoutAdapter
 import com.example.fitnesstracker.NavigationApp.home.WorkoutPlansFragment
-import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.AppDatabase
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExerciseDatabase
 import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercise
 import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExerciseEntity
 import com.google.firebase.auth.FirebaseAuth
@@ -715,7 +715,7 @@ class HomeFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            val dao = AppDatabase.getDatabase(requireContext()).recommendedExerciseDao()
+            val dao = RecommendedExerciseDatabase.getDatabase(requireContext()).recommendedExerciseDao()
             dao.clearAll()
             dao.insertAll(entities)
         }
@@ -724,7 +724,7 @@ class HomeFragment : Fragment() {
 
     private fun loadFromRoom() {
         lifecycleScope.launch {
-            val dao = AppDatabase.getDatabase(requireContext()).recommendedExerciseDao()
+            val dao = RecommendedExerciseDatabase.getDatabase(requireContext()).recommendedExerciseDao()
             val localExercises = dao.getTopExercises()
 
             val exercises = localExercises.map {
