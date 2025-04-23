@@ -1,7 +1,10 @@
 package com.example.fitnesstracker
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +16,13 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.fitnesstracker.NavigationApp.FragmentProfile
 import com.example.fitnesstracker.NavigationApp.HomeFragment
 import com.example.fitnesstracker.NavigationApp.MealsFragment
@@ -21,7 +30,9 @@ import com.example.fitnesstracker.NavigationApp.WorkoutsFragment
 import com.example.fitnesstracker.NavigationApp.apiWorkouts.ExerciseEntity
 import com.example.fitnesstracker.ToolBarIcons.AppDatabase
 import com.example.fitnesstracker.ToolBarIcons.BreakTimerDialog
-import com.example.fitnesstracker.ToolBarIcons.NotificationFragment
+import com.example.fitnesstracker.ToolBarIcons.Nottifications.CongratsWorker
+import com.example.fitnesstracker.ToolBarIcons.Nottifications.DailyNotificationWorker
+import com.example.fitnesstracker.ToolBarIcons.Nottifications.NotificationActivity
 import com.example.fitnesstracker.ToolBarIcons.SearchFragment
 import com.example.fitnesstracker.databinding.ActivityMainBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
@@ -31,6 +42,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
+
 
 class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
     private lateinit var binding: ActivityMainBinding
@@ -40,10 +53,15 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
     private var countDownTimer: CountDownTimer? = null
     private var remainingTime: Long = 0
     private var isFabOpen = false
+    private val NOTIFICATION_PERMISSION_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
+        requestNotificationPermission()
+        saveOpenTime(this)
+        scheduleDailyNotification()
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -76,7 +94,8 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
             replaceFragment(SearchFragment())
         }
         binding.ivNotifications.setOnClickListener {
-            replaceFragment(NotificationFragment())
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
@@ -185,5 +204,42 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
             }
         }
     }
+    fun scheduleDailyNotification() {
+        val dailyRequest = PeriodicWorkRequestBuilder<DailyNotificationWorker>(1, TimeUnit.DAYS)
+            .build()
+
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "daily_notification",
+            ExistingPeriodicWorkPolicy.KEEP,
+            dailyRequest
+        )
+    }
+    fun saveOpenTime(context: Context) {
+        val prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+        prefs.edit().putLong("last_opened_time", System.currentTimeMillis()).apply()
+
+        // ✨ جدولة نوتيفيكيشن التهنئة بعد ساعة
+        val request = OneTimeWorkRequestBuilder<CongratsWorker>()
+            .setInitialDelay(1, TimeUnit.HOURS)
+            .build()
+
+        WorkManager.getInstance(context).enqueue(request)
+    }
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    NOTIFICATION_PERMISSION_CODE
+                )
+            }
+        }
+    }
+
 }
 
