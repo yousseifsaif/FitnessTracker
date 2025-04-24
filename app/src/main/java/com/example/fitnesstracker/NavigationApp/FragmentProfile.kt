@@ -122,7 +122,7 @@ binding.btnFav.setOnClickListener {
     }
 
     private fun logoutUser(context: Context) {
-        val sharedPref = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val sharedPref = requireContext().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         sharedPref.edit().clear().apply()
 
 //        FirebaseAuth.getInstance().signOut()
