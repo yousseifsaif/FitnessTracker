@@ -1,7 +1,9 @@
 package com.example.fitnesstracker.Login_SignUp
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +39,8 @@ class SignUp : AppCompatActivity() {
         binding.text.setOnClickListener {
             val intenttext = Intent(this, LogIn::class.java)
             startActivity(intenttext)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            finish()
         }
 
         binding.signupButton.setOnClickListener {
@@ -112,8 +116,14 @@ class SignUp : AppCompatActivity() {
                     ).show()
 
                     startActivity(Intent(this, LogIn::class.java))
-
+                    finish()
                 }
             }
+    }
+    fun shakeView(view: View) {
+        val animator =
+            ObjectAnimator.ofFloat(view, "translationX", 0f, 10f, -10f, 10f, -10f, 5f, -5f, 0f)
+        animator.duration = 500
+        animator.start()
     }
 }
