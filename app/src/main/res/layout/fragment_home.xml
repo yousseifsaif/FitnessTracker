@@ -8,43 +8,59 @@
     tools:context=".NavigationApp.HomeFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp">
-
-            <!--            &lt;!&ndash;  &ndash;&gt;-->
-            <!--            <TextView-->
-            <!--                android:id="@+id/nameUser"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="ahmed"-->
-            <!--                android:textSize="50sp"-->
-            <!--                android:padding="12dp"-->
-            <!--                android:textColor="@color/white"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent" />-->
-
-            <EditText
-                android:id="@+id/etWorkoutDay"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_text"
-                android:backgroundTint="@color/white"
-                android:hint="Enter Workout Name"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Suggested Workouts"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints" />
+                android:textColor="@color/white"
+                android:padding="10dp"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecommendedExercises"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@+id/tag"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:listitem="@layout/item_exercise_horizontal" />
+            <!-- Workout Day Input -->
+<!--            <EditText-->
+<!--                android:id="@+id/etWorkoutDay"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/edit_text"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:hint="Enter Workout Name"-->
+<!--                android:padding="10dp"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textColorHint="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+            <!-- Add Workout Button -->
             <Button
                 android:id="@+id/btnAddDay"
                 android:layout_width="150dp"
@@ -54,41 +70,106 @@
                 android:text="Add Workout Name"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etWorkoutDay" />
+                app:layout_constraintTop_toBottomOf="@id/rvRecommendedExercises"
+               />
 
+            <!-- Suggestion Workout Button -->
             <Button
                 android:id="@+id/suggestion_workout"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_profile"
-                android:text="suggestion workout"
+                android:text="Suggestion Workout"
                 android:textColor="@color/white"
-
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etWorkoutDay" />
+                app:layout_constraintTop_toBottomOf="@id/rvRecommendedExercises"
 
+                />
+
+            <!-- RecyclerView for Workouts -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewWorkouts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAddDay"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnAddDay" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/border"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabAddWorkout"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/emptyMessage"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@color/mainColor"
-                android:src="@drawable/plus"
+                android:gravity="center"
+                android:text="No workouts added yet"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp"
+                android:layout_marginTop="90dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/tag"
+                tools:layout_editor_absoluteX="16dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 
+
+    <!-- Main Floating Action Button (bottom-right) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add"
+        app:maxImageSize="30dp"
+
+        android:tint="@color/white"
+        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Sub Floating Action Button: Add Workout (bottom-right) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addWorkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_workout"
+        android:tint="@color/white"
+        android:visibility="invisible"
+        app:maxImageSize="40dp"
+
+        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="80dp" />
+
+    <!-- Sub Floating Action Button: Search (bottom-right) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ai"
+        app:maxImageSize="50dp"
+        android:tint="@color/white"
+        android:visibility="invisible"
+        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="140dp" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/star"
+        app:maxImageSize="40dp"
+        android:tint="@color/white"
+        android:visibility="invisible"
+        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="210dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

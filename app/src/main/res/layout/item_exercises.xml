@@ -17,6 +17,15 @@
     app:layout_constraintBottom_toBottomOf="parent"
 >
     <ImageView
+        android:id="@+id/favoriteButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_favorite_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
 
         android:id="@+id/exerciseImage"
         android:layout_width="100dp"

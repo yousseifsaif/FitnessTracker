@@ -11,6 +11,7 @@
 
     android:orientation="vertical"
     >
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,9 +19,7 @@
         android:textSize="24sp"
         android:layout_marginTop="24dp"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:paddingBottom="16dp"/>
+        android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -74,11 +73,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:background="@drawable/btn_profile"
-
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp"
             >
 
             <ImageView
@@ -106,9 +104,13 @@
         android:background="@drawable/btn_profile"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+
         android:padding="16dp"
 
         >
+
+        android:padding="16dp">
+
 
         <ImageView
             android:layout_width="24dp"
@@ -125,4 +127,31 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/notification_setting"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_profile"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        >
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/person_with_bg" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="notification setting"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
 </LinearLayout>

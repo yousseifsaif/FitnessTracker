@@ -1,23 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/backgroundColor"
+    android:padding="16dp"
 
-    <!-- قائمة التمارين القابلة للتوسيع -->
-    <ExpandableListView
-        android:id="@+id/expandableListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
+    >
 
-    <!-- حاوية للأزرار -->
     <LinearLayout
-        android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="16dp" />
-</LinearLayout>
+        android:orientation="vertical">
+
+        <!-- ==== PUSH ==== -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="💪 Push Wor888888kout"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#D32F2F"
+                    android:paddingBottom="8dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Bench Press (Barbell) – 3x8-12"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Incline Press (Dumbbell) – 3x8-12"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Seated Shoulder Press – 3x8-12"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Lateral Raise – 3x12-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Skullcrushers – 3x10-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Tricep Rope Pushdown – 3x12-20"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ==== PULL ==== -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🧲 Pull Workout"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#1976D2"
+                    android:paddingBottom="8dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Pull Up or Chin Up – 3x6-12"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Bent Over Row – 3x6-12"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Seated Cable Row – 3x10-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Dumbbell Row – 2x10-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Bicep Curl – 3x8-12"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Preacher Curl – 2x12-20"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Face Pull – 2-3x12-25"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ==== LEGS ==== -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🦵 Leg Workout"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#388E3C"
+                    android:paddingBottom="8dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Squat – 3x6-10"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Romanian Deadlift – 3x6-10"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Bulgarian Split Squat – 3x8-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Glute Ham Raise – 3x10-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Standing Calf Raise – 3x8-15"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ==== WORKOUT A ==== -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🔥 Workout A"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#F57C00"
+                    android:paddingBottom="8dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Squats – 3x6-8"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Bench Press – 3x6-8"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Pull-Ups – 3x8-10"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Shoulder Press – 3x8-10"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Leg Curls – 3x8-10"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Biceps Curls – 3x10-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Face Pulls – 3x10-15"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ==== WORKOUT B ==== -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🔥 Workout B"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#512DA8"
+                    android:paddingBottom="8dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Romanian Deadlift – 3x6-8"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Seated Cable Rows – 3x6-8"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Incline Dumbbell Press – 3x8-10"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Leg Press – 3x10-12"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Lateral Raises – 3x10-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Triceps Pushdowns – 3x10-15"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Standing Calf Raises – 4x6-10"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ==== WEEKLY SCHEDULE ==== -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="12dp"
+            card_view:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📅 Workout Schedule"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#0097A7"
+                    android:paddingBottom="8dp" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Day 1: Chest and Back"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Day 2: Shoulders, Arms , Forearms"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Day 3: Legs , Lower Back"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Day 4: Chest and Back"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Day 5: Shoulders, Arms , Forearms"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Day 6: Legs , Lower Back"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="• Day 7: Rest 💤"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

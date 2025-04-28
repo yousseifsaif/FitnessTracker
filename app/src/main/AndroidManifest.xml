@@ -24,13 +24,27 @@
             android:exported="false" />
         <activity
             android:name=".ProfileSettings.NotificationsSettings"
+            android:name=".NavigationApp.suggestWorkouts"
+            android:exported="false"
+            android:label="@string/title_activity_suggest_workouts"
+            android:theme="@style/Theme.FitnessTracker" />
+        <activity
+            android:name=".NavigationApp.ProfileFields.FavoritesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NavigationApp.chatAi.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NavigationApp.ApiMeals.DetailActivity"
+
             android:exported="false" />
         <activity
             android:name=".NavigationApp.apiWorkouts.CategoryWorkoutsActivity"
             android:exported="false" />
         <activity
             android:name=".NavigationApp.apiWorkouts.ExerciseDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Exercise Details" />
         <activity
             android:name=".NavigationApp.ProfileFields.HelpActivity"
             android:exported="false" />
@@ -64,6 +78,7 @@
         <activity
             android:name=".NavigationApp.HomeFragment"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             tools:ignore="Instantiatable,MissingClass" />
         <activity
             android:name=".NavigationApp.MealsFragment"

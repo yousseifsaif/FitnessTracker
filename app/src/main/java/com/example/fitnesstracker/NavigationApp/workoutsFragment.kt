@@ -8,42 +8,45 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fitnesstracker.NavigationApp.apiWorkouts.ApiCallable
 import com.example.fitnesstracker.NavigationApp.apiWorkouts.CategoryAdapter
 import com.example.fitnesstracker.NavigationApp.apiWorkouts.CategoryData
 import com.example.fitnesstracker.NavigationApp.apiWorkouts.CategoryWorkoutsActivity
-import com.example.fitnesstracker.NavigationApp.apiWorkouts.Exercise
 import com.example.fitnesstracker.NavigationApp.apiWorkouts.ExerciseApiAdapter
+import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.FragmentWorkoutBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.jvm.java
 
 class WorkoutsFragment : Fragment() {
 
     private lateinit var exerciseAdapter: ExerciseApiAdapter
     private lateinit var binding: FragmentWorkoutBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        exerciseAdapter = ExerciseApiAdapter(ArrayList())
+        exerciseAdapter = ExerciseApiAdapter(
+            exercises = ArrayList(),
+            onFavoriteClick = { exercise ->
+                Log.d("Favorite", "Clicked on favorite for: ${exercise.name}")
+            },
+            onItemClick = { exercise ->
+                Log.d("ItemClick", "Clicked on: ${exercise.name}")
+            },
+
+        )
         binding = FragmentWorkoutBinding.inflate(inflater, container, false)
 val ListOfExercises = listOf<CategoryData>(
-    CategoryData("chest", com.example.fitnesstracker.R.drawable.chestworkouts),
-    CategoryData("back", com.example.fitnesstracker.R.drawable.back),
-    CategoryData("lower arms", com.example.fitnesstracker.R.drawable.lowerarms),
-    CategoryData("lower legs", com.example.fitnesstracker.R.drawable.lowerrlegs),
-    CategoryData("shoulders", com.example.fitnesstracker.R.drawable.shoulders),
-    CategoryData("upper arms", com.example.fitnesstracker.R.drawable.upperarms),
-    CategoryData("upper legs", com.example.fitnesstracker.R.drawable.upperlegs),
-    CategoryData("waist", com.example.fitnesstracker.R.drawable.waist),
-    CategoryData("neck", com.example.fitnesstracker.R.drawable.neck),
-    CategoryData("cardio", com.example.fitnesstracker.R.drawable.cardio),
+    CategoryData("chest", R.drawable.chestworkouts),
+    CategoryData("back", R.drawable.back),
+    CategoryData("lower arms", R.drawable.lowerarms),
+    CategoryData("lower legs", R.drawable.lowerrlegs),
+    CategoryData("shoulders", R.drawable.shoulders),
+    CategoryData("upper arms", R.drawable.upperarms),
+    CategoryData("upper legs", R.drawable.upperlegs),
+    CategoryData("waist", R.drawable.waist),
+    CategoryData("neck", R.drawable.neck),
+    CategoryData("cardio", R.drawable.cardio),
 
     )
         val categoryAdapter = CategoryAdapter(ListOfExercises) { selectedCategory ->

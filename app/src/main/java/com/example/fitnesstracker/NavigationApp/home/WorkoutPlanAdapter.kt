@@ -1,4 +1,4 @@
-package com.example.fitnesstracker.NavigationApp
+package com.example.fitnesstracker.NavigationApp.home
 
 import android.view.LayoutInflater
 import android.view.View

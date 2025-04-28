@@ -1,15 +1,15 @@
-package com.example.fitnesstracker.NavigationApp
+package com.example.fitnesstracker.NavigationApp.home
 
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fitnesstracker.NavigationApp.ExerciseAdapter
 import com.example.fitnesstracker.R
 
 
@@ -39,7 +39,7 @@ class WorkoutAdapter(
         holder.tvDayName.textSize = 22f
         holder.rvExercises.apply {
             layoutManager = LinearLayoutManager(holder.itemView.context)
-//            adapter = ExerciseAdapter(exercisesMap[day] ?: mutableListOf(), day, onDeleteExercise)
+            adapter = ExerciseAdapter(exercisesMap[day] ?: mutableListOf(), day, onDeleteExercise)
         }
 
         holder.btnDeleteDay.setOnClickListener {
