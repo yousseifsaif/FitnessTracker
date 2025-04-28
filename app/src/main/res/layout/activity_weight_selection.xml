@@ -29,7 +29,7 @@
         android:id="@+id/subtitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        android:text="Providing your weight information ensures we can deliver more precise insights, personalized plans, and progress tracking."
         android:textColor="#CCCCCC"
         android:textSize="14sp"
         android:textAlignment="center"

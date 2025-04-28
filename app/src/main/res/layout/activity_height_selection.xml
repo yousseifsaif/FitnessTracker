@@ -28,7 +28,7 @@
         android:id="@+id/subtitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        android:text="Providing your height helps us ensure that the recommendations, insights, and tracking data we offer are as accurate as possible."
         android:textColor="#CCCCCC"
         android:textSize="14sp"
         android:textAlignment="center"

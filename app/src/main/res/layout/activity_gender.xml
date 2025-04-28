@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:background="@color/editTextBackground"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+        android:text="Your gender helps us customize your journey. You can always update it later if needed."
         android:layout_gravity="center"
         android:textAlignment="center"
         android:padding="12dp"
@@ -43,7 +43,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:background="@drawable/male_bacground"
-        app:tint="@color/white"
+        app:tint="@color/black"
         android:layout_marginBottom="40dp"
         android:contentDescription="maleOption"
         />
