@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
 import com.example.fitnesstracker.MainActivity
+import com.example.fitnesstracker.ProfileSettings.ForgottenPasswordSettings
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivitySettingsBinding
 import com.google.android.material.snackbar.Snackbar
@@ -30,8 +31,9 @@ class SettingsActivity : AppCompatActivity() {
             restartApp()
         }
         binding.forgetPassword.setOnClickListener {
-            startActivity(Intent(this, ForgottenPassword::class.java))
+            startActivity(Intent(this, ForgottenPasswordSettings::class.java))
         }
+
 
     }
     fun setDarkModeEnabled(context: Context, isEnabled: Boolean) {

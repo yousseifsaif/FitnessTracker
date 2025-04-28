@@ -8,6 +8,7 @@
     tools:context=".NavigationApp.ProfileFields.SettingsActivity"
     android:background="@color/backgroundColor"
     android:padding="16dp"
+
     android:orientation="vertical"
     >
 
@@ -103,7 +104,13 @@
         android:background="@drawable/btn_profile"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+
+        android:padding="16dp"
+
+        >
+
         android:padding="16dp">
+
 
         <ImageView
             android:layout_width="24dp"
@@ -120,6 +127,8 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
+
     <LinearLayout
         android:id="@+id/notification_setting"
         android:layout_marginTop="16dp"
@@ -144,4 +153,5 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
     </LinearLayout>
+
 </LinearLayout>
