@@ -24,7 +24,6 @@
             android:exported="false" />
         <activity
             android:name=".ProfileSettings.NotificationsSettings"
-            android:name=".NavigationApp.suggestWorkouts"
             android:exported="false"
             android:label="@string/title_activity_suggest_workouts"
             android:theme="@style/Theme.FitnessTracker" />

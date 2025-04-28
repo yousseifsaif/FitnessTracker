@@ -26,6 +26,7 @@ import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.setup_pages.nav
 import com.example.fitnesstracker.viewmodel.UserViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class FragmentProfile : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -78,7 +79,7 @@ class FragmentProfile : Fragment() {
         }
         // Button Click Listener
 
-}
+
 
         binding.btnProfile.setOnClickListener {
 
@@ -116,8 +117,6 @@ binding.btnFav.setOnClickListener {
         val dialogBinding = DialogLogoutBinding.bind(dialogView)
 
 
-        val dialog = AlertDialog.Builder(requireContext()).setView(dialogView)
-            .setCancelable(false) // Prevent dismiss on outside touch
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -140,10 +139,10 @@ binding.btnFav.setOnClickListener {
     }
 
     private fun logoutUser(context: Context) {
-        val sharedPref = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val sharedPref = requireContext().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         sharedPref.edit().clear().apply()
 
-//        FirebaseAuth.getInstance().signOut()
+     FirebaseAuth.getInstance().signOut()
 
         val intent = Intent(requireActivity(), LogIn::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
