@@ -118,7 +118,7 @@ fun WorkoutCard(title: String, exercises: List<String>, cardColor: Color) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
-        shape = RoundedCornerShape(12.dp), // ✅ Fix here
+        shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(6.dp),
         colors = CardDefaults.cardColors(containerColor = cardColor)
     ) {

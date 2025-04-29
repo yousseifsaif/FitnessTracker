@@ -1,8 +1,10 @@
 package com.example.fitnesstracker.Login_SignUp
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +35,7 @@ class LogIn : AppCompatActivity() {
 
         binding.signupText.setOnClickListener {
             startActivity(Intent(this, SignUp::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         binding.loginButton.setOnClickListener {
@@ -46,10 +49,15 @@ class LogIn : AppCompatActivity() {
 
         if (email.isEmpty()) {
             binding.emailEditText.error = "Please enter your email"
+            shakeView(binding.emailEditText)
+            shakeView(binding.text1)
         }
 
         if (password.isEmpty()) {
             binding.passwordEditText.error = "Please enter your password"
+            shakeView(binding.passwordEditText)
+            shakeView(binding.text2)
+
         }
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -117,5 +125,10 @@ class LogIn : AppCompatActivity() {
                     }
                 }
             }
+    }
+    fun shakeView(view: View) {
+        val animator = ObjectAnimator.ofFloat(view, "translationX", 0f, 10f, -10f, 10f, -10f, 5f, -5f, 0f)
+        animator.duration = 500
+        animator.start()
     }
 }

@@ -101,6 +101,10 @@ dependencies {
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.4")
     implementation ("androidx.activity:activity-compose:1.7.2")
     implementation ("androidx.navigation:navigation-compose:2.7.0")
+    implementation ("com.airbnb.android:lottie:3.4.0")
+
+    implementation ("androidx.work:work-runtime-ktx:2.10.0")
+
 
 
 }

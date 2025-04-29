@@ -16,15 +16,16 @@
 
     app:layout_constraintBottom_toBottomOf="parent"
 >
+
     <ImageView
         android:id="@+id/favoriteButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_margin="8dp"
+        android:layout_margin="6dp"
         android:src="@drawable/ic_favorite_border"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toEndOf="@+id/exerciseImage"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseTarget" />
     <ImageView
 
         android:id="@+id/exerciseImage"
@@ -52,12 +53,12 @@
         android:id="@+id/exerciseTarget"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:paddingStart="6dp"
         android:paddingTop="4dp"
         android:text="njhg"
         android:textColor="#666"
         android:textSize="14sp"
-        android:maxLines="3"
-        android:paddingStart="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/exerciseImage"
         app:layout_constraintTop_toBottomOf="@+id/exerciseName" />
