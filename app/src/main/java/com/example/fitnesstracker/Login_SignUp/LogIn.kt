@@ -3,6 +3,8 @@ package com.example.fitnesstracker.Login_SignUp
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -66,6 +68,7 @@ class LogIn : AppCompatActivity() {
     }
 
     private fun login(email: String, password: String) {
+        binding.loading.visibility = View.VISIBLE
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -78,7 +81,7 @@ class LogIn : AppCompatActivity() {
                                     .addOnSuccessListener { document ->
                                         val userData = document.toObject(SharedPrefHelper.User::class.java) ?: SharedPrefHelper.User()
                                         Log.d("LoginTest", userData.toString())
-
+                                        Handler(Looper.getMainLooper()).postDelayed({
                                         SharedPrefHelper(this).saveUserToPrefs(userData)
 
                                         val nextActivity = getNextActivity(userData)
@@ -94,34 +97,48 @@ class LogIn : AppCompatActivity() {
                                             )
                                             saveLoginState(this, true)
                                             finish()
+
+
                                         } else {
                                             Log.e("LoginTest", "Error: Next activity is null!")
                                             runOnUiThread {
                                                 Toast.makeText(this, "Error: Could not determine next screen", Toast.LENGTH_SHORT).show()
+                                                binding.loading.visibility = View.GONE
+
                                             }
                                         }
-                                    }
+
+                                    }, 500)
+                            }
                                     .addOnFailureListener { e ->
                                         Log.e("fireStore", "Error fetching user data", e)
                                         runOnUiThread {
                                             Toast.makeText(this, "Error fetching user data", Toast.LENGTH_SHORT).show()
+                                            binding.loading.visibility = View.GONE
+
                                         }
                                     }
                             } else {
                                 Log.e("fireStore", "Error: User ID is empty!")
                                 runOnUiThread {
                                     Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show()
+                                    binding.loading.visibility = View.GONE
+
                                 }
                             }
                         }
                     } else {
                         runOnUiThread {
                             Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
+                            binding.loading.visibility = View.GONE
+
                         }
                     }
                 } else {
                     runOnUiThread {
                         Toast.makeText(this, "Invalid email or password!", Toast.LENGTH_SHORT).show()
+                        binding.loading.visibility = View.GONE
+
                     }
                 }
             }

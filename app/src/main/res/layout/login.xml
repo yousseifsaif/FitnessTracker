@@ -11,57 +11,60 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            tools:ignore="MissingConstraints">-->
+        <!--        <androidx.appcompat.widget.Toolbar-->
+        <!--            android:id="@+id/toolbar"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="?attr/actionBarSize"-->
+        <!--            tools:ignore="MissingConstraints">-->
 
-<!--            <TextView-->
+        <!--            <TextView-->
 
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/log_in"-->
-<!--                android:paddingTop="38dp"-->
-<!--                android:textColor="#E2F163"-->
-<!--                android:textSize="20sp"-->
-<!--                android:textStyle="bold" -->
-<!--                -->
-<!--                />-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:gravity="center"-->
+        <!--                android:text="@string/log_in"-->
+        <!--                android:paddingTop="38dp"-->
+        <!--                android:textColor="#E2F163"-->
+        <!--                android:textSize="20sp"-->
+        <!--                android:textStyle="bold" -->
+        <!--                -->
+        <!--                />-->
 
-<!--        </androidx.appcompat.widget.Toolbar>-->
+        <!--        </androidx.appcompat.widget.Toolbar>-->
 
-        <TextView
-            android:id="@+id/welcomeText"
+        <!--        <TextView-->
+        <!--            android:id="@+id/welcomeText"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:text="@string/log_in"-->
+        <!--            android:textAlignment="center"-->
+        <!--            android:textColor="@color/purple"-->
+        <!--            android:textSize="20sp"-->
+        <!--            android:textStyle="bold"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            android:paddingTop="20dp"-->
+        <!--            />-->
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/f1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/log_in"
-            android:textAlignment="center"
-            android:textColor="@color/purple"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:layout_height="180dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:paddingTop="20dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/login"
+
             />
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/f1"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="12dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                android:layout_marginTop="12dp"
-                android:padding="24dp"
-                app:lottie_rawRes="@raw/login"
-                app:layout_constraintTop_toBottomOf="@id/welcomeText"
-            />
-
-            <View
+        <View
             android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="235dp"
@@ -118,9 +121,9 @@
             android:layout_width="311dp"
             android:layout_height="48dp"
             android:background="@drawable/edit_text"
-            android:hint="*************"
             android:drawableStart="@drawable/password"
             android:drawablePadding="8dp"
+            android:hint="*************"
             android:inputType="textPassword"
             android:textColor="@color/black"
             android:textColorHint="#BE000000"
@@ -130,16 +133,17 @@
 
 
             />
+
         <Button
             android:id="@+id/forgetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="all"
-            android:text="@string/forgot_password"
-            android:textColor="@color/white"
             android:background="@color/ButtonTranspernt"
-
             android:paddingTop="8dp"
+            android:text="@string/forgot_password"
+
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/passwordEditText"
             app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
@@ -159,67 +163,80 @@
 
             />
 
-<!--        <TextView-->
-<!--            android:id="@+id/text"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="16dp"-->
-<!--            android:text="@string/signUpWith"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="14sp"-->
-<!--            app:layout_constraintEnd_toEndOf="@id/view1"-->
-<!--            app:layout_constraintStart_toStartOf="@id/view1"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/login_button"-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/text"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:padding="16dp"-->
+        <!--            android:text="@string/signUpWith"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:textSize="14sp"-->
+        <!--            app:layout_constraintEnd_toEndOf="@id/view1"-->
+        <!--            app:layout_constraintStart_toStartOf="@id/view1"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/login_button"-->
 
-<!--            />-->
+        <!--            />-->
 
 
-<!--        <ImageView-->
-<!--            android:id="@+id/img_google"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:paddingHorizontal="8dp"-->
-<!--            android:src="@drawable/google_icon"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.325"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/text" />-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/img_google"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="8dp"-->
+        <!--            android:paddingHorizontal="8dp"-->
+        <!--            android:src="@drawable/google_icon"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.325"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/text" />-->
 
-<!--        <ImageView-->
-<!--            android:id="@+id/img_facebook"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="12dp"-->
-<!--            android:layout_marginTop="8dp"-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/img_facebook"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="12dp"-->
+        <!--            android:layout_marginTop="8dp"-->
 
-<!--            android:paddingHorizontal="8dp"-->
-<!--            android:src="@drawable/facebook_icon"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/img_google"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/text" />-->
+        <!--            android:paddingHorizontal="8dp"-->
+        <!--            android:src="@drawable/facebook_icon"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/img_google"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/text" />-->
 
-<!--        <ImageView-->
-<!--            android:id="@+id/img_fingerprint"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="12dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:paddingHorizontal="8dp"-->
-<!--            android:src="@drawable/fingerprint_icon"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/img_facebook"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/text" />-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/img_fingerprint"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="12dp"-->
+        <!--            android:layout_marginTop="8dp"-->
+        <!--            android:paddingHorizontal="8dp"-->
+        <!--            android:src="@drawable/fingerprint_icon"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/img_facebook"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/text" />-->
 
         <TextView
             android:id="@+id/signup_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="26dp"
+            android:paddingTop="15dp"
             android:text="@string/logInText"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintTop_toBottomOf="@id/login_button"
- />
+            app:layout_constraintTop_toBottomOf="@id/login_button" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_margin="8dp"
+            android:visibility="invisible"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signup_text"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/load" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
