@@ -53,6 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="8dp"
             android:backgroundTint="@color/editTextBackground"
             android:text="KG"
             android:textColor="#FFFFFF" />
@@ -62,6 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="8dp"
             android:backgroundTint="@color/editTextBackground"
             android:text="LB"
             android:textColor="#CCCCCC" />
