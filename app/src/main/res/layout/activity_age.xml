@@ -27,7 +27,7 @@
         android:id="@+id/subtitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        android:text="Age helps us tailor workouts and calorie recommendations just for you."
         android:textColor="#CCCCCC"
         android:textSize="14sp"
         android:textAlignment="center"
