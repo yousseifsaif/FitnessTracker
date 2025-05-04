@@ -10,7 +10,7 @@
     <color name="gray">#373737</color>
     <color name="profileColor">#B3A0FF</color>
     <color name="mainColor">#896CFE</color>
-
+    <color name="transparent_purple">#80CAB9F0</color>
     #373737
 
 </resources>
