@@ -16,6 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.fitnesstracker.NavigationApp.ApiMeals.room.MealDao
+import com.example.fitnesstracker.NavigationApp.apiWorkouts.AppDatabase
 
 class RecipeCategoryFragment : Fragment() {
     private lateinit var recipeAdapter: RecipeAdapter
@@ -86,8 +87,10 @@ class RecipeCategoryFragment : Fragment() {
     }
 
     private fun saveRecipesToRoom(recipes: List<Hit>) {
-        val mealDao = MealDatabaseInstance.getDatabase(requireContext()).mealDao()
-        lifecycleScope.launch {
+        val context = context ?: return
+        val mealDao = MealDatabaseInstance.getDatabase(context).mealDao()
+
+        viewLifecycleOwner.lifecycleScope.launch {
             recipes.forEach { hit ->
                 val meal = MealEntity(
                     label = hit.recipe.label,
