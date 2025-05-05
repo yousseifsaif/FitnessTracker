@@ -285,6 +285,7 @@ class HomeFragment : Fragment() {
 //            loadExercisesFromRoom()
 //        }
 
+
         api = Retrofit.Builder().baseUrl("https://exercisedb.p.rapidapi.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(ApiCallable::class.java)
