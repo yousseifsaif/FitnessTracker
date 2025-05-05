@@ -40,4 +40,6 @@
     <string name="empty_database_message">empty</string>
     <string name="no_results_found">no results</string>
     <string name="title_activity_suggest_workouts">suggestWorkouts</string>
+    <string name="help_support"><![CDATA[Help & Support]]></string>
+    <string name="contact_support"><![CDATA[📧 Contact & Support]]></string>
 </resources>
