@@ -38,5 +38,5 @@ class NotificationActivity : AppCompatActivity() {
                 Log.d("NotificationActivity", "All notifications cleared")
             }
         }
-    }}
-
+    }
+}

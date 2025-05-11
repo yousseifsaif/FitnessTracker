@@ -17,9 +17,7 @@ abstract class MealDatabase : RoomDatabase() {
         fun getDatabase(context: Context): MealDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    MealDatabase::class.java,
-                    "meals_database"
+                    context.applicationContext, MealDatabase::class.java, "meals_database"
                 ).build()
                 INSTANCE = instance
                 instance

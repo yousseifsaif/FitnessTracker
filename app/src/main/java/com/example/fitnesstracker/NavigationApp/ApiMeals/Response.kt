@@ -15,5 +15,4 @@ data class Recipe(
     val url: String,
     val calories: Double,
     val description: String?
-
 )

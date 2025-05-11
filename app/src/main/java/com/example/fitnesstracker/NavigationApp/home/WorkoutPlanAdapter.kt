@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnesstracker.R
 
 class WorkoutPlanAdapter(
-    private val plans: List<String>,
-    private val onClick: (String) -> Unit
+    private val plans: List<String>, private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<WorkoutPlanAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -19,7 +18,8 @@ class WorkoutPlanAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_workout_plan, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_workout_plan, parent, false)
         return ViewHolder(view)
     }
 

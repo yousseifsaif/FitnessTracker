@@ -1,14 +1,16 @@
 package com.example.fitnesstracker.setup_pages
 
-import android.content.Intent
+import ButtonClickUtil
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivityGenderBinding
+import com.example.fitnesstracker.toast.updateOrientationLock
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 
@@ -45,21 +47,24 @@ class Gender : AppCompatActivity() {
 
 
         button.setOnClickListener {
-            if (selectedGender == null) {
-                Toast.makeText(this, "please select your gender...", Toast.LENGTH_SHORT).show();
-            } else {
-                val id = intent.getStringExtra("id")
-                if (!id.isNullOrEmpty()) {
-                    val editor = SharedPrefHelper(this).prefs.edit()
-                    editor.putString("gender", selectedGender).apply()
-                    updateUserField("gender", selectedGender!!, id)
-                    startActivity(nav(NavData(AgeActivity::class.java, this, id.toString())))
+            ButtonClickUtil.preventSpamClick(this) {
 
+                if (selectedGender == null) {
+                    Toast.makeText(this, "please select your gender...", Toast.LENGTH_SHORT).show()
+                } else {
+                    val id = intent.getStringExtra("id")
+                    if (!id.isNullOrEmpty()) {
+                        SharedPrefHelper(this).prefs.edit { putString("gender", selectedGender) }
+                        updateUserField("gender", selectedGender!!, id)
+                        startActivity(nav(NavData(AgeActivity::class.java, this, id.toString())))
+                    }
                 }
             }
-
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
     }
 }
-

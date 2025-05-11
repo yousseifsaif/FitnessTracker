@@ -12,4 +12,3 @@ data class Message(
     val role: String, // "system", "user" أو "assistant"
     val content: String
 )
-

@@ -1,18 +1,32 @@
 package com.example.fitnesstracker.ProfileSettings
 
-import android.content.SharedPreferences
+import android.content.Context
+import android.content.pm.ActivityInfo
+import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import cancelAllNotifications
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivityNotificationsSettingsBinding
+import com.example.fitnesstracker.toast.updateOrientationLock
 
 class NotificationsSettings : AppCompatActivity() {
+
+    private lateinit var settings: NotificationSettings
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         val binding = ActivityNotificationsSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -22,82 +36,72 @@ class NotificationsSettings : AppCompatActivity() {
             insets
         }
 
-        val sharedPreferences: SharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        settings = NotificationSettings.load(this)
 
-        val isGeneralNotification = sharedPreferences.getBoolean("generalNotification", false)
-        val isSound = sharedPreferences.getBoolean("Sound", false)
-        val isDontDisturbMode = sharedPreferences.getBoolean("dontDisturbMode", false)
-        val isVibrate = sharedPreferences.getBoolean("Vibrate", false)
-        val isLockScreen = sharedPreferences.getBoolean("LockScreen", false)
-        val isReminders = sharedPreferences.getBoolean("Reminders", false)
+        binding.notificationSwitch.isChecked = settings.generalNotification
+        binding.soundSwitch.isChecked = settings.sound
+        binding.doNotDisturbModeSwitch.isChecked = settings.dontDisturbMode
+        binding.vibrateSwitch.isChecked = settings.vibrate
+        binding.lockScreenSwitch.isChecked = settings.lockScreen
+        binding.remindersSwitch.isChecked = settings.reminders
 
-        binding.notificationSwitch.isChecked = isGeneralNotification
-        binding.soundSwitch.isChecked = isSound
-        binding.doNotDisturbModeSwitch.isChecked = isDontDisturbMode
-        binding.vibrateSwitch.isChecked = isVibrate
-        binding.lockScreenSwitch.isChecked = isLockScreen
-        binding.remindersSwitch.isChecked = isReminders
+        val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager =
+                getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION") getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        }
+        binding.backButton.setOnClickListener { finish() }
 
-        // Update preferences when switches are toggled
         binding.notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
-            editor.putBoolean("generalNotification", isChecked)
-            editor.apply()
-            if (isChecked) {
-                // Enable general notifications
-            } else {
-                // Disable general notifications
-            }
+
+            settings.generalNotification = isChecked
+            NotificationSettings.save(this, settings)
+            cancelAllNotifications(this)
         }
 
         binding.soundSwitch.setOnCheckedChangeListener { _, isChecked ->
-            editor.putBoolean("Sound", isChecked)
-            editor.apply()
+            settings.sound = isChecked
+            NotificationSettings.save(this, settings)
             if (isChecked) {
-                // Enable sound
-            } else {
-                // Disable sound
+                val mediaPlayer = MediaPlayer.create(this, R.raw.sound_effect)
+                mediaPlayer.start()
             }
         }
 
         binding.doNotDisturbModeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            editor.putBoolean("dontDisturbMode", isChecked)
-            editor.apply()
-            if (isChecked) {
-                // Enable Do Not Disturb mode
-            } else {
-                // Disable Do Not Disturb mode
-            }
+            settings.dontDisturbMode = isChecked
+            NotificationSettings.save(this, settings)
         }
 
         binding.vibrateSwitch.setOnCheckedChangeListener { _, isChecked ->
-            editor.putBoolean("Vibrate", isChecked)
-            editor.apply()
+            settings.vibrate = isChecked
+            NotificationSettings.save(this, settings)
             if (isChecked) {
-                // Enable vibrate mode
+                vibrator.vibrate(
+                    VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE)
+                )
             } else {
-                // Disable vibrate mode
+                vibrator.cancel()
             }
         }
 
         binding.lockScreenSwitch.setOnCheckedChangeListener { _, isChecked ->
-            editor.putBoolean("LockScreen", isChecked)
-            editor.apply()
-            if (isChecked) {
-                // Enable lock screen notifications
-            } else {
-                // Disable lock screen notifications
-            }
+            settings.lockScreen = isChecked
+            NotificationSettings.save(this, settings)
+            requestedOrientation = if (isChecked) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            else ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         }
 
         binding.remindersSwitch.setOnCheckedChangeListener { _, isChecked ->
-            editor.putBoolean("Reminders", isChecked)
-            editor.apply()
-            if (isChecked) {
-                // Enable reminders
-            } else {
-                // Disable reminders
-            }
+            settings.reminders = isChecked
+            NotificationSettings.save(this, settings)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
     }
 }

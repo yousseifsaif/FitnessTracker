@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnesstracker.R
 
 class CategoryMealsAdapter(
-    private val categories: List<String>,
-    private val onCategoryClick: (String) -> Unit
+    private val categories: List<String>, private val onCategoryClick: (String) -> Unit
 ) : RecyclerView.Adapter<CategoryMealsAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -17,7 +16,8 @@ class CategoryMealsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_meals_category, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_meals_category, parent, false)
         return CategoryViewHolder(view)
     }
 

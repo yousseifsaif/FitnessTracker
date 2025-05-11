@@ -2,10 +2,8 @@ package com.example.fitnesstracker.NavigationApp.apiWorkouts
 
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ApiCallable {
     @Headers(
@@ -13,5 +11,5 @@ interface ApiCallable {
         "X-RapidAPI-Host: exercisedb.p.rapidapi.com"
     )
     @GET("exercises/bodyPart/{bodyPart}?limit=100&offset=20")
-    fun getExercises(@Path("bodyPart") bodyPart: String) : Call<List<Exercise>>
+    fun getExercises(@Path("bodyPart") bodyPart: String): Call<List<Exercise>>
 }

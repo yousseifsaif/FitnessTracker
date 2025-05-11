@@ -1,17 +1,15 @@
 package com.example.fitnesstracker.setup_pages
 
+import ButtonClickUtil
 import RulerAdapterHeight
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivityHeightSelectionBinding
+import com.example.fitnesstracker.toast.updateOrientationLock
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -28,14 +26,12 @@ class HeightActivitySelection : AppCompatActivity() {
         val rulerRecyclerView = binding.rulerRecyclerView
         val continueButton = binding.continueButton
 
-        // Set up the RecyclerView for the ruler
-        val heights = (140..200).toList() // Range of heights (140-200 cm)
+        val heights = (140..200).toList()
         val adapter = RulerAdapterHeight(heights)
         rulerRecyclerView.adapter = adapter
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rulerRecyclerView.layoutManager = layoutManager
 
-        // Scroll listener to update the height display
         rulerRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -45,18 +41,28 @@ class HeightActivitySelection : AppCompatActivity() {
             }
         })
 
-        // Handle continue button click
         continueButton.setOnClickListener {
-            val id = intent.getStringExtra("id")
-            if (id != null) {
-                val userHeight = heightDisplay.text.toString().toInt()
-                updateUserField("height",userHeight,id)
+            ButtonClickUtil.preventSpamClick(this) {
+                val id = intent.getStringExtra("id")
+                if (id != null) {
+                    val userHeight = heightDisplay.text.toString().toInt()
+                    updateUserField("height", userHeight, id)
 
-                val editor = SharedPrefHelper(this).prefs.edit()
-                editor.putInt("height",userHeight).apply()
+                    SharedPrefHelper(this).prefs.edit { putInt("height", userHeight) }
+                }
+                startActivity(
+                    nav(
+                        NavData(
+                            WeightActivitySelection::class.java, this, id.toString()
+                        )
+                    )
+                )
             }
-            startActivity(nav(NavData(WeightActivitySelection::class.java, this, id.toString())))
-
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
     }
 }

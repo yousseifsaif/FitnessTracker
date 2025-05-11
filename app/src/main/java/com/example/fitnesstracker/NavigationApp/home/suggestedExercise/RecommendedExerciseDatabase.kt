@@ -12,7 +12,8 @@ abstract class RecommendedExerciseDatabase : RoomDatabase() {
     abstract fun recommendedExerciseDao(): RecommendedExerciseDao
 
     companion object {
-        @Volatile private var INSTANCE: RecommendedExerciseDatabase? = null
+        @Volatile
+        private var INSTANCE: RecommendedExerciseDatabase? = null
 
         val migration_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
@@ -27,10 +28,8 @@ abstract class RecommendedExerciseDatabase : RoomDatabase() {
                     context.applicationContext,
                     RecommendedExerciseDatabase::class.java,
                     "recommended_exercise_db"
-                )
-                    .addMigrations(migration_1_2) // إضافة الهجرة هنا
-                    .fallbackToDestructiveMigration()
-                    .build()
+                ).addMigrations(migration_1_2) // إضافة الهجرة هنا
+                    .fallbackToDestructiveMigration(false).build()
 
                 INSTANCE = instance
                 instance

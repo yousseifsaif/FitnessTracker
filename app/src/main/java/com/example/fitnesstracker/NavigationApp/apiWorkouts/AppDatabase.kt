@@ -1,15 +1,16 @@
 package com.example.fitnesstracker.NavigationApp.apiWorkouts
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.fitnesstracker.ToolBarIcons.Nottifications.NotificationDao
 import com.example.fitnesstracker.ToolBarIcons.Nottifications.NotificationEntity
 
 @Database(
-    entities = [ExerciseEntity::class, NotificationEntity::class],
-    version = 3
+    entities = [ExerciseEntity::class, NotificationEntity::class], version = 3
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -23,12 +24,8 @@ abstract class AppDatabase : RoomDatabase() {
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "fitness_tracker_db"
-                )
-                    .addMigrations(migration_1_2, migration_2_3)
-                    .build()
+                    context.applicationContext, AppDatabase::class.java, "fitness_tracker_db"
+                ).addMigrations(migration_1_2, migration_2_3).build()
                 INSTANCE = instance
                 instance
             }

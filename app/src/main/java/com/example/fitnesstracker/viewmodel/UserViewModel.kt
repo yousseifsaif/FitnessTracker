@@ -14,5 +14,4 @@ class UserViewModel : ViewModel() {
         Log.d("com.example.fitnesstracker.viewmodel.UserViewModel", "Updating user: $newUser")
         _user.postValue(newUser)
     }
-
 }

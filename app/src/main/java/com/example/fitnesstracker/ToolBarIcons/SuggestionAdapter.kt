@@ -28,7 +28,8 @@ class SuggestionAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuggestionViewHolder {
-        val binding = ItemSuggestionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemSuggestionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SuggestionViewHolder(binding)
     }
 

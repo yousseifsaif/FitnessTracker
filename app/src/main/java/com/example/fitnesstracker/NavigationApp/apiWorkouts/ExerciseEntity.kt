@@ -12,6 +12,6 @@ data class ExerciseEntity(
     val target: String,
     val gifUrl: String,
     val secondaryMuscles: String,
-    val instructions: String ,
+    val instructions: String,
     var isFavorite: Boolean = false,
 )

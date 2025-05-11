@@ -7,7 +7,6 @@ import android.os.Handler
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fitnesstracker.ProfileSettings.NotificationsSettings
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
@@ -35,18 +34,16 @@ class OnBoarding1 : AppCompatActivity() {
             val userData = sharedPrefHelper.getUserFromPrefs()
             Log.d("OnBoarding1", "UserData retrieved: $userData")
 
-            // Redirect user
             if (isLoggedIn) {
                 Log.d("OnBoarding1", (userData).toString())
                 startActivity(
                     nav(
                         NavData(
-                            getNextActivity(userData),
-                            this,
-                            userData.id
+                            getNextActivity(userData), this, userData.id
                         )
                     )
-                )            } else {
+                )
+            } else {
                 startActivity(Intent(this, Boarding2::class.java))
             }
 

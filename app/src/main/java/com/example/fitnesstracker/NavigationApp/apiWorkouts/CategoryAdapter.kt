@@ -1,8 +1,5 @@
 package com.example.fitnesstracker.NavigationApp.apiWorkouts
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnesstracker.R
 
 class CategoryAdapter(
-    private val categories: List<CategoryData>,
-    private val onCategoryClick: (String) -> Unit
+    private val categories: List<CategoryData>, private val onCategoryClick: (String) -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -30,8 +26,8 @@ class CategoryAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.category_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
         return ViewHolder(view)
     }
 

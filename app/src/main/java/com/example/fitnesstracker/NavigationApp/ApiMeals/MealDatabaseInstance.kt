@@ -10,9 +10,7 @@ object MealDatabaseInstance {
     fun getDatabase(context: Context): MealDatabase {
         return INSTANCE ?: synchronized(this) {
             val instance = Room.databaseBuilder(
-                context.applicationContext,
-                MealDatabase::class.java,
-                "meals_db"
+                context.applicationContext, MealDatabase::class.java, "meals_db"
             ).build()
             INSTANCE = instance
             instance

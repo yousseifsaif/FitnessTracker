@@ -34,10 +34,10 @@ class MealsFragment : Fragment() {
         "Low-Carb",
 
 
-    )
+        )
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentMealsBinding.inflate(inflater, container, false)
 

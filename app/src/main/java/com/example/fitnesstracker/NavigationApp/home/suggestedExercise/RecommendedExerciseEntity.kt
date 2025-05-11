@@ -5,7 +5,5 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "recommended_exercises")
 data class RecommendedExerciseEntity(
-    @PrimaryKey val id: String,
-    val name: String,
-    val gifUrl: String
+    @PrimaryKey val id: String, val name: String, val gifUrl: String
 )

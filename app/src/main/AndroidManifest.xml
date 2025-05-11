@@ -5,8 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -22,14 +21,16 @@
             android:name=".ProfileSettings.ForgottenPasswordSettings"
             android:exported="false" />
         <activity
-            android:name=".ProfileSettings.PasswordSettings"
+            android:name=".NavigationApp.ProfileFields.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileSettings.NotificationsSettings"
+            android:exported="false" />
+        <activity
+            android:name=".NavigationApp.MealsFragment"
             android:exported="false"
-            android:label="@string/title_activity_suggest_workouts"
-            android:theme="@style/Theme.FitnessTracker"
-            tools:ignore="MissingClass" />
+            tools:ignore="Instantiatable,MissingClass" />
+
         <activity
             android:name=".NavigationApp.ProfileFields.FavoritesActivity"
             android:exported="false" />
@@ -38,7 +39,6 @@
             android:exported="false" />
         <activity
             android:name=".NavigationApp.ApiMeals.DetailActivity"
-
             android:exported="false" />
         <activity
             android:name=".NavigationApp.apiWorkouts.CategoryWorkoutsActivity"
@@ -49,9 +49,6 @@
             android:label="Exercise Details" />
         <activity
             android:name=".NavigationApp.ProfileFields.HelpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".NavigationApp.ProfileFields.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".NavigationApp.ProfileFields.PrivacyPolicy"
@@ -82,10 +79,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="Instantiatable,MissingClass" />
-        <activity
-            android:name=".NavigationApp.MealsFragment"
-            android:exported="false"
-            tools:ignore="Instantiatable,MissingClass" />
+
         <activity
             android:name=".setup_pages.GoalActivity"
             android:exported="true" />
@@ -107,9 +101,7 @@
         <activity
             android:name=".Login_SignUp.LogIn"
             android:exported="false" />
-        <activity
-            android:name=".ForgotPassword.SetPassword"
-            android:exported="false" />
+
         <activity
             android:name=".ForgotPassword.ForgottenPassword"
             android:exported="false" />
@@ -129,8 +121,8 @@
             android:name=".NavigationApp.ProfileFields.EditProfile"
             android:exported="false"
             tools:ignore="MissingClass" />
-        <activity android:name=".ToolBarIcons.Nottifications.NotificationActivity"
-
+        <activity
+            android:name=".ToolBarIcons.Nottifications.NotificationActivity"
             android:exported="false" />
 
         <activity

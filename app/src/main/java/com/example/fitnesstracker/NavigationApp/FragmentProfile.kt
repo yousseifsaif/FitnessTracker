@@ -1,5 +1,6 @@
 package com.example.fitnesstracker.NavigationApp
 
+import ButtonClickUtil
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -25,6 +26,7 @@ import com.example.fitnesstracker.databinding.FragmentProfileBinding
 import com.example.fitnesstracker.setup_pages.NavData
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
 import com.example.fitnesstracker.setup_pages.nav
+import com.example.fitnesstracker.toast.updateOrientationLock
 import com.example.fitnesstracker.viewmodel.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -41,19 +43,14 @@ class FragmentProfile : Fragment() {
         val userData = sharedPref.getUserFromPrefs()
 
 
-        if (userData == null) {
-            Log.e("FragmentProfile", "User data is null!")
-        } else {
-            Log.d("FragmentProfile", "User data retrieved: $userData")
-            userViewModel.updateUser(userData)
-            binding.tvUserName.text = userData.name ?: "N/A"
-            binding.tvAge.text = userData.age?.toString() ?: "N/A"
-            binding.tvUserEmail.text = userData.email ?: "N/A"
-            binding.tvHeight.text = userData.height?.toString() ?: "N/A"
-            binding.tvWeight.text = userData.weight?.toString() ?: "N/A"
-            binding.tvKcal.text = userData.calories?.toString() ?: "N/A"
-
-        }
+        Log.d("FragmentProfile", "User data retrieved: $userData")
+        userViewModel.updateUser(userData)
+        binding.tvUserName.text = userData.name
+        binding.tvAge.text = userData.age.toString()
+        binding.tvUserEmail.text = userData.email
+        binding.tvHeight.text = userData.height.toString()
+        binding.tvWeight.text = userData.weight.toString()
+        binding.tvKcal.text = userData.calories.toString()
 
         userViewModel.user.observe(viewLifecycleOwner) { updatedUser ->
 
@@ -63,13 +60,12 @@ class FragmentProfile : Fragment() {
             binding.tvHeight.text = updatedUser.height.toString()
             binding.tvWeight.text = updatedUser.weight.toString()
 
-            binding.tvUserName.text = updatedUser.name ?: "N/A"
-            binding.tvAge.text = updatedUser.age?.toString() ?: "N/A"
-            binding.tvUserEmail.text = updatedUser.email ?: "N/A"
-            binding.tvHeight.text = updatedUser.height?.toString() ?: "N/A"
-            binding.tvWeight.text = updatedUser.weight?.toString() ?: "N/A"
-            binding.tvKcal.text = updatedUser.calories?.toString() ?: "N/A"
-
+            binding.tvUserName.text = updatedUser.name
+            binding.tvAge.text = updatedUser.age.toString()
+            binding.tvUserEmail.text = updatedUser.email
+            binding.tvHeight.text = updatedUser.height.toString()
+            binding.tvWeight.text = updatedUser.weight.toString()
+            binding.tvKcal.text = updatedUser.calories.toString()
 
 
         }
@@ -77,38 +73,42 @@ class FragmentProfile : Fragment() {
             showCustomDialog()
 
         }
-        // Button Click Listener
-
 
 
         binding.btnProfile.setOnClickListener {
-
-            val intent = nav(NavData(EditProfile::class.java, requireContext(), id.toString()))
-            intent.putExtra("id", id)
-            startActivity(intent)
+            ButtonClickUtil.preventSpamClick(this) {
+                val intent = nav(NavData(EditProfile::class.java, requireContext(), id.toString()))
+                startActivity(intent)
+            }
         }
 
-binding.btnFav.setOnClickListener {
-    val intent = Intent(requireContext(), FavoritesActivity::class.java)
-    startActivity(intent)
-}
+        binding.btnFav.setOnClickListener {
+            ButtonClickUtil.preventSpamClick(this) {
+                val intent = Intent(requireContext(), FavoritesActivity::class.java)
+                startActivity(intent)
+            }
+        }
         binding.btnPolicy.setOnClickListener {
-            val intent = nav(NavData(PrivacyPolicy::class.java, requireContext(), id.toString()))
-            startActivity(intent)
+            ButtonClickUtil.preventSpamClick(this) {
 
+                val intent =
+                    nav(NavData(PrivacyPolicy::class.java, requireContext(), id.toString()))
+                startActivity(intent)
+            }
         }
         binding.btnSettings.setOnClickListener {
-            val intent = nav(NavData(SettingsActivity::class.java, requireContext(), id.toString()))
-            startActivity(intent)
+            ButtonClickUtil.preventSpamClick(this) {
+                val intent =
+                    nav(NavData(SettingsActivity::class.java, requireContext(), id.toString()))
+                startActivity(intent)
+            }
         }
         binding.btnHelp.setOnClickListener {
-            val intent = nav(NavData(HelpActivity::class.java, requireContext(), id.toString()))
-
-
-            startActivity(intent)
+            ButtonClickUtil.preventSpamClick(this) {
+                val intent = nav(NavData(HelpActivity::class.java, requireContext(), id.toString()))
+                startActivity(intent)
+            }
         }
-
-
         return binding.root
     }
 
@@ -117,10 +117,7 @@ binding.btnFav.setOnClickListener {
         val dialogBinding = DialogLogoutBinding.bind(dialogView)
 
 
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setCancelable(false)
+        val dialog = AlertDialog.Builder(requireContext()).setView(dialogView).setCancelable(false)
 
             .create()
         dialog.setContentView(dialogView)
@@ -142,7 +139,7 @@ binding.btnFav.setOnClickListener {
         val sharedPref = requireContext().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         sharedPref.edit().clear().apply()
 
-     FirebaseAuth.getInstance().signOut()
+        FirebaseAuth.getInstance().signOut()
 
         val intent = Intent(requireActivity(), LogIn::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -150,5 +147,8 @@ binding.btnFav.setOnClickListener {
         requireActivity().finish()
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
+    }
 }

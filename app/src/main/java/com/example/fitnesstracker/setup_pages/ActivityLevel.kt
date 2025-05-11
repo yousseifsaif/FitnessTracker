@@ -1,11 +1,13 @@
 package com.example.fitnesstracker.setup_pages
 
+import ButtonClickUtil
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.databinding.ActivityLevelBinding
+import com.example.fitnesstracker.toast.updateOrientationLock
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.math.roundToInt
 
@@ -18,7 +20,6 @@ class ActivityLevel : AppCompatActivity() {
         val binding = ActivityLevelBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Firestore
         db = FirebaseFirestore.getInstance()
 
         val beginnerBtn = binding.beginnerBtn
@@ -29,34 +30,43 @@ class ActivityLevel : AppCompatActivity() {
         var ActivityLevel = "beginner"
 
         beginnerBtn.setOnClickListener {
-            updateButtons(buttons, beginnerBtn)
-            ActivityLevel = "beginner"
+            ButtonClickUtil.preventSpamClick(this) {
+                updateButtons(buttons, beginnerBtn)
+                ActivityLevel = "beginner"
+            }
         }
+
         intermediateBtn.setOnClickListener {
-            updateButtons(buttons, intermediateBtn)
-            ActivityLevel = "intermediate"
+            ButtonClickUtil.preventSpamClick(this) {
+                updateButtons(buttons, intermediateBtn)
+                ActivityLevel = "intermediate"
+            }
         }
+
         advanceBtn.setOnClickListener {
-            updateButtons(buttons, advanceBtn)
-            ActivityLevel = "advance"
+            ButtonClickUtil.preventSpamClick(this) {
+                updateButtons(buttons, advanceBtn)
+                ActivityLevel = "advance"
+            }
         }
 
         binding.continueButton.setOnClickListener {
-            val id = intent.getStringExtra("id")
-            if (id == null) {
-                Log.e("ActivityLevel", "Error: User ID is null")
-            }
+            ButtonClickUtil.preventSpamClick(this) {
 
+                val id = intent.getStringExtra("id")
+                if (id == null) {
+                    Log.e("ActivityLevel", "Error: User ID is null")
+                }
 
-            Log.d("ActivityLevel", "-1")
+                Log.d("ActivityLevel", "-1")
 
-            if (id != null) {
-                updateUserField("ActivityLevel", ActivityLevel, id)
+                if (id != null) {
+                    updateUserField("ActivityLevel", ActivityLevel, id)
 
-                db.collection("users").document(id).get()
-                    .addOnSuccessListener { document ->
+                    db.collection("users").document(id).get().addOnSuccessListener { document ->
                         Log.d("ActivityLevel", "1")
-                        val data = document.toObject(SharedPrefHelper.User::class.java) ?: SharedPrefHelper.User()
+                        val data = document.toObject(SharedPrefHelper.User::class.java)
+                            ?: SharedPrefHelper.User()
                         Log.d("ActivityLevel", "2")
                         val calories = calculateCal(data).roundToInt()
                         updateUserField("calories", calories, id)
@@ -69,17 +79,20 @@ class ActivityLevel : AppCompatActivity() {
                         startActivity(
                             nav(
                                 NavData(
-                                    MainActivity::class.java,
-                                    this,
-                                    id
+                                    MainActivity::class.java, this, id
                                 )
                             )
                         )
-                    }
-                    .addOnFailureListener { exception ->
+                    }.addOnFailureListener { exception ->
                         Log.e("ActivityLevel", "Error fetching user data: ${exception.message}")
                     }
+                }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
     }
 }

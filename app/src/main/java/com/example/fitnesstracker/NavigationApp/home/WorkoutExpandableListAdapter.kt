@@ -24,19 +24,33 @@ class WorkoutExpandableListAdapter(
 
     override fun getGroupId(groupPosition: Int): Long = groupPosition.toLong()
 
-    override fun getChildId(groupPosition: Int, childPosition: Int): Long = (groupPosition * 100 + childPosition).toLong()
+    override fun getChildId(groupPosition: Int, childPosition: Int): Long =
+        (groupPosition * 100 + childPosition).toLong()
 
     override fun hasStableIds(): Boolean = false
 
-    override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
-        val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_expandable_list_item_1, parent, false)
+    override fun getGroupView(
+        groupPosition: Int,
+        isExpanded: Boolean,
+        convertView: View?,
+        parent: ViewGroup?
+    ): View {
+        val view = convertView ?: LayoutInflater.from(context)
+            .inflate(android.R.layout.simple_expandable_list_item_1, parent, false)
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = getGroup(groupPosition) as String
         return view
     }
 
-    override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
-        val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, parent, false)
+    override fun getChildView(
+        groupPosition: Int,
+        childPosition: Int,
+        isLastChild: Boolean,
+        convertView: View?,
+        parent: ViewGroup?
+    ): View {
+        val view = convertView ?: LayoutInflater.from(context)
+            .inflate(android.R.layout.simple_list_item_1, parent, false)
         val textView = view.findViewById<TextView>(android.R.id.text1)
 
         val exerciseItem = getChild(groupPosition, childPosition) // نحصل على العنصر
@@ -52,5 +66,6 @@ class WorkoutExpandableListAdapter(
 
         return view
     }
+
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean = true
 }

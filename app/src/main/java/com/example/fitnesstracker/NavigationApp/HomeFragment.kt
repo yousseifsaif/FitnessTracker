@@ -7,45 +7,47 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnesstracker.NavigationApp.ProfileFields.FavoritesActivity
+import com.example.fitnesstracker.NavigationApp.apiWorkouts.ApiCallable
 import com.example.fitnesstracker.NavigationApp.apiWorkouts.Exercise
 import com.example.fitnesstracker.NavigationApp.chatAi.ChatActivity
+import com.example.fitnesstracker.NavigationApp.home.WorkoutAdapter
+import com.example.fitnesstracker.NavigationApp.home.WorkoutPlansFragment
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercise
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExerciseDatabase
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExerciseEntity
+import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercisesAdapter
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.DialogAddWorkoutBinding
 import com.example.fitnesstracker.databinding.FragmentHomeBinding
+import com.example.fitnesstracker.toast.updateOrientationLock
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlin.jvm.java
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.widget.Toast
-import com.example.fitnesstracker.NavigationApp.apiWorkouts.ApiCallable
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import android.os.Handler
-import android.os.Looper
-import androidx.lifecycle.lifecycleScope
-import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercisesAdapter
-import com.example.fitnesstracker.NavigationApp.home.WorkoutAdapter
-import com.example.fitnesstracker.NavigationApp.home.WorkoutPlansFragment
-import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExerciseDatabase
-import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExercise
-import com.example.fitnesstracker.NavigationApp.home.suggestedExercise.RecommendedExerciseEntity
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -442,49 +444,50 @@ class HomeFragment : Fragment() {
             "daysList" to daysList, "exercisesMap" to exercisesMapForFirestore
         )
 
-        db.collection("workouts").document(uid).set(workoutData)
-            .addOnSuccessListener {
+        db.collection("workouts").document(uid).set(workoutData).addOnSuccessListener {
 
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to save", Toast.LENGTH_SHORT).show()
-            }
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), "Failed to save", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
     private fun fetchDataFromFirestore() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        db.collection("workouts").document(uid).get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val data = document.data
-                    if (data != null) {
-                        val daysListFirestore = data["daysList"] as? List<*>
-                        val exercisesMapFirestore = data["exercisesMap"] as? Map<*, *>
+        db.collection("workouts").document(uid).get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                val data = document.data
+                if (data != null) {
+                    val daysListFirestore = data["daysList"] as? List<*>
+                    val exercisesMapFirestore = data["exercisesMap"] as? Map<*, *>
 
-                        if (daysListFirestore != null) {
-                            daysList.clear()
-                            exercisesMap.clear()
+                    if (daysListFirestore != null) {
+                        daysList.clear()
+                        exercisesMap.clear()
 
-                            daysList.addAll(daysListFirestore.filterIsInstance<String>())
+                        daysList.addAll(daysListFirestore.filterIsInstance<String>())
 
-                            exercisesMapFirestore?.forEach { (day, exercises) ->
-                                if (day is String && exercises is List<*>) {
-                                    exercisesMap[day] =
-                                        exercises.filterIsInstance<String>().toMutableList()
-                                }
+                        exercisesMapFirestore?.forEach { (day, exercises) ->
+                            if (day is String && exercises is List<*>) {
+                                exercisesMap[day] =
+                                    exercises.filterIsInstance<String>().toMutableList()
                             }
-
-                            adapter.notifyDataSetChanged()
                         }
+
+                        adapter.notifyDataSetChanged()
                     }
                 }
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show()
             }
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), "Failed to fetch data", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {
         super.onResume()
+
+        updateOrientationLock(this)
+
         loadSavedData()
         fetchDataFromFirestore()
         adapter.notifyDataSetChanged()
@@ -656,9 +659,7 @@ class HomeFragment : Fragment() {
 
                         val recommendedList = exercises.map {
                             RecommendedExercise(
-                                id = it.id,
-                                name = it.name,
-                                gifUrl = it.gifUrl
+                                id = it.id, name = it.name, gifUrl = it.gifUrl
                             )
                         }
                         recommendedAdapter = RecommendedExercisesAdapter(recommendedList)
@@ -710,14 +711,13 @@ class HomeFragment : Fragment() {
     private fun saveRecommendedToRoom(exercises: List<Exercise>) {
         val entities = exercises.map {
             RecommendedExerciseEntity(
-                id = it.id,
-                name = it.name,
-                gifUrl = it.gifUrl
+                id = it.id, name = it.name, gifUrl = it.gifUrl
             )
         }
 
         lifecycleScope.launch {
-            val dao = RecommendedExerciseDatabase.getDatabase(requireContext()).recommendedExerciseDao()
+            val dao =
+                RecommendedExerciseDatabase.getDatabase(requireContext()).recommendedExerciseDao()
             dao.clearAll()
             dao.insertAll(entities)
         }
@@ -726,7 +726,8 @@ class HomeFragment : Fragment() {
 
     private fun loadFromRoom() {
         lifecycleScope.launch {
-            val dao = RecommendedExerciseDatabase.getDatabase(requireContext()).recommendedExerciseDao()
+            val dao =
+                RecommendedExerciseDatabase.getDatabase(requireContext()).recommendedExerciseDao()
             val localExercises = dao.getTopExercises()
 
             val exercises = localExercises.map {
@@ -735,7 +736,7 @@ class HomeFragment : Fragment() {
                     name = it.name,
                     gifUrl = it.gifUrl,
 
-                )
+                    )
             }
 
             recommendedAdapter = RecommendedExercisesAdapter(exercises)
@@ -753,4 +754,7 @@ class HomeFragment : Fragment() {
         val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
 
         return activeNetwork.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    }}
+    }
+
+
+}

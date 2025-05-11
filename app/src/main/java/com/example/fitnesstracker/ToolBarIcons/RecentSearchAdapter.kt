@@ -10,8 +10,7 @@ import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ItemRecentSearchBinding
 
 class RecentSearchAdapter(
-    private val onItemClick: (String) -> Unit,
-    private val onItemLongClick: (RecentSearch) -> Unit
+    private val onItemClick: (String) -> Unit, private val onItemLongClick: (RecentSearch) -> Unit
 
 ) : ListAdapter<RecentSearch, RecentSearchAdapter.RecentSearchViewHolder>(DiffCallback()) {
 
@@ -33,8 +32,7 @@ class RecentSearchAdapter(
 
                 // لتأثيرات النقر
                 root.background = ContextCompat.getDrawable(
-                    root.context,
-                    R.drawable.selectable_item_background
+                    root.context, R.drawable.selectable_item_background
                 )
             }
         }
@@ -42,9 +40,7 @@ class RecentSearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentSearchViewHolder {
         val binding = ItemRecentSearchBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+            LayoutInflater.from(parent.context), parent, false
         )
         return RecentSearchViewHolder(binding)
     }
@@ -56,6 +52,7 @@ class RecentSearchAdapter(
     class DiffCallback : DiffUtil.ItemCallback<RecentSearch>() {
         override fun areItemsTheSame(oldItem: RecentSearch, newItem: RecentSearch) =
             oldItem.id == newItem.id
+
         override fun areContentsTheSame(oldItem: RecentSearch, newItem: RecentSearch) =
             oldItem == newItem
     }

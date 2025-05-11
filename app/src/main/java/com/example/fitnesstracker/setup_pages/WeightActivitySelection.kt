@@ -1,14 +1,14 @@
 package com.example.fitnesstracker.setup_pages
 
-import android.content.Intent
+import ButtonClickUtil
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitnesstracker.databinding.ActivityWeightSelectionBinding
+import com.example.fitnesstracker.toast.updateOrientationLock
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -22,7 +22,6 @@ class WeightActivitySelection : AppCompatActivity() {
         enableEdgeToEdge()
         val binding = ActivityWeightSelectionBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         val kgButton = binding.kgButton
         val lbButton = binding.lbButton
@@ -54,31 +53,32 @@ class WeightActivitySelection : AppCompatActivity() {
         }
 
         continueButton.setOnClickListener {
-             val id = intent.getStringExtra("id")
+            ButtonClickUtil.preventSpamClick(this) {
+                val id = intent.getStringExtra("id")
 
-            if (isKgSelected == null) {
-                Toast.makeText(this, "Please select Kg or Lb first", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                if (isKgSelected == null) {
+                    Toast.makeText(this, "Please select Kg or Lb first", Toast.LENGTH_SHORT).show()
+                    return@preventSpamClick
+                }
+
+                val unit = if (isKgSelected == true) "Kg" else "Lb"
+                println("Selected Weight: $selectedWeight $unit")
+
+                if (!id.isNullOrEmpty()) {
+                    updateUserField("weight", selectedWeight, id)
+                    updateUserField("weighttype", unit, id)
+
+                    val editor = SharedPrefHelper(this).prefs.edit()
+                    editor.putInt("weight", selectedWeight).apply()
+
+                    startActivity(nav(NavData(GoalActivity::class.java, this, id.toString())))
+                }
             }
-            val unit = if (isKgSelected==true) "Kg" else "Lb"
-            println("Selected Weight: $selectedWeight $unit")
-
-            if (!id.isNullOrEmpty()) {
-
-                updateUserField("weight", selectedWeight, id)
-                updateUserField("weighttype", unit, id)
-
-
-                val editor = SharedPrefHelper(this).prefs.edit()
-                editor.putInt("weight", selectedWeight).apply()
-
-                startActivity(nav(NavData(GoalActivity::class.java, this, id.toString())))
-
-            }
-
-
         }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
+    }
 }

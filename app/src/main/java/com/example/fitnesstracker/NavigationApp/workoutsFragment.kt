@@ -14,7 +14,6 @@ import com.example.fitnesstracker.NavigationApp.apiWorkouts.CategoryWorkoutsActi
 import com.example.fitnesstracker.NavigationApp.apiWorkouts.ExerciseApiAdapter
 import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.FragmentWorkoutBinding
-import kotlin.jvm.java
 
 class WorkoutsFragment : Fragment() {
 
@@ -22,9 +21,8 @@ class WorkoutsFragment : Fragment() {
     private lateinit var binding: FragmentWorkoutBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         exerciseAdapter = ExerciseApiAdapter(
             exercises = ArrayList(),
             onFavoriteClick = { exercise ->
@@ -34,21 +32,21 @@ class WorkoutsFragment : Fragment() {
                 Log.d("ItemClick", "Clicked on: ${exercise.name}")
             },
 
-        )
+            )
         binding = FragmentWorkoutBinding.inflate(inflater, container, false)
-val ListOfExercises = listOf<CategoryData>(
-    CategoryData("chest", R.drawable.chestworkouts),
-    CategoryData("back", R.drawable.back),
-    CategoryData("lower arms", R.drawable.lowerarms),
-    CategoryData("lower legs", R.drawable.lowerrlegs),
-    CategoryData("shoulders", R.drawable.shoulders),
-    CategoryData("upper arms", R.drawable.upperarms),
-    CategoryData("upper legs", R.drawable.upperlegs),
-    CategoryData("waist", R.drawable.waist),
-    CategoryData("neck", R.drawable.neck),
-    CategoryData("cardio", R.drawable.cardio),
+        val ListOfExercises = listOf<CategoryData>(
+            CategoryData("chest", R.drawable.chestworkouts),
+            CategoryData("back", R.drawable.back),
+            CategoryData("lower arms", R.drawable.lowerarms),
+            CategoryData("lower legs", R.drawable.lowerrlegs),
+            CategoryData("shoulders", R.drawable.shoulders),
+            CategoryData("upper arms", R.drawable.upperarms),
+            CategoryData("upper legs", R.drawable.upperlegs),
+            CategoryData("waist", R.drawable.waist),
+            CategoryData("neck", R.drawable.neck),
+            CategoryData("cardio", R.drawable.cardio),
 
-    )
+            )
         val categoryAdapter = CategoryAdapter(ListOfExercises) { selectedCategory ->
             val intent = Intent(requireContext(), CategoryWorkoutsActivity::class.java)
             intent.putExtra("BODY_PART", selectedCategory)
@@ -96,5 +94,4 @@ val ListOfExercises = listOf<CategoryData>(
 //        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 //
 //    }
-
 }

@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnesstracker.R
 
 class RulerAdapter(
-    private val range: IntRange,
-    private val onWeightSelected: (Int) -> Unit
+    private val range: IntRange, private val onWeightSelected: (Int) -> Unit
 ) : RecyclerView.Adapter<RulerAdapter.RulerViewHolder>() {
 
     inner class RulerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

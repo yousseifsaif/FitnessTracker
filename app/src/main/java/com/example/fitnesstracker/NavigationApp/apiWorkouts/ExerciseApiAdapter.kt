@@ -1,6 +1,5 @@
 package com.example.fitnesstracker.NavigationApp.apiWorkouts
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +27,8 @@ class ExerciseApiAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_exercises, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_exercises, parent, false)
         return ExerciseViewHolder(view)
     }
 
@@ -37,15 +36,14 @@ class ExerciseApiAdapter(
 
         val exercise = exercises[position]
 
-        val isFavorite = exercise.isFavorite ||
-                (sharedPreferences?.getBoolean("fav_${exercise.id}", false) == true)
+        val isFavorite = exercise.isFavorite || (sharedPreferences?.getBoolean(
+            "fav_${exercise.id}", false
+        ) == true)
 
         holder.exerciseName.text = exercise.name
         holder.exerciseTarget.text = "Target: ${exercise.target}"
 
-        Glide.with(holder.itemView.context)
-            .load(exercise.gifUrl)
-            .into(holder.exerciseImage)
+        Glide.with(holder.itemView.context).load(exercise.gifUrl).into(holder.exerciseImage)
         val favoriteIcon = if (isFavorite) {
             R.drawable.ic_favorite_filled
         } else {

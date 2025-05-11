@@ -15,12 +15,9 @@ class DailyNotificationWorker(context: Context, params: WorkerParameters) :
         // فرق يوم تقريبًا (24 ساعة = 86400000 ملي ثانية)
         if (now - lastOpened > 86400000) {
             NotificationUtils.showNotification(
-                applicationContext,
-                "رجعنا ليك!",
-                "مشتاقينلك! افتح التطبيق وكمّل تمرينك اليوم."
+                applicationContext, "رجعنا ليك!", "مشتاقينلك! افتح التطبيق وكمّل تمرينك اليوم."
             )
         }
-
         return Result.success()
     }
 }

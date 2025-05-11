@@ -28,8 +28,7 @@ class ResultAdapter(
 
                 // لتأثيرات النقر
                 root.background = ContextCompat.getDrawable(
-                    root.context,
-                    R.drawable.selectable_item_background
+                    root.context, R.drawable.selectable_item_background
                 )
             }
         }
@@ -37,9 +36,7 @@ class ResultAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
         val binding = ItemResultBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+            LayoutInflater.from(parent.context), parent, false
         )
         return ResultViewHolder(binding)
     }
