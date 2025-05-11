@@ -1,12 +1,11 @@
 package com.example.fitnesstracker.NavigationApp.ApiMeals
 
 
-
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface Calable {
+interface Callable {
     @GET("api/recipes/v2")
     fun searchRecipes(
         @Query("type") type: String = "public",

@@ -1,18 +1,17 @@
 package com.example.fitnesstracker.setup_pages
 
-import android.content.Intent
+import ButtonClickUtil
 import android.os.Build
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import com.example.fitnesstracker.databinding.ActivityAgeBinding
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.example.fitnesstracker.toast.updateOrientationLock
 
 class AgeActivity : AppCompatActivity() {
-    private val db = Firebase.firestore
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,16 +40,30 @@ class AgeActivity : AppCompatActivity() {
         })
 
         continueButton.setOnClickListener {
-            val id = intent.getStringExtra("id")
+            ButtonClickUtil.preventSpamClick(this) {
+                val id = intent.getStringExtra("id")
 
-            if (!id.isNullOrEmpty()) {
-                val userAge = ageDisplay.text.toString().toInt()
-                updateUserField("age", userAge, id)
-                val editor = SharedPrefHelper(this).prefs.edit()
-                editor.putInt("age", userAge).apply()
+                if (!id.isNullOrEmpty()) {
+                    val userAge = ageDisplay.text.toString().toInt()
+                    updateUserField("age", userAge, id)
+                    SharedPrefHelper(this).prefs.edit {
+                        putInt("age", userAge)
+                    }
+                }
+
+                startActivity(
+                    nav(
+                        NavData(
+                            HeightActivitySelection::class.java, this, id.toString()
+                        )
+                    )
+                )
             }
-
-            startActivity(nav(NavData(HeightActivitySelection::class.java, this, id.toString())))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
     }
 }

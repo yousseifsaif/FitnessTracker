@@ -1,19 +1,25 @@
 package com.example.fitnesstracker.Login_SignUp
 
-import android.animation.ObjectAnimator
+import ButtonClickUtil
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.ForgotPassword.ForgottenPassword
-import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.databinding.LoginBinding
-import com.example.fitnesstracker.setup_pages.*
+import com.example.fitnesstracker.setup_pages.NavData
+import com.example.fitnesstracker.setup_pages.SharedPrefHelper
+import com.example.fitnesstracker.setup_pages.getNextActivity
+import com.example.fitnesstracker.setup_pages.getUserId
+import com.example.fitnesstracker.setup_pages.nav
+import com.example.fitnesstracker.setup_pages.saveLoginState
+import com.example.fitnesstracker.setup_pages.updateUserField
+import com.example.fitnesstracker.toast.shakeView
+import com.example.fitnesstracker.toast.showToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -32,16 +38,25 @@ class LogIn : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         binding.forgetPassword.setOnClickListener {
-            startActivity(Intent(this, ForgottenPassword::class.java))
+            ButtonClickUtil.preventSpamClick(this) {
+
+                startActivity(Intent(this, ForgottenPassword::class.java))
+            }
         }
 
         binding.signupText.setOnClickListener {
-            startActivity(Intent(this, SignUp::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            ButtonClickUtil.preventSpamClick(this) {
+
+                startActivity(Intent(this, SignUp::class.java))
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            }
         }
 
         binding.loginButton.setOnClickListener {
-            validationLogin()
+            ButtonClickUtil.preventSpamClick(this) {
+
+                validationLogin()
+            }
         }
     }
 
@@ -69,83 +84,68 @@ class LogIn : AppCompatActivity() {
 
     private fun login(email: String, password: String) {
         binding.loading.visibility = View.VISIBLE
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    if (user != null && user.isEmailVerified) {
-                        getUserId(email) { doc ->
-                            if (doc.isNotEmpty()) {
-                                db.collection("users").document(doc)
-                                    .get()
-                                    .addOnSuccessListener { document ->
-                                        val userData = document.toObject(SharedPrefHelper.User::class.java) ?: SharedPrefHelper.User()
-                                        Log.d("LoginTest", userData.toString())
-                                        Handler(Looper.getMainLooper()).postDelayed({
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                val user = auth.currentUser
+                if (user != null && user.isEmailVerified) {
+                    getUserId(email) { doc ->
+                        if (doc.isNotEmpty()) {
+                            db.collection("users").document(doc).get()
+                                .addOnSuccessListener { document ->
+
+                                    val userData =
+                                        document.toObject(SharedPrefHelper.User::class.java)
+                                            ?: SharedPrefHelper.User()
+                                    updateUserField("password", password, userData.id)
+                                    SharedPrefHelper(this).updateUserFieldPref("password", password)
+                                    Handler(Looper.getMainLooper()).postDelayed({
                                         SharedPrefHelper(this).saveUserToPrefs(userData)
 
                                         val nextActivity = getNextActivity(userData)
-                                        if (nextActivity != null) {
-                                            startActivity(
-                                                nav(
-                                                    NavData(
-                                                        nextActivity,
-                                                        this,
-                                                        userData.id
-                                                    )
+                                        startActivity(
+                                            nav(
+                                                NavData(
+                                                    nextActivity, this, userData.id
                                                 )
                                             )
-                                            saveLoginState(this, true)
-                                            finish()
+                                        )
+                                        saveLoginState(this, true)
+                                        finish()
 
-
-                                        } else {
-                                            Log.e("LoginTest", "Error: Next activity is null!")
-                                            runOnUiThread {
-                                                Toast.makeText(this, "Error: Could not determine next screen", Toast.LENGTH_SHORT).show()
-                                                binding.loading.visibility = View.GONE
-
-                                            }
-                                        }
 
                                     }, 500)
-                            }
-                                    .addOnFailureListener { e ->
-                                        Log.e("fireStore", "Error fetching user data", e)
-                                        runOnUiThread {
-                                            Toast.makeText(this, "Error fetching user data", Toast.LENGTH_SHORT).show()
-                                            binding.loading.visibility = View.GONE
+                                }.addOnFailureListener { e ->
+                                    Log.e("fireStore", "Error fetching user data", e)
+                                    runOnUiThread {
+                                        showToast(
+                                            this, "Error fetching user data"
+                                        )
+                                        binding.loading.visibility = View.GONE
 
-                                        }
                                     }
-                            } else {
-                                Log.e("fireStore", "Error: User ID is empty!")
-                                runOnUiThread {
-                                    Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show()
-                                    binding.loading.visibility = View.GONE
-
                                 }
-                            }
-                        }
-                    } else {
-                        runOnUiThread {
-                            Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
-                            binding.loading.visibility = View.GONE
+                        } else {
+                            Log.e("fireStore", "Error: User ID is empty!")
+                            runOnUiThread {
+                                showToast(this, "User ID not found")
+                                binding.loading.visibility = View.GONE
 
+                            }
                         }
                     }
                 } else {
                     runOnUiThread {
-                        Toast.makeText(this, "Invalid email or password!", Toast.LENGTH_SHORT).show()
+                        showToast(this, "Please verify your email")
                         binding.loading.visibility = View.GONE
 
                     }
                 }
+            } else {
+                runOnUiThread {
+                    showToast(this, "Invalid email or password!")
+                    binding.loading.visibility = View.GONE
+                }
             }
-    }
-    fun shakeView(view: View) {
-        val animator = ObjectAnimator.ofFloat(view, "translationX", 0f, 10f, -10f, 10f, -10f, 5f, -5f, 0f)
-        animator.duration = 500
-        animator.start()
+        }
     }
 }

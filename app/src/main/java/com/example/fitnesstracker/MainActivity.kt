@@ -36,6 +36,7 @@ import com.example.fitnesstracker.ToolBarIcons.Nottifications.NotificationActivi
 import com.example.fitnesstracker.ToolBarIcons.SearchFragment
 import com.example.fitnesstracker.databinding.ActivityMainBinding
 import com.example.fitnesstracker.setup_pages.SharedPrefHelper
+import com.example.fitnesstracker.toast.updateOrientationLock
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -111,10 +112,8 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
+            .addToBackStack(null).commit()
 
         val isProfileFragment = fragment is FragmentProfile
         binding.apply {
@@ -163,8 +162,7 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
                 val vibrator = getSystemService(Vibrator::class.java)
                 vibrator?.vibrate(
                     VibrationEffect.createOneShot(
-                        500,
-                        VibrationEffect.DEFAULT_AMPLITUDE
+                        500, VibrationEffect.DEFAULT_AMPLITUDE
                     )
                 )
 
@@ -189,8 +187,7 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
                         gifUrl = "",
                         secondaryMuscles = "Triceps,Shoulders",
                         instructions = "1. Place hands...\n2. Lower body..."
-                    ),
-                    ExerciseEntity(
+                    ), ExerciseEntity(
                         name = "Squat",
                         bodyPart = "Legs",
                         equipment = "Body Weight",
@@ -204,32 +201,31 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
             }
         }
     }
+
     fun scheduleDailyNotification() {
-        val dailyRequest = PeriodicWorkRequestBuilder<DailyNotificationWorker>(1, TimeUnit.DAYS)
-            .build()
+        val dailyRequest =
+            PeriodicWorkRequestBuilder<DailyNotificationWorker>(1, TimeUnit.DAYS).build()
 
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
-            "daily_notification",
-            ExistingPeriodicWorkPolicy.KEEP,
-            dailyRequest
+            "daily_notification", ExistingPeriodicWorkPolicy.KEEP, dailyRequest
         )
     }
+
     fun saveOpenTime(context: Context) {
         val prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
         prefs.edit().putLong("last_opened_time", System.currentTimeMillis()).apply()
 
         // ✨ جدولة نوتيفيكيشن التهنئة بعد ساعة
-        val request = OneTimeWorkRequestBuilder<CongratsWorker>()
-            .setInitialDelay(1, TimeUnit.HOURS)
-            .build()
+        val request =
+            OneTimeWorkRequestBuilder<CongratsWorker>().setInitialDelay(1, TimeUnit.HOURS).build()
 
         WorkManager.getInstance(context).enqueue(request)
     }
+
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.POST_NOTIFICATIONS
+                    this, Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
@@ -241,5 +237,8 @@ class MainActivity : AppCompatActivity(), BreakTimerDialog.BreakTimerListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
+    }
 }
-

@@ -1,7 +1,6 @@
 package com.example.fitnesstracker.NavigationApp.apiWorkouts
 
 
-
 data class Exercise(
     val id: String,
     val name: String,
@@ -14,17 +13,8 @@ data class Exercise(
     var isFavorite: Boolean = false,
 
 
-)
-{
+    ) {
     constructor() : this(
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        listOf(),
-        listOf(),
-        false
+        "", "", "", "", "", "", listOf(), listOf(), false
     )
 }

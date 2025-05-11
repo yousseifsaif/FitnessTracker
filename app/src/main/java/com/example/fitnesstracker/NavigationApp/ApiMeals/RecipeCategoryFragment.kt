@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.fitnesstracker.NavigationApp.ApiMeals.room.MealDao
 import com.example.fitnesstracker.NavigationApp.ApiMeals.room.MealDatabaseInstance
 import com.example.fitnesstracker.NavigationApp.ApiMeals.room.MealEntity
 import com.example.fitnesstracker.databinding.FragmentRecipeCategoryBinding
@@ -15,8 +16,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.fitnesstracker.NavigationApp.ApiMeals.room.MealDao
-import com.example.fitnesstracker.NavigationApp.apiWorkouts.AppDatabase
 
 class RecipeCategoryFragment : Fragment() {
     private lateinit var recipeAdapter: RecipeAdapter
@@ -40,8 +39,7 @@ class RecipeCategoryFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentRecipeCategoryBinding.inflate(inflater, container, false)
         category = arguments?.getString(ARG_CATEGORY)
@@ -55,11 +53,10 @@ class RecipeCategoryFragment : Fragment() {
     }
 
     private fun searchRecipes(query: String) {
-        val call = RetrofitInstance.calable.searchRecipes("public", query, appId, appKey)
+        val call = RetrofitInstance.callable.searchRecipes("public", query, appId, appKey)
         call.enqueue(object : Callback<EdamamResponse> {
             override fun onResponse(
-                call: Call<EdamamResponse>,
-                response: Response<EdamamResponse>
+                call: Call<EdamamResponse>, response: Response<EdamamResponse>
             ) {
                 if (response.isSuccessful) {
                     val recipes = response.body()?.hits
@@ -67,15 +64,20 @@ class RecipeCategoryFragment : Fragment() {
                         displayRecipes(recipes)
                         saveRecipesToRoom(recipes)
                     } else {
-                        Toast.makeText(requireContext(), "No recipes found.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "No recipes found.", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "API Error: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(), "API Error: ${response.code()}", Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<EdamamResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Connection Error. Showing saved recipes.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(), "Connection Error. Showing saved recipes.", Toast.LENGTH_SHORT
+                ).show()
                 loadSavedRecipes()
             }
         })
@@ -90,15 +92,17 @@ class RecipeCategoryFragment : Fragment() {
         val context = context ?: return
         val mealDao = MealDatabaseInstance.getDatabase(context).mealDao()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            recipes.forEach { hit ->
-                val meal = MealEntity(
-                    label = hit.recipe.label,
-                    image = hit.recipe.image,
-                    calories = hit.recipe.calories,
-                    description = hit.recipe.description
-                )
-                mealDao.insertMeal(meal)
+        if (view != null && isAdded) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                recipes.forEach { hit ->
+                    val meal = MealEntity(
+                        label = hit.recipe.label,
+                        image = hit.recipe.image,
+                        calories = hit.recipe.calories,
+                        description = hit.recipe.description
+                    )
+                    mealDao.insertMeal(meal)
+                }
             }
         }
     }
@@ -121,5 +125,4 @@ class RecipeCategoryFragment : Fragment() {
             displayRecipes(hits)
         }
     }
-
 }

@@ -56,6 +56,7 @@ class SearchViewModel(private val dao: SearchDao) : ViewModel() {
             }
         }
     }
+
     fun deleteSearch(search: RecentSearch) {
         viewModelScope.launch {
             try {

@@ -4,37 +4,32 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.MainActivity
+import com.example.fitnesstracker.toast.showToast
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 
 
-
-
 fun checkUserExists(
-    email: String,
-    context: Context,
-    callback: (String) -> Unit
+    email: String, context: Context, callback: (String) -> Unit
 ) {
     if (email.isEmpty()) {
-        Show_Toast(context, "Please enter your email in the field")
+        showToast(context, "Please enter your email in the field")
         callback("Email is empty")
     }
     val db = FirebaseFirestore.getInstance()
     db.collection("users").whereEqualTo("email", email).get()
         .addOnSuccessListener { querySnapshot ->
             if (querySnapshot.isEmpty) {
-                Show_Toast(context, "this doesn't have an account")
+                showToast(context, "this doesn't have an account")
                 callback("No user found")
             } else {
                 callback("the email is right")
             }
-        }
-        .addOnFailureListener { exception ->
-            Show_Toast(context, "Failed to check user: ${exception.message}")
+        }.addOnFailureListener { exception ->
+            showToast(context, "Failed to check user: ${exception.message}")
         }
 
 }
@@ -42,27 +37,19 @@ fun checkUserExists(
 
 fun getUserId(email: String, callback: (String) -> Unit) {
     val db = FirebaseFirestore.getInstance()
-    db.collection("users")
-        .whereEqualTo("email", email)
-        .get()
-        .addOnSuccessListener { documents ->
-            if (documents.isEmpty) {
-                callback("")
-            } else {
-                val documentId = documents.documents.first().id
-                Log.d("Firestorm", "Document ID: $documentId")
-                callback(documentId)
-            }
-        }
-        .addOnFailureListener { exception ->
-            Log.w("Firestorm", "Error getting document: ", exception)
+    db.collection("users").whereEqualTo("email", email).get().addOnSuccessListener { documents ->
+        if (documents.isEmpty) {
             callback("")
+        } else {
+            val documentId = documents.documents.first().id
+            Log.d("Firestorm", "Document ID: $documentId")
+            callback(documentId)
         }
+    }.addOnFailureListener { exception ->
+        Log.w("Firestorm", "Error getting document: ", exception)
+        callback("")
+    }
 
-}
-
-fun Show_Toast(context: Context, message: String) {
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
 
@@ -105,18 +92,16 @@ fun check_Password_Error(password: String): String {
 fun getUserField(documentId: String = "", fieldName: String, callback: (Any?) -> Unit) {
     val db = FirebaseFirestore.getInstance()
 
-    db.collection("users").document(documentId).get()
-        .addOnSuccessListener { document ->
-            if (document.exists()) {
-                val fieldValue = document.getString(fieldName)
-                callback(fieldValue)
-            } else {
-                callback(null)
-            }
-        }
-        .addOnFailureListener {
+    db.collection("users").document(documentId).get().addOnSuccessListener { document ->
+        if (document.exists()) {
+            val fieldValue = document.getString(fieldName)
+            callback(fieldValue)
+        } else {
             callback(null)
         }
+    }.addOnFailureListener {
+        callback(null)
+    }
 }
 
 fun updateUserField(key: String, value: Any, id: String) {
@@ -150,11 +135,9 @@ fun saveLoginState(context: Context, isLoggedIn: Boolean) {
 }
 
 
-
 class SharedPrefHelper(context: Context) {
 
-    val prefs: SharedPreferences =
-        context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+    val prefs: SharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
 
     data class User(
         val name: String = "",
@@ -200,7 +183,6 @@ class SharedPrefHelper(context: Context) {
     }
 
 
-
     fun saveUserToPrefs(user: User) {
         prefs.edit().apply {
             putString("name", user.name)
@@ -219,6 +201,7 @@ class SharedPrefHelper(context: Context) {
             apply()
         }
     }
+
     fun updateUserFieldPref(key: String, value: Any) {
         val editor = prefs.edit()
         when (value) {
@@ -235,9 +218,9 @@ class SharedPrefHelper(context: Context) {
 
 
 fun calculateCal(data: SharedPrefHelper.User): Double {
-    var weight: Double;
+    var weight: Double
     weight = data.weight.toDouble()
-    if (data.weighttype == "lb") weight = data.weight / 2.20462;
+    if (data.weighttype == "lb") weight = data.weight / 2.20462
 
     var bmr: Double
     if (data.gender == "women") {
@@ -262,17 +245,15 @@ fun calculateCal(data: SharedPrefHelper.User): Double {
 
         if (data.selectedGoal == "lose") return bmr - 500
         else if (data.selectedGoal == "gain") return bmr + 500
-        else if (data.selectedGoal == "massGain") return bmr + 1500
-        else if (data.selectedGoal == "shapeBody") return bmr + 500
+        else if (data.selectedGoal == "massGain") return bmr + 1000
+        else if (data.selectedGoal == "shapeBody") return bmr + 250
         else (0.0).toDouble()
     }
     return 0.0
 }
 
 data class NavData(
-    val nav: Class<out AppCompatActivity>,
-    val context: Context,
-    val id: String
+    val nav: Class<out AppCompatActivity>, val context: Context, val id: String
 )
 
 fun nav(data: NavData): Intent {

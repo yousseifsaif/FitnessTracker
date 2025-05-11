@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.fitnesstracker.NavigationApp.apiWorkouts.Exercise
 import com.example.fitnesstracker.R
 
 class RecommendedExercisesAdapter(
@@ -29,24 +28,11 @@ class RecommendedExercisesAdapter(
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         val item = exercises[position]
         holder.name.text = item.name
-        Glide.with(holder.itemView.context)
-            .load(item.gifUrl)
-            .into(holder.img)
+        Glide.with(holder.itemView.context).load(item.gifUrl).into(holder.img)
 
-        holder.itemView.animate()
-            .scaleX(0.9f)
-            .scaleY(0.9f)
-            .setDuration(300)
-            .withEndAction {
-                holder.itemView.animate()
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setDuration(300)
-                    .start()
-            }
-            .start()
+        holder.itemView.animate().scaleX(0.9f).scaleY(0.9f).setDuration(300).withEndAction {
+                holder.itemView.animate().scaleX(1f).scaleY(1f).setDuration(300).start()
+            }.start()
     }
-
-
     override fun getItemCount(): Int = exercises.size
 }

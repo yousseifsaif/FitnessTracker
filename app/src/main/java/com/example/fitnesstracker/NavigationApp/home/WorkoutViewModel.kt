@@ -22,9 +22,9 @@ class WorkoutViewModel : ViewModel() {
 
     fun selectWorkout(workoutName: String) {
         val selectedExercises = _workoutList.value?.get(workoutName) ?: emptyList()
-        _selectedWorkout.value = mapOf(workoutName to selectedExercises) // ✅ تأكدنا أن LiveData يتم تحديثه
+        _selectedWorkout.value =
+            mapOf(workoutName to selectedExercises) // ✅ تأكدنا أن LiveData يتم تحديثه
     }
-
 
 
     fun addExercise(selectedExercise: String) {

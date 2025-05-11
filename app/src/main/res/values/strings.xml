@@ -42,4 +42,6 @@
     <string name="title_activity_suggest_workouts">suggestWorkouts</string>
     <string name="help_support"><![CDATA[Help & Support]]></string>
     <string name="contact_support"><![CDATA[📧 Contact & Support]]></string>
+    <string name="password_settings">Password Settings</string>
+    <string name="do_you_want_to_delete_your_account">Do you want to delete your account?</string>
 </resources>

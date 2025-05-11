@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.fitnesstracker.databinding.ItemRecipeBinding
 
-class RecipeAdapter(private val recipes: List<Hit>) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+class RecipeAdapter(private val recipes: List<Hit>) :
+    RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
-    inner class RecipeViewHolder(val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class RecipeViewHolder(val binding: ItemRecipeBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val binding = ItemRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,8 +24,7 @@ class RecipeAdapter(private val recipes: List<Hit>) : RecyclerView.Adapter<Recip
         holder.binding.recipeName.text = recipe.recipe.label
         holder.binding.recipeCalories.text = "Calories: ${recipe.recipe.calories.toInt()}"
 
-        Glide.with(holder.itemView.context)
-            .load(recipe.recipe.image)
+        Glide.with(holder.itemView.context).load(recipe.recipe.image)
             .into(holder.binding.recipeImage)
 
         holder.itemView.setOnClickListener {
@@ -32,7 +33,10 @@ class RecipeAdapter(private val recipes: List<Hit>) : RecyclerView.Adapter<Recip
                 putExtra("RECIPE_NAME", recipe.recipe.label)
                 putExtra("RECIPE_CALORIES", recipe.recipe.calories.toInt())
                 putExtra("RECIPE_IMAGE", recipe.recipe.image)
-                putExtra("RECIPE_DESCRIPTION", recipe.recipe.description ?: "No description available")
+                putExtra(
+                    "RECIPE_DESCRIPTION",
+                    recipe.recipe.description ?: "No description available"
+                )
                 putExtra("RECIPE_URL", recipe.recipe.url)
             }
             context.startActivity(intent)

@@ -16,7 +16,10 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class CategoryWorkoutsActivity : AppCompatActivity() {
@@ -42,7 +45,6 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
         binding.recyclerViewExercises.adapter = exerciseAdapter
 
 
-
         val bodyPart = intent.getStringExtra("BODY_PART")
         if (bodyPart.isNullOrEmpty()) {
             Toast.makeText(this, "No category received!", Toast.LENGTH_SHORT).show()
@@ -50,7 +52,7 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
         }
 
         db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "exercise_db")
-            .addMigrations(migration_1_2)  // إضافة الترحيل
+            .addMigrations(migration_1_2)
             .build()
 
         binding.recyclerViewExercises.layoutManager = LinearLayoutManager(this)
@@ -60,31 +62,39 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
     }
 
     private fun fetchExercisesFromApiOrRoom(bodyPart: String) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://exercisedb.p.rapidapi.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofit = Retrofit.Builder().baseUrl("https://exercisedb.p.rapidapi.com/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
 
         val api = retrofit.create(ApiCallable::class.java)
 
         api.getExercises(bodyPart).enqueue(object : Callback<List<Exercise>> {
-            override fun onResponse(call: Call<List<Exercise>>, response: Response<List<Exercise>>) {
+            override fun onResponse(
+                call: Call<List<Exercise>>, response: Response<List<Exercise>>
+            ) {
                 if (response.isSuccessful) {
                     val exercises = response.body()
                     if (!exercises.isNullOrEmpty()) {
                         saveExercisesToRoom(exercises)
                     } else {
-                        Toast.makeText(applicationContext, "No exercises found!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            applicationContext, "No exercises found!", Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     loadFromRoom() // fallback if error
-                    Toast.makeText(applicationContext, "API Error: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext, "API Error: ${response.code()}", Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
                 Log.e("API_FAILURE", t.message ?: "Unknown error")
-                Toast.makeText(applicationContext, "if all data doesn't show try again and check internet connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    applicationContext,
+                    "if all data doesn't show try again and check internet connection",
+                    Toast.LENGTH_SHORT
+                ).show()
                 loadFromRoom()
             }
         })
@@ -131,6 +141,7 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun openExerciseDetails(exercise: Exercise) {
         val intent = Intent(this, ExerciseDetailsActivity::class.java).apply {
             putExtra("name", exercise.name)
@@ -143,12 +154,11 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
         startActivity(intent)
 
     }
+
     private fun toggleFavorite(exercise: Exercise) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val favoritesRef = Firebase.firestore
-            .collection("users")
-            .document(userId)
-            .collection("favorites")
+        val favoritesRef =
+            Firebase.firestore.collection("users").document(userId).collection("favorites")
 
         if (exercise.isFavorite) {
             favoritesRef.document(exercise.name).delete()
@@ -157,4 +167,3 @@ class CategoryWorkoutsActivity : AppCompatActivity() {
         }
     }
 }
-

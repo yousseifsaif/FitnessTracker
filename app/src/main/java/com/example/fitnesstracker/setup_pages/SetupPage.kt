@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.fitnesstracker.R
+import com.example.fitnesstracker.toast.updateOrientationLock
 
 class SetupPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,11 +20,17 @@ class SetupPage : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-val btn =findViewById<Button>(R.id.button)
+        val btn = findViewById<Button>(R.id.button)
         btn.setOnClickListener {
-val intent = Intent(this,Gender::class.java)
+            val intent = Intent(this, Gender::class.java)
             startActivity(intent)
             finish()
+        }
 
     }
-}}
+
+    override fun onResume() {
+        super.onResume()
+        updateOrientationLock(this)
+    }
+}

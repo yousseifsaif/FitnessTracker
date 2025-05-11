@@ -7,10 +7,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitnesstracker.NavigationApp.apiWorkouts.ExerciseDetailsActivity
@@ -46,8 +44,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun setupViewModel() {
         val dao = AppDatabase.getInstance(requireContext()).searchDao()
         viewModel = ViewModelProvider(
-            this,
-            SearchViewModelFactory(dao)
+            this, SearchViewModelFactory(dao)
         )[SearchViewModel::class.java]
     }
 
@@ -64,15 +61,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         // Suggestions RecyclerView
         binding.rvSuggestions.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = RecentSearchAdapter(
-                onItemClick = { query ->
-                    setSearchQuery(query)
-                    viewModel.performSearch(query)
-                },
-                onItemLongClick = { search ->
-                    showDeleteSearchDialog(search)
-                }
-            )
+            adapter = RecentSearchAdapter(onItemClick = { query ->
+                setSearchQuery(query)
+                viewModel.performSearch(query)
+            }, onItemLongClick = { search ->
+                showDeleteSearchDialog(search)
+            })
         }
     }
 
@@ -92,7 +86,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 putExtra("secondaryMuscles", exercise.secondaryMuscles)
                 putExtra("bodyPart", exercise.bodyPart)
                 // إذا كانت instructions عبارة عن List<String>
-                putStringArrayListExtra("instructions", exercise.instructions.split("\n") as ArrayList<String>)
+                putStringArrayListExtra(
+                    "instructions", exercise.instructions.split("\n") as ArrayList<String>
+                )
                 startActivity(this)
             }
         } catch (e: Exception) {
@@ -102,14 +98,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun showDeleteSearchDialog(search: RecentSearch) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.delete_search_title))
+        MaterialAlertDialogBuilder(requireContext()).setTitle(getString(R.string.delete_search_title))
 //            .setMessage(getString(R.string.delete_search_message, search.query))
             .setPositiveButton(getString(R.string.delete_search_title)) { _, _ ->
                 viewModel.deleteSearch(search)
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
+            }.setNegativeButton(getString(R.string.cancel), null).show()
     }
 
     private fun setupSearchInput() {
@@ -126,14 +119,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.searchQueryFlow
-                .debounce(300)
-                .onEach { query ->
-                    if (query.isNotEmpty()) {
-                        viewModel.performSearch(query)
-                    }
+            viewModel.searchQueryFlow.debounce(300).onEach { query ->
+                if (query.isNotEmpty()) {
+                    viewModel.performSearch(query)
                 }
-                .launchIn(this)
+            }.launchIn(this)
         }
     }
 
@@ -219,5 +209,4 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun showErrorMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
-
 }

@@ -1,5 +1,6 @@
 package com.example.fitnesstracker.Boarding
 
+import ButtonClickUtil
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -15,20 +16,23 @@ class Boarding2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-
-
         binding = ActivityBoarding2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.skipButton.setOnClickListener {
-            val intent = Intent(this, LogIn::class.java)
-            startActivity(intent)
-            finish()
+            ButtonClickUtil.preventSpamClick(this) {
+
+                val intent = Intent(this, LogIn::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
         binding.btn1.setOnClickListener {
-            val intent = Intent(this, Boarding3::class.java)
-            startActivity(intent)
+            ButtonClickUtil.preventSpamClick(this) {
+                val intent = Intent(this, Boarding3::class.java)
+                startActivity(intent)
+            }
         }
     }
 }

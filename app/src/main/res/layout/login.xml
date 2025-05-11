@@ -11,42 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--        <androidx.appcompat.widget.Toolbar-->
-        <!--            android:id="@+id/toolbar"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="?attr/actionBarSize"-->
-        <!--            tools:ignore="MissingConstraints">-->
-
-        <!--            <TextView-->
-
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:gravity="center"-->
-        <!--                android:text="@string/log_in"-->
-        <!--                android:paddingTop="38dp"-->
-        <!--                android:textColor="#E2F163"-->
-        <!--                android:textSize="20sp"-->
-        <!--                android:textStyle="bold" -->
-        <!--                -->
-        <!--                />-->
-
-        <!--        </androidx.appcompat.widget.Toolbar>-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/welcomeText"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="16dp"-->
-        <!--            android:text="@string/log_in"-->
-        <!--            android:textAlignment="center"-->
-        <!--            android:textColor="@color/purple"-->
-        <!--            android:textSize="20sp"-->
-        <!--            android:textStyle="bold"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            android:paddingTop="20dp"-->
-        <!--            />-->
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/f1"
@@ -85,9 +49,7 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/emailEditText"
-            app:layout_constraintTop_toTopOf="@id/view1"
-
-            />
+            app:layout_constraintTop_toTopOf="@id/view1" />
 
         <EditText
             android:id="@+id/emailEditText"
@@ -129,10 +91,7 @@
             android:textColorHint="#BE000000"
             app:layout_constraintEnd_toEndOf="@id/view1"
             app:layout_constraintStart_toStartOf="@+id/view1"
-            app:layout_constraintTop_toBottomOf="@id/text2"
-
-
-            />
+            app:layout_constraintTop_toBottomOf="@id/text2" />
 
         <Button
             android:id="@+id/forgetPassword"
@@ -229,8 +188,8 @@
             android:layout_width="200dp"
             android:layout_height="150dp"
             android:layout_margin="8dp"
-            android:visibility="invisible"
             android:layout_marginTop="12dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/signup_text"

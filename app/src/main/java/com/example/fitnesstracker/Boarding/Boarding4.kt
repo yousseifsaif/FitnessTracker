@@ -1,9 +1,9 @@
 package com.example.fitnesstracker.Boarding
 
+import ButtonClickUtil
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnesstracker.Login_SignUp.LogIn
@@ -15,13 +15,13 @@ class Boarding4 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_boarding4)
-        val btn=findViewById<Button>(R.id.btn3)
+        val btn = findViewById<Button>(R.id.btn3)
         btn.setOnClickListener {
-            val intent = Intent(this, LogIn::class.java)
-            startActivity(intent)
-            finish()
+            ButtonClickUtil.preventSpamClick(this) {
+                val intent = Intent(this, LogIn::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
-
-
     }
 }

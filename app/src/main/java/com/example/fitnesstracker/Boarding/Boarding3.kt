@@ -1,5 +1,6 @@
 package com.example.fitnesstracker.Boarding
 
+import ButtonClickUtil
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -12,12 +13,12 @@ class Boarding3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_boarding3)
-        var btn = findViewById<Button>(R.id.btn3)
+        val btn = findViewById<Button>(R.id.btn3)
         btn.setOnClickListener {
-            val intent = Intent(this, Boarding4::class.java)
-
-
-            startActivity(intent)
+            ButtonClickUtil.preventSpamClick(this) {
+                val intent = Intent(this, Boarding4::class.java)
+                startActivity(intent)
+            }
         }
     }
 }
