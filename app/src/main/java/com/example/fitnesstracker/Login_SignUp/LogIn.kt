@@ -135,6 +135,7 @@ class LogIn : AppCompatActivity() {
                     }
                 } else {
                     runOnUiThread {
+                        user?.sendEmailVerification()
                         showToast(this, "Please verify your email")
                         binding.loading.visibility = View.GONE
 

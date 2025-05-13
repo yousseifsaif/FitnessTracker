@@ -16,11 +16,11 @@ import com.example.fitnesstracker.Login_SignUp.LogIn
 import com.example.fitnesstracker.MainActivity
 import com.example.fitnesstracker.ProfileSettings.ForgottenPasswordSettings
 import com.example.fitnesstracker.ProfileSettings.NotificationsSettings
-import com.example.fitnesstracker.R
 import com.example.fitnesstracker.databinding.ActivitySettingsAcitvityBinding
 import com.example.fitnesstracker.databinding.DialogLogoutBinding
 import com.example.fitnesstracker.toast.updateOrientationLock
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SettingsActivity : AppCompatActivity() {
@@ -55,42 +55,50 @@ class SettingsActivity : AppCompatActivity() {
             ButtonClickUtil.preventSpamClick(this) {
                 val intent = Intent(this, NotificationsSettings::class.java)
                 startActivity(intent)
-
             }
         }
     }
 
     private fun showDeleteConfirmationDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialod_delete, null)
-        val dialogBinding = DialogLogoutBinding.bind(dialogView)
-
+        val dialogBinding = DialogLogoutBinding.inflate(LayoutInflater.from(this))
         val dialog =
-            android.app.AlertDialog.Builder(this).setView(dialogView).setCancelable(false).create()
+            android.app.AlertDialog.Builder(this).setView(dialogBinding.root).setCancelable(false)
+                .create()
 
         dialogBinding.btnYes.setOnClickListener {
-            val id = intent.getStringExtra("id")
+            val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+            val userId = sharedPref.getString("id", null)
             val user = FirebaseAuth.getInstance().currentUser
 
-            if (id != null && user != null) {
-                val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
-
-                deleteDocument("users", sharedPref.getString("id", "")!!)
+            if (userId != null && user != null) {
+                deleteDocument("users", userId)
 
                 user.delete().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         sharedPref.edit { clear() }
-
                         Toast.makeText(this, "Okay, we will miss you! 😢", Toast.LENGTH_SHORT).show()
-
                         val intent = Intent(this, LogIn::class.java)
                         startActivity(intent)
                         finishAffinity()
                     } else {
-                        Toast.makeText(
-                            this, "Error logging out, please try again", Toast.LENGTH_SHORT
-                        ).show()
+                        Log.e("FirebaseDelete", "Deletion failed", task.exception)
+                        if (task.exception is FirebaseAuthRecentLoginRequiredException) {
+                            Toast.makeText(
+                                this,
+                                "Please re-authenticate before deleting your account.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Error deleting account. Please try again.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
+            } else {
+                Toast.makeText(this, "User ID not found.", Toast.LENGTH_SHORT).show()
             }
 
             dialog.dismiss()
@@ -101,7 +109,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-
         dialog.show()
     }
 
@@ -118,11 +125,10 @@ class SettingsActivity : AppCompatActivity() {
         val sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
         sharedPreferences.edit().putBoolean("dark_mode", isEnabled).apply()
 
-        if (isEnabled) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+        AppCompatDelegate.setDefaultNightMode(
+            if (isEnabled) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
     }
 
     private fun isDarkModeEnabled(context: Context): Boolean {
