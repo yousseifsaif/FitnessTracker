@@ -88,7 +88,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 // إذا كانت instructions عبارة عن List<String>
                 putStringArrayListExtra(
                     "instructions", exercise.instructions.split("\n") as ArrayList<String>
+
                 )
+                putExtra("equipment", exercise.equipment)
                 startActivity(this)
             }
         } catch (e: Exception) {
