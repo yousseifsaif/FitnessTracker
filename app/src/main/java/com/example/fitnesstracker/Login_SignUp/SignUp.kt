@@ -31,10 +31,13 @@ class SignUp : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.text.setOnClickListener {
+            ButtonClickUtil.preventSpamClick(this) {
+
             val intentText = Intent(this, LogIn::class.java)
             startActivity(intentText)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
+            }
         }
 
         binding.signupButton.setOnClickListener {
