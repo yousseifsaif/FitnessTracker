@@ -64,10 +64,6 @@ class NotificationsSettings : AppCompatActivity() {
         binding.soundSwitch.setOnCheckedChangeListener { _, isChecked ->
             settings.sound = isChecked
             NotificationSettings.save(this, settings)
-            if (isChecked) {
-                val mediaPlayer = MediaPlayer.create(this, R.raw.sound_effect)
-                mediaPlayer.start()
-            }
         }
 
         binding.doNotDisturbModeSwitch.setOnCheckedChangeListener { _, isChecked ->

@@ -30,24 +30,20 @@ class ActivityLevel : AppCompatActivity() {
         var ActivityLevel = "beginner"
 
         beginnerBtn.setOnClickListener {
-            ButtonClickUtil.preventSpamClick(this) {
                 updateButtons(buttons, beginnerBtn)
                 ActivityLevel = "beginner"
-            }
         }
 
         intermediateBtn.setOnClickListener {
-            ButtonClickUtil.preventSpamClick(this) {
                 updateButtons(buttons, intermediateBtn)
                 ActivityLevel = "intermediate"
-            }
+
         }
 
         advanceBtn.setOnClickListener {
-            ButtonClickUtil.preventSpamClick(this) {
                 updateButtons(buttons, advanceBtn)
                 ActivityLevel = "advance"
-            }
+
         }
 
         binding.continueButton.setOnClickListener {
